@@ -38,7 +38,7 @@ public class NewApplicationSteps {
 
     @And("^I navigate to (.*) tab$")
     public void navigateToTab(String tabName) throws Throwable {
-        BasicApplicationScreen basicApplicationScreen = new BasicApplicationPersonalDetailsScreen(webClient);
+        BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
         basicApplicationScreen.selectDetailsTab(tabName);
     }
 
@@ -68,7 +68,7 @@ public class NewApplicationSteps {
     }
 
     @And("^I enter loan details:$")
-    public void iEnterLoanDetails() throws Throwable {
+    public void iEnterLoanDetails(Map<String, String> details) throws Throwable {
 
     }
 
