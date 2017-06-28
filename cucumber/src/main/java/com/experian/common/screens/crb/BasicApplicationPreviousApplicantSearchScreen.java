@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class BasicApplicationPreviousApplicantSearchScreen extends BasicApplicationScreen {
 
-    public BasicApplicationPreviousApplicantSearchScreen(WebClient webClient) { super(webClient); }
+    public BasicApplicationPreviousApplicantSearchScreen(WebClient webClient) {
+        super(webClient);
+    }
 
 }

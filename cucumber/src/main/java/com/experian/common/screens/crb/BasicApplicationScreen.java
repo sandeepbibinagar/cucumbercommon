@@ -48,9 +48,8 @@ public class BasicApplicationScreen extends Screen {
     }
 
     public void proceedNext() {
-        waitForElementToDisappear(ajaxLoader);
-        buttonNext.click();
-        waitForElementToDisappear(ajaxLoader);
+        jsClick(buttonNext);
+        if(isElementPresented(ajaxLoader)) waitForElementToDisappear(ajaxLoader);
     }
 
     public String getPageTitleLabel(){

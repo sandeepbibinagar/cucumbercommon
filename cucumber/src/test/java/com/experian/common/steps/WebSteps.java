@@ -50,7 +50,7 @@ public class WebSteps {
                     // Set driver location
                     System.setProperty("webdriver.gecko.driver", webDriverDir + "/" + webClient.config.get("webdriver.gecko.driver"));
 
-                    webClient.driver = new FirefoxDriver(capabilities);
+                   webClient.driver = new FirefoxDriver(capabilities);
                 }
 
                 break;
