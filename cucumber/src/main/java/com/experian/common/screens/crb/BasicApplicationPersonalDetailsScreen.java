@@ -13,8 +13,17 @@ import java.util.NoSuchElementException;
  */
 public class BasicApplicationPersonalDetailsScreen extends BasicApplicationScreen {
 
-    @FindBy(id = "TitleDddl")
+    @FindBy(xpath = "//select[contains(@name, 'TitleCont:Title')]")
     public WebElement titleList;
+
+    @FindBy(id = "DocumentTypeDDL")
+    public WebElement documentType;
+
+    @FindBy(id = "DocumentIdNumberTxt")
+    public WebElement documentIdNumber;
+
+    @FindBy(xpath = "//input[contains(@name,'DocumentIdExpiryDateDate:datePickerInput')]")
+    public WebElement documentIdExpiryDate;
 
     @FindBy(id = "SurnameTxt")
     public WebElement surname;
@@ -51,10 +60,11 @@ public class BasicApplicationPersonalDetailsScreen extends BasicApplicationScree
 
     public BasicApplicationPersonalDetailsScreen(WebClient webClient) {
         super(webClient);
-        waitForElement(titleList);
+        waitForScreen(titleList);
     }
 
     public void set(Map<String, String> dataTable) {
+
         for (Map.Entry<String, String> entry : dataTable.entrySet()) {
 
             if (entry.getKey().equals("Title")) {
@@ -65,7 +75,23 @@ public class BasicApplicationPersonalDetailsScreen extends BasicApplicationScree
 
                 type(surname, entry.getValue());
 
-            } else if (entry.getKey().equals("Forename")) {
+            }
+            else if (entry.getKey().equals("Identification Type")) {
+
+                new Select(documentType).selectByVisibleText(entry.getValue());
+            }
+
+            else if (entry.getKey().equals("ID Number")) {
+
+                type(documentIdNumber, entry.getValue());
+            }
+
+            else if (entry.getKey().equals("Expiry Date")) {
+
+                typeWithClear(documentIdExpiryDate, entry.getValue());
+            }
+
+            else if (entry.getKey().equals("Forename")) {
 
                 type(forename, entry.getValue());
 
@@ -77,11 +103,10 @@ public class BasicApplicationPersonalDetailsScreen extends BasicApplicationScree
 
                 new Select(existingCustomerList).selectByVisibleText(entry.getValue());
 
-                if(entry.getValue() == "Yes") waitForElement(existingCustomerNumber);
-
             } else if (entry.getKey().equals("Existing Customer Number")) {
 
-               // type(existingCustomerNumber, entry.getValue());
+                waitForElement(existingCustomerNumber);
+                typeWithClear(existingCustomerNumber, entry.getValue());
 
             } else if (entry.getKey().equals("Marital Status")) {
 
@@ -113,6 +138,4 @@ public class BasicApplicationPersonalDetailsScreen extends BasicApplicationScree
             }
         }
     }
-
-
 }

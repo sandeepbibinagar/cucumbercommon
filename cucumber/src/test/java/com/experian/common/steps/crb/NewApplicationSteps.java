@@ -3,7 +3,9 @@ package com.experian.common.steps.crb;
 import com.experian.common.WebClient;
 import com.experian.common.core.logger.Logger;
 import com.experian.common.screens.HomeScreen;
+import com.experian.common.screens.crb.BasicApplicationAddressDetailsScreen;
 import com.experian.common.screens.crb.BasicApplicationPersonalDetailsScreen;
+import com.experian.common.screens.crb.BasicApplicationProductDetailsScreen;
 import com.experian.common.screens.crb.BasicApplicationScreen;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -31,7 +33,7 @@ public class NewApplicationSteps {
     }
 
     @And("^I enter the new applicant personal details:$")
-    public void populatePersonalDetails(Map<String, String> details) throws Throwable {
+    public void enterPersonalDetails(Map<String, String> details) throws Throwable {
         BasicApplicationPersonalDetailsScreen personalDetailsScreen = new BasicApplicationPersonalDetailsScreen(webClient);
         personalDetailsScreen.set(details);
     }
@@ -43,23 +45,29 @@ public class NewApplicationSteps {
     }
 
     @And("^I select a \"([^\"]*)\" product$")
-    public void iSelectAProduct(String arg0) throws Throwable {
+    public void selectProduct(String productName) throws Throwable {
+        BasicApplicationProductDetailsScreen basicApplicationProductDetailsScreen = new BasicApplicationProductDetailsScreen(webClient);
+        basicApplicationProductDetailsScreen.selectProduct(productName);
 
     }
 
     @And("^I proceed to \"([^\"]*)\" page$")
-    public void iProceedToPage(String arg0) throws Throwable {
-
+    public void proceed(String pageName) throws Throwable {
+        BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
+        basicApplicationScreen.proceedNext();
+        basicApplicationScreen.waitForScreen(basicApplicationScreen.pageTitleLabel);
+        assert(basicApplicationScreen.getPageTitleLabel()).equals(pageName);
     }
 
     @And("^I enter identification information:$")
-    public void iEnterIdentificationInformation(Map<String, String> details) throws Throwable {
-
+    public void enterIdentificationDetails(Map<String, String> details) throws Throwable {
+        enterPersonalDetails(details);
     }
 
     @And("^I enter applicant's address details:$")
-    public void iEnterApplicantSAddressDetails(Map<String, String> details) throws Throwable {
-
+    public void enterAddressDetails(Map<String, String> details) throws Throwable {
+        BasicApplicationAddressDetailsScreen basicApplicationAddressDetailsScreen = new BasicApplicationAddressDetailsScreen(webClient);
+        basicApplicationAddressDetailsScreen.set(details);
     }
 
     @And("^I choose Product Type \"([^\"]*)\"$")

@@ -33,12 +33,13 @@ Feature: New Application Approval
 
         And I navigate to Address Details tab
         And I enter applicant's address details:
-          | Number          | 1              |
-          | Street          | Mill Crescent  |
-          | City            | London         |
-          | Postcode        | WC10 4MX       |
-          | Country         | United Kingdom |
-          | Time at Address | 10y0m          |
+          | Number                 | 1              |
+          | Street                 | Mill Crescent  |
+          | City                   | London         |
+          | Postcode               | WC10 4MX       |
+          | Country                | United Kingdom |
+          | Time at Address Years  | 10             |
+          | Time at Address Months | 0              |
 
         And I proceed to "Applicant Summary" page
         And I proceed to "Product Choice Confirmation" page
@@ -69,7 +70,8 @@ Feature: New Application Approval
           | MonthlyIncomeAfterTax  | 3700     |
           | CreditCardStorePayment | 150      |
           | BankName               | Cashbank |
-          | Time with bank         | 3y2m     |
+          | Time with bank Years   | 3        |
+          | Time with bank Months  | 2        |
 
         And I proceed to "Financial & Employment Details" page
 

@@ -12,10 +12,28 @@ import java.util.List;
  */
 public class BasicApplicationScreen extends Screen {
 
-    @FindBy(xpath = "//div[@id='tabcontainer']/ul/li/a")
+    @FindBy(xpath = "//ul[@role='tablist']/li[@role='tab']/a")
     public List<WebElement> tabs;
 
+    @FindBy(xpath = "//button[contains(@name,'Next')]")
+    public WebElement buttonNext;
 
+    @FindBy(xpath = "//div[contains(@class,'ajax_loader')]")
+    public WebElement ajaxLoader;
+
+    @FindBy(id = "ButtonSaveBt")
+    public WebElement buttonSave;
+
+   // @FindBy(id = "PageTitleLbl")
+    //public WebElement pageTitleLabel;
+
+    @FindBy(xpath = "//label[@id='PageTitleLbl' or @id='PageTitileLBL']")
+    public WebElement pageTitleLabel;
+
+    //div[@id='..' and @class='...]
+
+    @FindBy(id = "NavigationCont-wrapper")
+    public WebElement navigationContainer;
 
     public BasicApplicationScreen(WebClient webClient) {
         super(webClient);
@@ -27,5 +45,15 @@ public class BasicApplicationScreen extends Screen {
                 tab.click();
             }
         }
+    }
+
+    public void proceedNext() {
+        waitForElementToDisappear(ajaxLoader);
+        buttonNext.click();
+        waitForElementToDisappear(ajaxLoader);
+    }
+
+    public String getPageTitleLabel(){
+        return pageTitleLabel.getText();
     }
 }
