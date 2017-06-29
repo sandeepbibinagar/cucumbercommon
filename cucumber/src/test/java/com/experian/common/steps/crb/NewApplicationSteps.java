@@ -3,10 +3,7 @@ package com.experian.common.steps.crb;
 import com.experian.common.WebClient;
 import com.experian.common.core.logger.Logger;
 import com.experian.common.screens.HomeScreen;
-import com.experian.common.screens.crb.BasicApplicationAddressDetailsScreen;
-import com.experian.common.screens.crb.BasicApplicationPersonalDetailsScreen;
-import com.experian.common.screens.crb.BasicApplicationProductDetailsScreen;
-import com.experian.common.screens.crb.BasicApplicationScreen;
+import com.experian.common.screens.crb.*;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -70,14 +67,16 @@ public class NewApplicationSteps {
         basicApplicationAddressDetailsScreen.set(details);
     }
 
-    @And("^I choose Product Type \"([^\"]*)\"$")
-    public void iChooseProductType(String arg0) throws Throwable {
-
+    @And("^I choose loan type \"([^\"]*)\"$")
+    public void chooseLoanType(String loanType) throws Throwable {
+        BasicApplicationProductChoiceScreen basicApplicationProductChoiceScreen = new BasicApplicationProductChoiceScreen(webClient);
+        basicApplicationProductChoiceScreen.selectProductByType(loanType);
     }
 
     @And("^I enter loan details:$")
     public void iEnterLoanDetails(Map<String, String> details) throws Throwable {
-
+        LoanApplicationScreen loanApplicationScreen = new LoanApplicationScreen(webClient);
+        loanApplicationScreen.set(details);
     }
 
     @And("^I procced to edit the Main Applicant Details$")

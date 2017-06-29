@@ -43,10 +43,10 @@ Feature: New Application Approval
 
         And I proceed to "Applicant Summary" page
         And I proceed to "Product Choice Confirmation" page
-        And I choose Product Type "UL Classic"
+        And I choose loan type "UL Classic"
         And I proceed to "Loan Application" page
         And I enter loan details:
-          | Requested Loan Amount | 15000             |
+          | Requested Loan Amount | 1500              |
           | Requested Loan Term   | 36                |
           | Purpose of Loan       | Home Improvements |
 

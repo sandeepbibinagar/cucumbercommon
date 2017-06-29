@@ -51,52 +51,49 @@ public class BasicApplicationAddressDetailsScreen extends BasicApplicationScreen
 
         for (Map.Entry<String, String> entry : dataTable.entrySet()) {
 
-            if (entry.getKey().equals("Number")) {
+            switch (entry.getKey()) {
+                case "Number":
+                    typeWithClear(number, entry.getValue());
+                    break;
 
-                typeWithClear(number, entry.getValue());
+                case "Street":
+                    typeWithClear(street, entry.getValue());
+                    break;
 
-            } else if (entry.getKey().equals("Street")) {
+                case "City":
+                    typeWithClear(city, entry.getValue());
+                    break;
 
-                typeWithClear(street, entry.getValue());
+                case "Postcode":
+                    typeWithClear(postCode, entry.getValue());
+                    break;
 
-            } else if (entry.getKey().equals("City")) {
+                case "Country":
+                    new Select(country).selectByVisibleText(entry.getValue());
+                    break;
 
-                typeWithClear(city, entry.getValue());
+                case "Time at Address Years":
+                    typeWithClear(timeAtAddressYears, entry.getValue());
+                    break;
 
-            } else if (entry.getKey().equals("Postcode")) {
+                case "Time at Address Months":
+                    typeWithClear(timeAtAddressYears, entry.getValue());
+                    break;
 
-                typeWithClear(postCode, entry.getValue());
+                case "Home Phone Number":
+                    typeWithClear(homePhoneNumber, entry.getValue());
+                    break;
 
-            } else if (entry.getKey().equals("Country")) {
+                case "Mobile Phone Number":
+                    typeWithClear(mobilePhoneNumber, entry.getValue());
+                    break;
 
-                new Select(country).selectByVisibleText(entry.getValue());
+                case "Residential Status":
+                    new Select(recidentialStatus).selectByVisibleText(entry.getValue());
+                    break;
 
-            }
-            else if (entry.getKey().equals("Time at Address Years")) {
-
-                typeWithClear(timeAtAddressYears, entry.getValue());
-
-            } else if (entry.getKey().equals("Time at Address Months")) {
-
-                typeWithClear(timeAtAddressMonths, entry.getValue());
-
-            } else if (entry.getKey().equals("Home Phone Number")) {
-
-                typeWithClear(homePhoneNumber, entry.getValue());
-
-            } else if (entry.getKey().equals("Mobile Phone Number")) {
-
-                typeWithClear(mobilePhoneNumber, entry.getValue());
-
-            }
-            else if (entry.getKey().equals("Residential Status")) {
-
-                new Select(recidentialStatus).selectByVisibleText(entry.getValue());
-            }
-
-            else {
-
-                throw new NoSuchElementException("Unable to set value for field " + entry.getKey());
+                default:
+                    throw new NoSuchElementException("Unable to set value for field " + entry.getKey());
             }
         }
     }

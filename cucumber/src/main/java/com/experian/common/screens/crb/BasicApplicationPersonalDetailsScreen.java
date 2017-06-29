@@ -35,7 +35,7 @@ public class BasicApplicationPersonalDetailsScreen extends BasicApplicationScree
     public WebElement dateOfBirth;
 
     @FindBy(id = "ExistingCustomerFlagDL")
-    public WebElement existingCustomerList;
+    public WebElement existingCustomer;
 
     @FindBy(id = "ExistingCustomerNumberTxt")
     public WebElement existingCustomerNumber;
@@ -67,74 +67,70 @@ public class BasicApplicationPersonalDetailsScreen extends BasicApplicationScree
 
         for (Map.Entry<String, String> entry : dataTable.entrySet()) {
 
-            if (entry.getKey().equals("Title")) {
+            switch (entry.getKey()) {
+                case "Title":
+                    new Select(titleList).selectByVisibleText(entry.getValue());
+                    break;
 
-                new Select(titleList).selectByVisibleText(entry.getValue());
+                case "Surname":
+                    typeWithClear(surname, entry.getValue());
+                    break;
 
-            } else if (entry.getKey().equals("Surname")) {
+                case "Identification Type":
+                    new Select(documentType).selectByVisibleText(entry.getValue());
+                    break;
 
-                type(surname, entry.getValue());
+                case "ID Number":
+                    typeWithClear(documentIdNumber, entry.getValue());
+                    break;
 
-            }
-            else if (entry.getKey().equals("Identification Type")) {
+                case "Expiry Date":
+                    typeWithClear(documentIdExpiryDate, entry.getValue());
+                    break;
 
-                new Select(documentType).selectByVisibleText(entry.getValue());
-            }
+                case "Forename":
+                    typeWithClear(forename, entry.getValue());
+                    break;
 
-            else if (entry.getKey().equals("ID Number")) {
+                case "Date Of Birth":
+                    typeWithClear(dateOfBirth, entry.getValue());
+                    break;
 
-                type(documentIdNumber, entry.getValue());
-            }
+                case "Existing Customer":
+                    new Select(existingCustomer).selectByVisibleText(entry.getValue());
+                    break;
 
-            else if (entry.getKey().equals("Expiry Date")) {
+                case "Existing Customer Number":
+                    waitForElement(existingCustomerNumber);
+                    typeWithClear(existingCustomerNumber, entry.getValue());
+                    break;
 
-                typeWithClear(documentIdExpiryDate, entry.getValue());
-            }
+                case "Marital Status":
+                    new Select(maritalStatus).selectByVisibleText(entry.getValue());
+                    break;
 
-            else if (entry.getKey().equals("Forename")) {
+                case "Home Phone Number":
+                    typeWithClear(homePhoneNumber, entry.getValue());
+                    break;
 
-                type(forename, entry.getValue());
+                case "Email":
+                    typeWithClear(emailAddress, entry.getValue());
+                    break;
 
-            } else if (entry.getKey().equals("Date Of Birth")) {
+                case "Residential Status":
+                    new Select(residentialStatus).selectByVisibleText(entry.getValue());
+                    break;
 
-                typeWithClear(dateOfBirth, entry.getValue());
+                case "Employment Status":
+                    new Select(employmentStatus).selectByVisibleText(entry.getValue());
+                    break;
 
-            } else if (entry.getKey().equals("Existing Customer")) {
+                case "Total Annual Income":
+                    typeWithClear(totalAnnualIncome, entry.getValue());
+                    break;
 
-                new Select(existingCustomerList).selectByVisibleText(entry.getValue());
-
-            } else if (entry.getKey().equals("Existing Customer Number")) {
-
-                waitForElement(existingCustomerNumber);
-                typeWithClear(existingCustomerNumber, entry.getValue());
-
-            } else if (entry.getKey().equals("Marital Status")) {
-
-                new Select(maritalStatus).selectByVisibleText(entry.getValue());
-
-            } else if (entry.getKey().equals("Home Phone Number")) {
-
-                type(homePhoneNumber, entry.getValue());
-
-            } else if (entry.getKey().equals("Email")) {
-
-                type(emailAddress, entry.getValue());
-
-            } else if (entry.getKey().equals("Residential Status")) {
-
-                new Select(residentialStatus).selectByVisibleText(entry.getValue());
-
-            } else if (entry.getKey().equals("Employment Status")) {
-
-                new Select(employmentStatus).selectByVisibleText(entry.getValue());
-
-            } else if (entry.getKey().equals("Total Annual Income")) {
-
-                typeWithClear(totalAnnualIncome, entry.getValue());
-
-            } else {
-
-                throw new NoSuchElementException("Unable to set value for field " + entry.getKey());
+                default:
+                    throw new NoSuchElementException("Unable to set value for field " + entry.getKey());
             }
         }
     }
