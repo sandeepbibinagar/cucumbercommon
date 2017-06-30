@@ -22,7 +22,7 @@ import java.util.List;
 
 public abstract class Screen
 {
-    private final int waitIntervalElement = 20;
+    private final int waitIntervalElement = 10;
     private final int waitIntervalScreen = 20;
     private final int waitIntervalAlert = 5;
     private String screenWindowHandle;

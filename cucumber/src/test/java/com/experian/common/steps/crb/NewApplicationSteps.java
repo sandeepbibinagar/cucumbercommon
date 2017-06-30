@@ -26,7 +26,7 @@ public class NewApplicationSteps {
     @And("^I start a new application$")
     public void startNewApplication() throws Throwable {
         HomeScreen homeScreen = new HomeScreen(webClient);
-        homeScreen.selectSubMenu(homeScreen.menuApply, homeScreen.newApplicationLink);
+        homeScreen.selectMenu("Apply", "New Application");
         BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
     }
 
