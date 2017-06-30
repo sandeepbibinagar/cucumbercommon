@@ -4,6 +4,7 @@ import com.experian.common.WebClient;
 import com.experian.common.core.logger.Logger;
 import com.experian.common.screens.HomeScreen;
 import com.experian.common.screens.crb.*;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -31,11 +32,11 @@ public class NewApplicationSteps {
 
     @And("^I enter the new applicant personal details:$")
     public void enterPersonalDetails(Map<String, String> details) throws Throwable {
-        BasicApplicationPersonalDetailsScreen personalDetailsScreen = new BasicApplicationPersonalDetailsScreen(webClient);
+        PersonalDetailsScreen personalDetailsScreen = new PersonalDetailsScreen(webClient);
         personalDetailsScreen.set(details);
     }
 
-    @And("^I navigate to (.*) tab$")
+    @And("^I navigate to \"([^\"]*)\" tab$")
     public void navigateToTab(String tabName) throws Throwable {
         BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
         basicApplicationScreen.selectDetailsTab(tabName);
@@ -43,8 +44,8 @@ public class NewApplicationSteps {
 
     @And("^I select a \"([^\"]*)\" product$")
     public void selectProduct(String productName) throws Throwable {
-        BasicApplicationProductDetailsScreen basicApplicationProductDetailsScreen = new BasicApplicationProductDetailsScreen(webClient);
-        basicApplicationProductDetailsScreen.selectProduct(productName);
+        ProductDetailsScreen productDetailsScreen = new ProductDetailsScreen(webClient);
+        productDetailsScreen.selectProduct(productName);
 
     }
 
@@ -63,44 +64,59 @@ public class NewApplicationSteps {
 
     @And("^I enter applicant's address details:$")
     public void enterAddressDetails(Map<String, String> details) throws Throwable {
-        BasicApplicationAddressDetailsScreen basicApplicationAddressDetailsScreen = new BasicApplicationAddressDetailsScreen(webClient);
-        basicApplicationAddressDetailsScreen.set(details);
+        AddressDetailsScreen addressDetailsScreen = new AddressDetailsScreen(webClient);
+        addressDetailsScreen.set(details);
     }
 
     @And("^I choose loan type \"([^\"]*)\"$")
     public void chooseLoanType(String loanType) throws Throwable {
-        BasicApplicationProductChoiceScreen basicApplicationProductChoiceScreen = new BasicApplicationProductChoiceScreen(webClient);
-        basicApplicationProductChoiceScreen.selectProductByType(loanType);
+        ProductChoiceScreen productChoiceScreen = new ProductChoiceScreen(webClient);
+        productChoiceScreen.waitForElements(productChoiceScreen.radioButtons);
+        productChoiceScreen.selectProductByType(loanType);
+        productChoiceScreen.refreshScreen();
     }
 
     @And("^I enter loan details:$")
-    public void iEnterLoanDetails(Map<String, String> details) throws Throwable {
+    public void enterLoanDetails(Map<String, String> details) throws Throwable {
+        ProductChoiceScreen productChoiceScreen = new ProductChoiceScreen(webClient);
+        // The below refresh is a workaround for non-appearing Next button
+        productChoiceScreen.set(details);
+    }
+
+    @And("^I enter requested loan details:$")
+    public void enterRequestedLoanDetails(Map<String, String> details) throws Throwable {
         LoanApplicationScreen loanApplicationScreen = new LoanApplicationScreen(webClient);
         loanApplicationScreen.set(details);
     }
 
-    @And("^I procced to edit the Main Applicant Details$")
-    public void iProccedToEditTheMainApplicantDetails() throws Throwable {
-
+    @And("^I proceed to Main Applicant Details edit$")
+    public void goToMainApplicantDetais() throws Throwable {
+        BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
+        basicApplicationScreen.edit();
+        basicApplicationScreen.waitForScreen(basicApplicationScreen.pageTitleLabel);
+        assert(basicApplicationScreen.getPageTitleLabel()).equals("Employment & Financial Details");
     }
 
     @And("^I enter employment details:$")
-    public void iEnterEmploymentDetails(Map<String, String> details) throws Throwable {
-
+    public void enterEmploymentDetails(Map<String, String> details) throws Throwable {
+        EmploymentDetailsScreen employmentDetailsScreen = new EmploymentDetailsScreen(webClient);
+        employmentDetailsScreen.set(details);
     }
 
     @And("^I enter financial details:$")
-    public void iEnterFinancialDetails(Map<String, String> details) throws Throwable {
-
+    public void enterFinancialDetails(Map<String, String> details) throws Throwable {
+        FinancialDetailsScreen financialDetailsScreen = new FinancialDetailsScreen(webClient);
+        financialDetailsScreen.set(details);
     }
 
     @When("^I submit the application$")
-    public void iSubmitTheApplication() throws Throwable {
-
+    public void submitApplication() throws Throwable {
+        proceed("Decision Summary");
     }
 
-    @Then("^I should see \"([^\"]*)\" page$")
-    public void iShouldSeePage(String arg0) throws Throwable {
-
+    @Then("^I should see that application has been accepted$")
+    public void checkAcceptedApplication() throws Throwable {
+        DecisionSummaryScreen decisionSummaryScreen = new DecisionSummaryScreen(webClient);
+        decisionSummaryScreen.waitForElement(decisionSummaryScreen.acceptApplicationImage);
     }
 }

@@ -22,7 +22,7 @@ Feature: New Application Approval
           | Employment Status        | Full time	  |
           | Total Annual Income      | 72500          |
 
-    And I navigate to Product Details tab
+        And I navigate to "Product Details" tab
         And I select a "Fixed Term Loan (Unsecured)" product
         And I proceed to "Previous Applicant Search" page
         And I proceed to "Applicant Details" page
@@ -31,7 +31,7 @@ Feature: New Application Approval
           | ID Number           | A455            |
           | Expiry Date         | 20190606        |
 
-        And I navigate to Address Details tab
+        And I navigate to "Address Details" tab
         And I enter applicant's address details:
           | Number                 | 1              |
           | Street                 | Mill Crescent  |
@@ -39,41 +39,41 @@ Feature: New Application Approval
           | Postcode               | WC10 4MX       |
           | Country                | United Kingdom |
           | Time at Address Years  | 10             |
-          | Time at Address Months | 0              |
+          | Time at Address Months | 5              |
 
         And I proceed to "Applicant Summary" page
         And I proceed to "Product Choice Confirmation" page
         And I choose loan type "UL Classic"
         And I proceed to "Loan Application" page
-        And I enter loan details:
-          | Requested Loan Amount | 1500              |
+        And I enter requested loan details:
+          | Requested Loan Amount | 12000              |
           | Requested Loan Term   | 36                |
           | Purpose of Loan       | Home Improvements |
 
         And I proceed to "Financial & Employment Details" page
-        And I procced to edit the Main Applicant Details
+        And I proceed to Main Applicant Details edit
 
-        And I navigate to Employment Details tab
+        And I navigate to "Employment Details" tab
         And I enter employment details:
           | Occupation        | Senior level professional/admin |
           | Employer          | IT technology Ltd               |
           | Premise           | 8                               |
           | Street            | Oxford Street                   |
           | City              | London                          |
-          | Postcode          | WC8 7XX                         |
+          | Post Code         | WC8 7XX                         |
           | Country           | United Kingdom                  |
-          | Start date        | 20070101                        |
-          | Work Phone Number | 87978999                        |
+          | Start Date        | 20070101                        |
+          | Work Phone        | 87978999                        |
 
-        And I navigate to Financial Details tab
+        And I navigate to "Financial Details" tab
         And I enter financial details:
-          | MonthlyIncomeAfterTax  | 3700     |
-          | CreditCardStorePayment | 150      |
-          | BankName               | Cashbank |
-          | Time with bank Years   | 3        |
-          | Time with bank Months  | 2        |
+          | Monthly Income After Deductions             | 3700     |
+          | Monthly Credit Card and Store Card Payments | 150      |
+          | Bank Name                                   | Cashbank |
+          | Time with Bank Years                        | 3        |
+          | Time with Bank Months                       | 2        |
 
         And I proceed to "Financial & Employment Details" page
 
     When I submit the application
-    Then I should see "Application Accepted" page
+    Then I should see that application has been accepted

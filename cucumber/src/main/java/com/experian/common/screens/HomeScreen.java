@@ -32,9 +32,8 @@ public class HomeScreen extends Screen
 
 
     public void selectSubMenu(WebElement mainMenuItem, WebElement subMenuItem){
-        this.clickElement(mainMenuItem);
-        this.waitForElement(subMenuItem);
-        this.clickElement(subMenuItem);
+        clickElement(mainMenuItem);
+        waitForElement(subMenuItem);
+        clickElement(subMenuItem);
     }
-
 }

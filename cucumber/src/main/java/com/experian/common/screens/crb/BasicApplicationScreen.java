@@ -24,8 +24,9 @@ public class BasicApplicationScreen extends Screen {
     @FindBy(id = "ButtonSaveBt")
     public WebElement buttonSave;
 
-   // @FindBy(id = "PageTitleLbl")
-    //public WebElement pageTitleLabel;
+    @FindBy(id = "EditBT")
+    public WebElement buttonEdit;
+
 
     @FindBy(xpath = "//label[@id='PageTitleLbl' or @id='PageTitileLBL']")
     public WebElement pageTitleLabel;
@@ -40,9 +41,12 @@ public class BasicApplicationScreen extends Screen {
     }
 
     public void selectDetailsTab(String tabName) {
+        waitForElements(tabs);
         for(WebElement tab: tabs){
+            String name = tab.getText();
             if(tab.getText().equals(tabName)) {
                 tab.click();
+                break;
             }
         }
     }
@@ -50,6 +54,11 @@ public class BasicApplicationScreen extends Screen {
     public void proceedNext() {
         jsClick(buttonNext);
         if(isElementPresented(ajaxLoader)) waitForElementToDisappear(ajaxLoader);
+    }
+
+    public void edit(){
+        waitForScreen(buttonEdit);
+        buttonEdit.click();
     }
 
     public String getPageTitleLabel(){

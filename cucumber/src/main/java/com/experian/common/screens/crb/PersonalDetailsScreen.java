@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 /**
  * Created by B04342A on 6/21/2017.
  */
-public class BasicApplicationPersonalDetailsScreen extends BasicApplicationScreen {
+public class PersonalDetailsScreen extends BasicApplicationScreen {
 
     @FindBy(xpath = "//select[contains(@name, 'TitleCont:Title')]")
     public WebElement titleList;
@@ -58,7 +58,7 @@ public class BasicApplicationPersonalDetailsScreen extends BasicApplicationScree
     @FindBy(id = "TotalIncomeTxt")
     public WebElement totalAnnualIncome;
 
-    public BasicApplicationPersonalDetailsScreen(WebClient webClient) {
+    public PersonalDetailsScreen(WebClient webClient) {
         super(webClient);
         waitForScreen(titleList);
     }
@@ -101,7 +101,7 @@ public class BasicApplicationPersonalDetailsScreen extends BasicApplicationScree
                     break;
 
                 case "Existing Customer Number":
-                    waitForElement(existingCustomerNumber);
+                    waitForScreen(existingCustomerNumber);
                     typeWithClear(existingCustomerNumber, entry.getValue());
                     break;
 
