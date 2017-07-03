@@ -77,3 +77,4 @@ Feature: New Application Approval
 
     When I submit the application
     Then I should see that application has been accepted
+    And I stop the browser
