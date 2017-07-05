@@ -29,10 +29,24 @@ public class RestOperation {
      * @return
      * @throws Throwable
      */
-    private JSONObject parseJSONFile(String bodyFilePath) throws Throwable {
+    private String parseJSONFile(String bodyFilePath) throws Throwable {
         JSONParser parser = new JSONParser();
         JSONObject body = (JSONObject)parser.parse(new FileReader(new File(bodyFilePath)));
-        return body;
+        return body.toJSONString();
+    }
+
+    /**
+     * Send a post request by given resource, String for body, username and password
+     * @param url The path to the resource to which the request will be send
+     * @param body The contents of the JSON file for the body of the request
+     * @param username Username for authentication of the request
+     * @param password Password for authentication of the request
+     */
+    private void post(String url, String body, String username, String password) {
+        this.request = Unirest.post(url)
+                .basicAuth(username, password).header("Content-Type","application/json")
+                .body(body)
+                .getHttpRequest();
     }
 
     /**
@@ -44,10 +58,7 @@ public class RestOperation {
      * @throws Throwable
      */
     public void sendPostRequestWithJSONFile(String url, String bodyFilePath, String username, String password) throws Throwable {
-        this.request = Unirest.post(url)
-                .basicAuth(username, password).header("Content-Type","application/json")
-                .body(this.parseJSONFile(bodyFilePath).toJSONString())
-                .getHttpRequest();
+        this.post(url, this.parseJSONFile(bodyFilePath), username, password);
     }
 
     /**
@@ -58,10 +69,7 @@ public class RestOperation {
      * @param password Password for authentication of the request
      */
     public void sendPostRequestWithJSONString(String url, String body, String username, String password) {
-        this.request = Unirest.post(url)
-                .basicAuth(username, password).header("Content-Type","application/json")
-                .body(body)
-                .getHttpRequest();
+        this.post(url, body, username, password);
     }
 
     /**
