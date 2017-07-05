@@ -4,37 +4,40 @@ import com.experian.common.WebClient;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class HomeScreen extends Screen
-{
+import java.util.List;
+
+public class HomeScreen extends Screen {
     public String url = "/";
 
-    @FindBy(linkText = "Logout")
-    public WebElement btnLogout;
+    @FindBy(xpath = "//ul[@id='menu']/li/a")
+    public List<WebElement> mainMenuItems;
 
-    @FindBy(linkText = "System")
-    public WebElement menuSystem;
+    @FindBy(xpath = "//ul[@id='menu']/li//ul//li/a")
+    public List<WebElement> subMenuItems;
 
-    @FindBy(linkText = "Home")
-    public WebElement menuHome;
-
-    @FindBy(linkText = "Apply")
-    public WebElement menuApply;
-
-    @FindBy(id = "id2")
-    public WebElement newApplicationLink;
-
-    @FindBy(linkText = "Experian")
-    public WebElement linkExperian;
+    @FindBy(xpath = "//ul[@id='menu']/li/div[@class='sub-container mega']")
+    public WebElement subContainer;
 
     public HomeScreen(WebClient client) {
         super(client);
     }
 
 
-    public void selectSubMenu(WebElement mainMenuItem, WebElement subMenuItem){
-        this.clickElement(mainMenuItem);
-        this.waitForElement(subMenuItem);
-        this.clickElement(subMenuItem);
-    }
+    public void selectMenu(String mainMenuItemName, String subMenuItemName) {
+        for (WebElement mainMenuItem : mainMenuItems) {
+            if (mainMenuItem.getText().equals(mainMenuItemName)) {
+                mainMenuItem.click();
+                break;
+            }
+        }
+        waitForElement(subContainer);
 
+        for (WebElement subMenuItem : subMenuItems) {
+            String submenuName = subMenuItem.getText();
+            if (subMenuItem.isDisplayed() && subMenuItem.getText().equals(subMenuItemName)) {
+                subMenuItem.click();
+                break;
+            }
+        }
+    }
 }
