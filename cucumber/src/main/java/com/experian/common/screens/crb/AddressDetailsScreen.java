@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 /**
  * Created by B04342A on 6/27/2017.
  */
-public class BasicApplicationAddressDetailsScreen extends BasicApplicationScreen{
+public class AddressDetailsScreen extends BasicApplicationScreen{
 
     @FindBy(id = "currAddressLine1Txt")
     public WebElement number;
@@ -43,7 +43,7 @@ public class BasicApplicationAddressDetailsScreen extends BasicApplicationScreen
     @FindBy(id = "ResidentialStatusDDL")
     public WebElement recidentialStatus;
 
-    public BasicApplicationAddressDetailsScreen(WebClient webClient) {
+    public AddressDetailsScreen(WebClient webClient) {
         super(webClient);
     }
 
@@ -73,11 +73,12 @@ public class BasicApplicationAddressDetailsScreen extends BasicApplicationScreen
                     break;
 
                 case "Time at Address Years":
-                    typeWithClear(timeAtAddressYears, entry.getValue());
+
+                    type(timeAtAddressYears, entry.getValue());
                     break;
 
                 case "Time at Address Months":
-                    typeWithClear(timeAtAddressYears, entry.getValue());
+                    type(timeAtAddressMonths, entry.getValue());
                     break;
 
                 case "Home Phone Number":

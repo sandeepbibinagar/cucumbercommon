@@ -9,10 +9,11 @@ import java.util.List;
 /**
  * Created by B04342A on 6/21/2017.
  */
-public class BasicApplicationPreviousApplicantSearchScreen extends BasicApplicationScreen {
+public class DecisionSummaryScreen extends BasicApplicationScreen {
 
-    public BasicApplicationPreviousApplicantSearchScreen(WebClient webClient) {
-        super(webClient);
-    }
+    @FindBy(id = "DecisionAcceptedImage")
+    public WebElement acceptApplicationImage;
+
+    public DecisionSummaryScreen(WebClient webClient) { super(webClient); }
 
 }
