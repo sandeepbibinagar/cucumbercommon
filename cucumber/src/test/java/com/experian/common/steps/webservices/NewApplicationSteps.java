@@ -71,7 +71,9 @@ public class NewApplicationSteps {
     @Then("^I should receive a response from the application with status text (.*) and status code (\\d+)$")
     public void checkResponseStatus(String statusText, int statusCode) throws Throwable {
         assertEquals(this.restOperation.getStatusText(), statusText);
+        this.logger.info("Response status code:  \"" + this.restOperation.getStatusCode() + "\"");
         assertEquals(this.restOperation.getStatusCode(), statusCode);
+        this.logger.info("Response status text:  \"" + this.restOperation.getStatusText() + "\"");
     }
 
     /**
@@ -84,5 +86,6 @@ public class NewApplicationSteps {
     public void checkResponseEntryValue(String responseEntryKey, String responseEntryValue) throws Throwable {
         JSONArray responseBody = this.restOperation.getResponseJsonBody();
         assertEquals(responseBody.getJSONObject(0).getJSONObject("data").getString(responseEntryKey), responseEntryValue);
+        this.logger.info("Response value for: " + responseEntryKey + " is: " + responseBody.getJSONObject(0).getJSONObject("data").getString(responseEntryKey));
     }
 }
