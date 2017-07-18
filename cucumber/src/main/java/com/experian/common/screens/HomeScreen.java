@@ -35,6 +35,7 @@ public class HomeScreen extends Screen {
         for (WebElement subMenuItem : subMenuItems) {
             String submenuName = subMenuItem.getText();
             if (subMenuItem.isDisplayed() && subMenuItem.getText().equals(subMenuItemName)) {
+                waitForElement(subMenuItem);
                 subMenuItem.click();
                 break;
             }

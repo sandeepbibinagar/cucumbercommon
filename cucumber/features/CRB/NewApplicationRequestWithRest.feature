@@ -2,15 +2,6 @@ Feature: New Application approval/denial through the REST api
   In order to obtain a decision for an applicant,
   As a CRB user I want to send a POST request with the applicant information to the application, and receive a response
 
-  Scenario Outline:  J005 - As a Client User I want to CREATE an application through CLIENT SYSTEM so that I obtain a decision for the applicant
-    When I send POST request to resource /v1/applications/TENANT1/21 with JSON file body <file> authenticated by username user and password User123@123
-    Then I should receive a response from the application with status text OK and status code 200
-      And I should see that the expected decision for Application Data View.System Decision is <decision>
-
-    Examples:
-      | file                    | decision |
-      | rita.json               | Accept   |
-
   Scenario: J005 - As a Client User I want to CREATE an application through CLIENT SYSTEM so that I obtain a decision for the applicant
     When I send POST request to resource /v1/applications/TENANT1/21 authenticated by username user and password User123@123 with body:
       """
