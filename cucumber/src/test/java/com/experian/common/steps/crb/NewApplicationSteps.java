@@ -4,12 +4,12 @@ import com.experian.common.WebClient;
 import com.experian.common.core.logger.Logger;
 import com.experian.common.screens.HomeScreen;
 import com.experian.common.screens.crb.*;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import java.util.Map;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by B04342A on 6/24/2017.
@@ -52,9 +52,10 @@ public class NewApplicationSteps {
     @And("^I proceed to \"([^\"]*)\" page$")
     public void proceed(String pageName) throws Throwable {
         BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
+        String labelOldContent = basicApplicationScreen.pageTitleLabel.getText();
         basicApplicationScreen.proceedNext();
-        basicApplicationScreen.waitForScreen(basicApplicationScreen.pageTitleLabel);
-        assert(basicApplicationScreen.getPageTitleLabel()).equals(pageName);
+        basicApplicationScreen.waitForElementContentChange(basicApplicationScreen.pageTitleLabel,labelOldContent);
+        assertTrue((basicApplicationScreen.getPageTitleLabel()).equals(pageName),"Page "+pageName+" loaded");
     }
 
     @And("^I enter identification information:$")
@@ -92,9 +93,10 @@ public class NewApplicationSteps {
     @And("^I proceed to Main Applicant Details edit$")
     public void goToMainApplicantDetais() throws Throwable {
         BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
+        String labelOldContent = basicApplicationScreen.pageTitleLabel.getText();
         basicApplicationScreen.edit();
-        basicApplicationScreen.waitForScreen(basicApplicationScreen.pageTitleLabel);
-        assert(basicApplicationScreen.getPageTitleLabel()).equals("Employment & Financial Details");
+        basicApplicationScreen.waitForElementContentChange(basicApplicationScreen.pageTitleLabel,labelOldContent);
+        assertTrue((basicApplicationScreen.getPageTitleLabel()).equals("Employment & Financial Details"));
     }
 
     @And("^I enter employment details:$")

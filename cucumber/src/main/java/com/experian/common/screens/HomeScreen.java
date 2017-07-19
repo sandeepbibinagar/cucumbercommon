@@ -23,22 +23,8 @@ public class HomeScreen extends Screen {
     }
 
 
-    public void selectMenu(String mainMenuItemName, String subMenuItemName) {
-        for (WebElement mainMenuItem : mainMenuItems) {
-            if (mainMenuItem.getText().equals(mainMenuItemName)) {
-                mainMenuItem.click();
-                break;
-            }
-        }
-        waitForElement(subContainer);
-
-        for (WebElement subMenuItem : subMenuItems) {
-            String submenuName = subMenuItem.getText();
-            if (subMenuItem.isDisplayed() && subMenuItem.getText().equals(subMenuItemName)) {
-                waitForElement(subMenuItem);
-                subMenuItem.click();
-                break;
-            }
-        }
+    public void selectMenu(String mainMenuItemName, String subMenuItemName) throws InterruptedException {
+        clickWithScrollToView(getElementWithText(mainMenuItems, mainMenuItemName));
+        clickWithScrollToView(getElementWithText(subMenuItems, subMenuItemName));
     }
 }

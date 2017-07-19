@@ -45,6 +45,7 @@ public class WebSteps {
 
                 capabilities = DesiredCapabilities.firefox();
                 capabilities.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
+                capabilities.setCapability(FirefoxDriver.MARIONETTE, false);
 
                 if (localBrowser) {
                     // Set driver location
