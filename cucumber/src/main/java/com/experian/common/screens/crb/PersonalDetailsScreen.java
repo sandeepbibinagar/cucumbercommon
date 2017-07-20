@@ -1,12 +1,12 @@
 package com.experian.common.screens.crb;
 
 import com.experian.common.WebClient;
+import com.experian.common.screens.DateTimePickerScreen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * Created by B04342A on 6/21/2017.
@@ -58,13 +58,20 @@ public class PersonalDetailsScreen extends BasicApplicationScreen {
     @FindBy(id = "TotalIncomeTxt")
     public WebElement totalAnnualIncome;
 
+    @FindBy(xpath = "//div[@id='DOBCont']//img[contains(@src,'calendar')]")
+    public WebElement dateOfBirthCalendarBtn;
+
+    @FindBy(xpath = "//div[@id='DocumentIdNumberTypeCont']//img[contains(@src,'calendar')]")
+    public WebElement expiryDateCalendarBtn;
+
+
     public PersonalDetailsScreen(WebClient webClient) {
         super(webClient);
         waitForScreen(titleList);
     }
 
     public void set(Map<String, String> dataTable) {
-
+        waitForElementToDisappear(ajaxLoader);
         for (Map.Entry<String, String> entry : dataTable.entrySet()) {
 
             switch (entry.getKey()) {
@@ -85,7 +92,8 @@ public class PersonalDetailsScreen extends BasicApplicationScreen {
                     break;
 
                 case "Expiry Date":
-                    typeWithClear(documentIdExpiryDate, entry.getValue());
+
+                    new DateTimePickerScreen(webClient).setDate(expiryDateCalendarBtn,entry.getValue(),"yyyy MM dd");
                     break;
 
                 case "Forename":
@@ -93,7 +101,8 @@ public class PersonalDetailsScreen extends BasicApplicationScreen {
                     break;
 
                 case "Date Of Birth":
-                    typeWithClear(dateOfBirth, entry.getValue());
+
+                    new DateTimePickerScreen(webClient).setDate(dateOfBirthCalendarBtn, entry.getValue(), "yyyy MM dd");
                     break;
 
                 case "Existing Customer":
@@ -126,7 +135,7 @@ public class PersonalDetailsScreen extends BasicApplicationScreen {
                     break;
 
                 case "Total Annual Income":
-                    typeWithClear(totalAnnualIncome, entry.getValue());
+                    typeWithValueReplace(totalAnnualIncome, entry.getValue());
                     break;
 
                 default:

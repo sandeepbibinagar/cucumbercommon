@@ -199,6 +199,7 @@ public abstract class Screen
         ((JavascriptExecutor) webClient.driver).executeScript("arguments[0].click();", element);
     }
 
+
     public void clickWithScrollToView(WebElement element) {
         scrollToView(element);
         element.click();
@@ -313,6 +314,11 @@ public abstract class Screen
         field.click();
         String backSpaceSuffix = StringUtils.repeat(Keys.BACK_SPACE.toString(), field.getAttribute("value").length());
         type(field, backSpaceSuffix + text);
+    }
+
+    public void typeWithValueReplace(WebElement field,String value){
+        field.click();
+        field.sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
     }
 
     public void typeWithRetry(WebElement field, String text, int retries)

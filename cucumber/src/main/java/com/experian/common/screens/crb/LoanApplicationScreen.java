@@ -1,6 +1,7 @@
 package com.experian.common.screens.crb;
 
 import com.experian.common.WebClient;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
@@ -26,16 +27,16 @@ public class LoanApplicationScreen extends BasicApplicationScreen {
         super(webClient);
     }
 
-    public void set(Map<String, String> dataTable) {
+    public void set(Map<String, String> dataTable) throws InterruptedException {
 
         for (Map.Entry<String, String> entry : dataTable.entrySet()) {
             switch (entry.getKey()) {
                 case "Requested Loan Amount":
-                    typeWithClear(loanAmount, entry.getValue());
+                    typeWithValueReplace(loanAmount,entry.getValue());
                     break;
 
                 case "Requested Loan Term":
-                    typeWithClear(loanTerm, entry.getValue());
+                    typeWithValueReplace(loanTerm,entry.getValue());
                     break;
 
                 case "Purpose of Loan":

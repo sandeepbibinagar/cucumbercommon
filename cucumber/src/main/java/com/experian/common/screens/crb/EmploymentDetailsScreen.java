@@ -1,6 +1,7 @@
 package com.experian.common.screens.crb;
 
 import com.experian.common.WebClient;
+import com.experian.common.screens.DateTimePickerScreen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
@@ -42,6 +43,9 @@ public class EmploymentDetailsScreen extends BasicApplicationScreen {
 
     @FindBy(xpath = "//input[contains(@name,'StartDateOfEmployment')]")
     public WebElement startDate;
+
+    @FindBy(xpath = "//div[@id='StartEndDateEmploymentCont-wrapper']//img[contains(@src,'calendar')]")
+    public WebElement startDateCalendarBtn;
 
     @FindBy(id = "workPhoneNoTxt")
     public WebElement workPhone;
@@ -92,7 +96,7 @@ public class EmploymentDetailsScreen extends BasicApplicationScreen {
                     break;
 
                 case "Start Date":
-                    typeWithClear(startDate, entry.getValue());
+                    new DateTimePickerScreen(webClient).setDate(startDateCalendarBtn, entry.getValue(), "yyyy MM dd");
                     break;
 
                 case "Work Phone":

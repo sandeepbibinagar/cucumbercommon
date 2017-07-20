@@ -56,31 +56,31 @@ public class FinancialDetailsScreen extends BasicApplicationScreen {
 
             switch (entry.getKey()) {
                 case "Annual Salary":
-                    typeWithClear(annualSalary, entry.getValue());
+                    typeWithValueReplace(annualSalary, entry.getValue());
                     break;
 
                 case "Monthly Income After Deductions":
-                    typeWithClear(monthlyIncomeAfter, entry.getValue());
+                    typeWithValueReplace(monthlyIncomeAfter, entry.getValue());
                     break;
 
                 case "Other Personal Monthly Income After Deductions":
-                    typeWithClear(otherIncome, entry.getValue());
+                    typeWithValueReplace(otherIncome, entry.getValue());
                     break;
 
                 case "Monthly Credit Card and Store Card Payments":
-                    typeWithClear(monthlyCardPayments, entry.getValue());
+                    typeWithValueReplace(monthlyCardPayments, entry.getValue());
                     break;
 
                 case "Monthly Loan Payments":
-                    typeWithClear(monthlyLoanPayments, entry.getValue());
+                    typeWithValueReplace(monthlyLoanPayments, entry.getValue());
                     break;
 
                 case "Other Retail Monthly Payments":
-                    typeWithClear(retailMonthlyPayments, entry.getValue());
+                    typeWithValueReplace(retailMonthlyPayments, entry.getValue());
                     break;
 
                 case "Monthly Mortgage / Rent Payments":
-                    typeWithClear(monthlyMotgageRentPayments, entry.getValue());
+                    typeWithValueReplace(monthlyMotgageRentPayments, entry.getValue());
                     break;
 
                 case "Bank Name":

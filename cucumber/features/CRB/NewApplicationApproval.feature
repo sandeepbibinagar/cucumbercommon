@@ -3,7 +3,7 @@ Feature: New Application Approval
   As a CRB user
   I want to create an application through web page
 
-  Scenario: ID:1234 Applicant gets approved for Fixed Term Loan (Unsecured)
+  Scenario: ID_1234 Applicant gets approved for Fixed Term Loan (Unsecured)
     Given I start the browser
         And I go to login page
         And I login with username user and password User123@123
@@ -29,7 +29,7 @@ Feature: New Application Approval
         And I enter identification information:
           | Identification Type | Driving Licence |
           | ID Number           | A455            |
-          | Expiry Date         | 20190606        |
+          | Expiry Date         | 2019 06 06      |
 
         And I navigate to "Address Details" tab
         And I enter applicant's address details:
@@ -62,7 +62,7 @@ Feature: New Application Approval
           | City              | London                          |
           | Post Code         | WC8 7XX                         |
           | Country           | United Kingdom                  |
-          | Start Date        | 20070101                        |
+          | Start Date        | 2007 01 01                      |
           | Work Phone        | 87978999                        |
 
         And I navigate to "Financial Details" tab
