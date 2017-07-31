@@ -1,0 +1,52 @@
+package com.experian.common.screens.crb;
+
+import com.experian.common.WebClient;
+import com.experian.common.screens.Screen;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import java.util.List;
+
+/**
+ * Created by c08358a on 7/19/2017.
+ */
+public class AuditTrailScreen extends Screen {
+
+    public String window = "auditTrailWindow";
+
+    @FindBy(xpath = "//table")
+    public WebElement tableAuditTrail;
+
+    @FindBy(id = "closeAuditTrail")
+    public WebElement buttonCloseAuditTrail;
+
+    @FindBy(xpath = "//div//h1")
+    public WebElement pageTitleLabel;
+
+    @FindBy(xpath = "//table//thead//tr//th")
+    public List<WebElement> tableHeadersListTableAuditTrail;
+
+    @FindBy(xpath = "//table//tbody//tr//td")
+    public List<WebElement> tableCellsListTableAuditTrail;
+
+
+
+    public AuditTrailScreen(WebClient webClient) {
+        super(webClient);
+        switchToWindow(this.window);
+    }
+
+    public String getPageTitleLabel(){
+        return pageTitleLabel.getText();
+    }
+
+//    public List<String> getTableCellsValue(List<WebElement> tableCells) {
+//        int i;
+//
+//        //List<String>
+//
+//        for(i=0; tableCells.size(); i++) {
+//
+//        }
+//
+//    }
+}

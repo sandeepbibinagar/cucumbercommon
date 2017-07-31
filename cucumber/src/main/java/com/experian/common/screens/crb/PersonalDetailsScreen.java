@@ -31,6 +31,15 @@ public class PersonalDetailsScreen extends BasicApplicationScreen {
     @FindBy(id = "ForenameTxt")
     public WebElement forename;
 
+    @FindBy(id = "MiddlenameTxt")
+    public WebElement middlename;
+
+    @FindBy(id = "PersonalMobileNumberTxt")
+    public WebElement mobileNumber;
+
+    @FindBy(xpath = "//select[contains(@id,'ContactMethod')]")
+    public WebElement preferredContactMethod;
+
     @FindBy(xpath = "//input[contains(@name,'DOBDate')]")
     public WebElement dateOfBirth;
 
@@ -100,6 +109,10 @@ public class PersonalDetailsScreen extends BasicApplicationScreen {
                     typeWithClear(forename, entry.getValue());
                     break;
 
+                case "Middlename":
+                    typeWithClear(middlename, entry.getValue());
+                    break;
+
                 case "Date Of Birth":
 
                     new DateTimePickerScreen(webClient).setDate(dateOfBirthCalendarBtn, entry.getValue(), "yyyy MM dd");
@@ -122,8 +135,16 @@ public class PersonalDetailsScreen extends BasicApplicationScreen {
                     typeWithClear(homePhoneNumber, entry.getValue());
                     break;
 
+                case "Mobile Number":
+                    typeWithClear(mobileNumber, entry.getValue());
+                    break;
+
                 case "Email":
                     typeWithClear(emailAddress, entry.getValue());
+                    break;
+
+                case "Preferred Contact Method":
+                    new Select(preferredContactMethod).selectByVisibleText(entry.getValue());
                     break;
 
                 case "Residential Status":
@@ -142,5 +163,82 @@ public class PersonalDetailsScreen extends BasicApplicationScreen {
                     throw new NoSuchElementException("Unable to set value for field " + entry.getKey());
             }
         }
+    }
+
+    public String get(String elementName){
+        String actualValue;
+        switch(elementName){
+            case "Title":
+                actualValue = new Select(titleList).getFirstSelectedOption().getText();
+                break;
+
+            case "Surname":
+                actualValue = surname.getAttribute("value");
+                break;
+
+            case "ID Number":
+                actualValue = new Select(documentIdNumber).getFirstSelectedOption().getText();
+                break;
+
+            case "Forename":
+                actualValue = forename.getAttribute("value");
+                break;
+
+            case "Middlename":
+                actualValue = middlename.getAttribute("value");
+                break;
+
+            case "Date Of Birth":
+                actualValue = dateOfBirth.getAttribute("value");
+                break;
+
+            case "Existing Customer?":
+                actualValue = new Select(existingCustomer).getFirstSelectedOption().getText();
+                break;
+            case "Existing Customer":
+                actualValue = new Select(existingCustomer).getFirstSelectedOption().getText();
+                break;
+
+            case "Customer Number":
+                //waitForScreen(existingCustomerNumber);
+                actualValue = existingCustomerNumber.getAttribute("value");
+                break;
+
+            case "Marital Status":
+                actualValue = new Select(maritalStatus).getFirstSelectedOption().getText();
+                break;
+
+            case "Home Phone Number":
+                actualValue = homePhoneNumber.getAttribute("value");
+                break;
+
+            case "Mobile Number":
+                actualValue = mobileNumber.getAttribute("value");
+                break;
+
+            case "Email Address":
+                actualValue = emailAddress.getAttribute("value");
+                break;
+
+            case "Preferred Contact Method":
+                actualValue = new Select(preferredContactMethod).getFirstSelectedOption().getText();
+                break;
+
+            case "Residential Status":
+                actualValue = new Select(residentialStatus).getFirstSelectedOption().getText();
+                break;
+
+            case "Employment Status":
+                actualValue = new Select(employmentStatus).getFirstSelectedOption().getText();
+                break;
+
+            case "Total Annual Income":
+                actualValue = totalAnnualIncome.getAttribute("value");
+                break;
+
+            default:
+                throw new NoSuchElementException("Unable to set value for field " + elementName);
+        }
+        return actualValue;
     }
 }
