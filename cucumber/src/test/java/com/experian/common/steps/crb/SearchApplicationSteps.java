@@ -84,4 +84,11 @@ public class SearchApplicationSteps {
                 true, false, false );
 
     }
+
+    @And("^I start a general enquiry$")
+    public void startGeneralEnquiry() throws Throwable {
+        HomeScreen homeScreen = new HomeScreen(webClient);
+        homeScreen.selectMenu("Query", "All", "General Enquiry");
+        ApplicationSearchScreen applicationSearchScreen = new ApplicationSearchScreen(webClient);
+    }
 }

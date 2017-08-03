@@ -1,6 +1,7 @@
 package com.experian.common.screens.crb;
 
 import com.experian.common.WebClient;
+import com.experian.common.screens.Screen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
@@ -42,7 +43,8 @@ public class SimpleSearchScreen extends ApplicationSearchScreen {
 
     public SimpleSearchScreen(WebClient webClient) {
         super(webClient);
-        waitForScreen(applicationNumber);
+        waitForElementToDisappear(ajaxLoader);
+
     }
 
     public void set(Map<String, String> dataTable) {

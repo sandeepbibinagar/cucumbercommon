@@ -2,6 +2,7 @@ package com.experian.common.screens;
 
 import com.experian.common.WebClient;
 import com.experian.common.helpers.CustomExpectedConditions;
+import com.gargoylesoftware.htmlunit.WebWindow;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +10,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -741,4 +743,5 @@ public abstract class Screen
             element.click();
         }
     }
+
 }
