@@ -3,10 +3,7 @@ package com.experian.common.steps.crb;
 import com.experian.common.WebClient;
 import com.experian.common.core.logger.Logger;
 import com.experian.common.screens.HomeScreen;
-import com.experian.common.screens.crb.ApplicationSearchScreen;
-import com.experian.common.screens.crb.AuditTrailScreen;
-import com.experian.common.screens.crb.PersonalDetailsScreen;
-import com.experian.common.screens.crb.SimpleSearchScreen;
+import com.experian.common.screens.crb.*;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import static org.testng.Assert.assertEquals;
@@ -82,7 +79,6 @@ public class SearchApplicationSteps {
                 auditTrailScreen.tableHeadersListTableAuditTrail,
                 auditTrailScreen.tableCellsListTableAuditTrail,
                 true, false, false );
-
     }
 
     @And("^I start a general enquiry$")
@@ -90,5 +86,11 @@ public class SearchApplicationSteps {
         HomeScreen homeScreen = new HomeScreen(webClient);
         homeScreen.selectMenu("Query", "All", "General Enquiry");
         ApplicationSearchScreen applicationSearchScreen = new ApplicationSearchScreen(webClient);
+    }
+
+    @And ("^I open Application Overview with Application Number (.*)$")
+    public void selectApplicationOverviewForApplication(String applicationNumber) throws Throwable {
+        ApplicationSearchScreen applicationSearchScreen = new ApplicationSearchScreen(webClient);
+        applicationSearchScreen.openApplicationOverviewDetailsByAppNumber(applicationNumber);
     }
 }

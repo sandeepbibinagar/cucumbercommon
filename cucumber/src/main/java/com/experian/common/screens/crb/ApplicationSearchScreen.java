@@ -14,57 +14,44 @@ import java.util.List;
  */
 public class ApplicationSearchScreen extends Screen {
 
-    //OK
     @FindBy(xpath = "//ul[@role='tablist']/li[@role='tab']/a")
     public List<WebElement> tabs;
 
-    //???
     @FindBy(xpath = "//div[contains(@class,'ajax_loader')]")
     public WebElement ajaxLoader;
 
-    //OK
     @FindBy(xpath = "//table[@id='datagrid']//tbody//tr//td[8]//a[child::img[@title='Open']]")
     public List<WebElement> iconOpenList;
 
-    //OK
     @FindBy(xpath = "//table[@id='datagrid']//tbody//tr//td[8]//a[child::img[@title='Audit Trail']]")
     public List<WebElement> iconAuditTrailList;
 
-    //OK
     @FindBy(id = "searchbutton")
     public WebElement buttonSearch;
 
-    //OK
     @FindBy(id = "Clearbutton")
     public WebElement buttonClear;
 
-    //OK
     @FindBy(xpath = "//label[@id='labelPageTitle']")
     public WebElement pageTitleLabel;
 
-    //div[@id='..' and @class='...]
-
-    //OK
     @FindBy(id = "containerNavigation-wrapper")
     public WebElement navigationContainer;
 
-    //OK
     @FindBy(id = "datagrid")
     public WebElement searchTable;
 
-    //OK
     @FindBy(xpath = "//table[@id='datagrid']//tbody//tr//td//div")
     public WebElement tableRows;
 
     @FindBy(xpath = "//table[@id='datagrid']//tbody//tr//td[1]//div")
     public List<WebElement> tableApplicationNumbers;
 
-    //OK
     public ApplicationSearchScreen(WebClient webClient) {
         super(webClient);
+        waitForElementToDisappear(ajaxLoader);
     }
 
-    //OK
     public void selectSearchTab(String tabName) {
         waitForElements(tabs);
         for(WebElement tab: tabs){
@@ -86,6 +73,17 @@ public class ApplicationSearchScreen extends Screen {
     }
 
     public void openBasicAppDetailsByAppNumber (String applicationNumber) throws Throwable {
+        ApplicationSearchScreen screen = new ApplicationSearchScreen(webClient);
+        screen.waitForElements(screen.iconOpenList);
+
+        List<String> applicationNumbersText = getElementsText(tableApplicationNumbers);
+
+        int applicationNumberIndex = applicationNumbersText.indexOf(applicationNumber);
+
+        screen.iconOpenList.get(applicationNumberIndex).click();
+    }
+
+    public void openApplicationOverviewDetailsByAppNumber (String applicationNumber) throws Throwable {
         ApplicationSearchScreen screen = new ApplicationSearchScreen(webClient);
         screen.waitForElements(screen.iconOpenList);
 

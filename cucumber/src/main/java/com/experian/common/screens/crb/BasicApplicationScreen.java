@@ -27,11 +27,8 @@ public class BasicApplicationScreen extends Screen {
     @FindBy(id = "EditBT")
     public WebElement buttonEdit;
 
-
     @FindBy(xpath = "//label[@id='PageTitleLbl' or @id='PageTitleLBL']")
     public WebElement pageTitleLabel;
-
-    //div[@id='..' and @class='...]
 
     @FindBy(id = "NavigationCont-wrapper")
     public WebElement navigationContainer;

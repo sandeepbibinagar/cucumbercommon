@@ -28,8 +28,6 @@ public class AuditTrailScreen extends Screen {
     @FindBy(xpath = "//table//tbody//tr//td")
     public List<WebElement> tableCellsListTableAuditTrail;
 
-
-
     public AuditTrailScreen(WebClient webClient) {
         super(webClient);
         switchToWindow(this.window);
@@ -39,14 +37,4 @@ public class AuditTrailScreen extends Screen {
         return pageTitleLabel.getText();
     }
 
-//    public List<String> getTableCellsValue(List<WebElement> tableCells) {
-//        int i;
-//
-//        //List<String>
-//
-//        for(i=0; tableCells.size(); i++) {
-//
-//        }
-//
-//    }
 }

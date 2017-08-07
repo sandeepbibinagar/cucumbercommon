@@ -43,7 +43,7 @@ public class SimpleSearchScreen extends ApplicationSearchScreen {
 
     public SimpleSearchScreen(WebClient webClient) {
         super(webClient);
-        waitForElementToDisappear(ajaxLoader);
+
 
     }
 
