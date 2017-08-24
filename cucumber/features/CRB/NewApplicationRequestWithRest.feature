@@ -3,7 +3,7 @@ Feature: New Application approval/denial through the REST api
   As a CRB user I want to send a POST request with the applicant information to the application, and receive a response
 
   Scenario: J005 - As a Client User I want to CREATE an application through CLIENT SYSTEM so that I obtain a decision for the applicant
-    When I send POST request to resource /v1/applications/TENANT1/21 authenticated by username user and password User123@123 with body:
+    When I send POST request to resource /v1/applications/TENANT1/21 authenticated by username admin and password Secret123! with body:
       """
       {
 	"Application Data View.Channel" : "01",
