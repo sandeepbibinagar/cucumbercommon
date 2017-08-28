@@ -35,7 +35,7 @@
             </testResource>
             <testResource>
                 <directory>features</directory>
-                <targetPath>com/experian/common/core</targetPath>
+                <targetPath>cucumber/features</targetPath>
             </testResource>
         </testResources>
 
@@ -58,7 +58,14 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>target/testng-suite.xml</suiteXmlFile>
                     </suiteXmlFiles>
+                    <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>surefire</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
