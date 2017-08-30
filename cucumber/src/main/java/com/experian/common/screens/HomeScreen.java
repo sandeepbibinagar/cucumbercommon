@@ -10,6 +10,11 @@ import java.util.NoSuchElementException;
 public class HomeScreen extends Screen {
     public String url = "/";
 
+    public String windowTitle = "homeStartPage";
+
+    @FindBy(xpath = "//a[contains(text(),'Home')]")
+    public WebElement homeButton;
+
     @FindBy(xpath = "//ul[@id='menu']/li/a")
     public List<WebElement> mainMenuItems;
 
@@ -27,6 +32,7 @@ public class HomeScreen extends Screen {
 
     public HomeScreen(WebClient client) {
         super(client);
+        switchWindowByTitle(windowTitle);
     }
 
     public void selectMenu(String mainMenuItemName, String subMenuItemName) throws InterruptedException {

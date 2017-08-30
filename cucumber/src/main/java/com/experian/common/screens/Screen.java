@@ -7,6 +7,7 @@ import com.google.common.base.CaseFormat;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -17,15 +18,13 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 public abstract class Screen
 {
-    private final int waitIntervalElement = 15;
-    private final int waitIntervalScreen = 20;
+    private final int waitIntervalElement = 5;
+    private final int waitIntervalScreen = 10;
     private final int waitIntervalAlert = 5;
     private String screenWindowHandle;
 
@@ -394,6 +393,27 @@ public abstract class Screen
 
     public void switchToWindow(String name) {
         switchToWindow(name, true);
+    }
+
+    public void switchWindowByTitle(String title){
+        Map<String,String> titlesMap = getHandlesAndTitles();
+        if(titlesMap.get(title)==null){
+            throw new NoSuchWindowException("There is no window handle associated with title: "+title);
+        }else{
+            this.webClient.driver.switchTo().window(titlesMap.get(title));
+        }
+    }
+
+    public Map<String,String> getHandlesAndTitles(){
+        Set<String> handles = this.webClient.driver.getWindowHandles();
+        Map<String,String> handleTitleMap = new HashMap<String,String>();
+
+        for(String handle:handles){
+            this.webClient.driver.switchTo().window(handle);
+            handleTitleMap.put(this.webClient.driver.getTitle(),handle);
+        }
+
+        return handleTitleMap;
     }
 
     public void switchToWindow(String name, Boolean returnToDefaultFrame) {
