@@ -17,7 +17,6 @@ public class CommonSteps {
     private final WebClient webClient;
     private final Logger logger = Logger.getLogger(this.getClass());
 
-
     public CommonSteps(WebClient webClient) {
         this.webClient = webClient;
     }
@@ -55,4 +54,9 @@ public class CommonSteps {
 
     }
 
+    @And("^I logout from the solution$")
+    public void solutionLogout() throws Throwable {
+        HomeScreen home = new HomeScreen(webClient);
+        home.selectMenu("System", "Logout");
+    }
 }

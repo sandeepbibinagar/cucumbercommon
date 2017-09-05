@@ -60,6 +60,7 @@ public class FinancialDetailsScreen extends BasicApplicationScreen {
                     break;
 
                 case "Monthly Income After Deductions":
+                    waitForElementToDisappear(ajaxLoader);
                     typeWithValueReplace(monthlyIncomeAfter, entry.getValue());
                     break;
 
@@ -84,6 +85,7 @@ public class FinancialDetailsScreen extends BasicApplicationScreen {
                     break;
 
                 case "Bank Name":
+                    waitForElementToDisappear(ajaxLoader);
                     typeWithClear(bankName, entry.getValue());
                     break;
 

@@ -34,6 +34,8 @@ public class UserManagementScreen extends Screen{
     @FindBy(xpath="//table[@id='spTable']//tbody/tr/td")
     public List<WebElement> businessRulesTableRowCells;
 
+    @FindBy(xpath="//td[@class='deny']")
+    public List<WebElement> listOfDeniedPermissions;
 
     public UserManagementScreen(WebClient webClient) {
         super(webClient);

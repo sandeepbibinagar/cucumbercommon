@@ -114,7 +114,7 @@ public class PersonalDetailsScreen extends BasicApplicationScreen {
                     break;
 
                 case "Date Of Birth":
-
+                    waitForElementToDisappear(ajaxLoader);
                     new DateTimePickerScreen(webClient).setDate(dateOfBirthCalendarBtn, entry.getValue(), "yyyy MM dd");
                     break;
 

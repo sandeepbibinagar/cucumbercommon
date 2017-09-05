@@ -28,6 +28,7 @@ public class NewApplicationSteps {
         HomeScreen homeScreen = new HomeScreen(webClient);
         homeScreen.selectMenu("Apply", "New Application");
         BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
+        basicApplicationScreen.switchToWindowWithTitle(basicApplicationScreen.windowTitle);
     }
 
     @And("^I enter the new applicant personal details:$")
@@ -39,6 +40,7 @@ public class NewApplicationSteps {
     @And("^I navigate to \"([^\"]*)\" tab$")
     public void navigateToTab(String tabName) throws Throwable {
         BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
+        basicApplicationScreen.waitForElementToDisappear(basicApplicationScreen.ajaxLoader);
         basicApplicationScreen.selectDetailsTab(tabName);
     }
 
@@ -108,6 +110,7 @@ public class NewApplicationSteps {
     @And("^I enter financial details:$")
     public void enterFinancialDetails(Map<String, String> details) throws Throwable {
         FinancialDetailsScreen financialDetailsScreen = new FinancialDetailsScreen(webClient);
+        financialDetailsScreen.waitForElementToDisappear(financialDetailsScreen.ajaxLoader);
         financialDetailsScreen.set(details);
     }
 

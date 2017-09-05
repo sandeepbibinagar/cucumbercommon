@@ -21,17 +21,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 
-public abstract class Screen
-{
-    private final int waitIntervalElement = 5;
-    private final int waitIntervalScreen = 10;
+public abstract class Screen {
+    private final int waitIntervalElement = 10;
+    private final int waitIntervalScreen = 15;
     private final int waitIntervalAlert = 5;
     private String screenWindowHandle;
 
     protected WebClient webClient;
 
-    public Screen(WebClient webClient)
-    {
+    public Screen(WebClient webClient) {
         this.webClient = webClient;
 
         // Set current screen
@@ -40,40 +38,33 @@ public abstract class Screen
         initElements();
     }
 
-    public Screen initElements()
-    {
+    public Screen initElements() {
         PageFactory.initElements(webClient.driver, this);
 
         return this;
     }
 
-    public Screen refreshElements()
-    {
+    public Screen refreshElements() {
         return initElements();
     }
 
-    public Screen waitForElement(WebElement element)
-    {
+    public Screen waitForElement(WebElement element) {
         return waitForElement(element, waitIntervalElement);
     }
 
-    public Screen waitForElements(List<WebElement> elements)
-    {
+    public Screen waitForElements(List<WebElement> elements) {
         return waitForElements(elements, waitIntervalElement);
     }
 
-    public Screen waitForElementToDisappear(WebElement element)
-    {
+    public Screen waitForElementToDisappear(WebElement element) {
         return waitForElementToDisappear(element, waitIntervalElement);
     }
 
-    public Screen waitForScreen(WebElement element)
-    {
+    public Screen waitForScreen(WebElement element) {
         return waitForElement(element, waitIntervalScreen);
     }
 
-    public Screen waitForScreenProgress(WebElement element)
-    {
+    public Screen waitForScreenProgress(WebElement element) {
         return waitForElementToDisappear(element, waitIntervalScreen);
     }
 
@@ -89,55 +80,44 @@ public abstract class Screen
         return screenWindowHandle;
     }
 
-    public Point getElementLocation(WebElement element, int retries)
-    {
+    public Point getElementLocation(WebElement element, int retries) {
         Point location = null;
 
-        if (retries > 0)
-        {
-            try
-            {
+        if (retries > 0) {
+            try {
                 location = element.getLocation();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 location = getElementLocation(element, --retries);
             }
 
-            if ( location.getY() == 0  && location.getX() == 0 )
+            if (location.getY() == 0 && location.getX() == 0)
                 location = getElementLocation(element, --retries);
         }
 
         return location;
     }
 
-    public Point getElementLocation(List<WebElement> elements, int position, int retries)
-    {
+    public Point getElementLocation(List<WebElement> elements, int position, int retries) {
         Point location = null;
 
-        if (retries > 0)
-        {
-            try
-            {
+        if (retries > 0) {
+            try {
                 location = elements.get(position).getLocation();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 location = getElementLocation(elements, position, --retries);
             }
 
-            if ( location.getY() == 0  && location.getY() == 0 )
+            if (location.getY() == 0 && location.getY() == 0)
                 location = getElementLocation(elements, position, --retries);
         }
 
         return location;
     }
 
-    public boolean isElementPresented(WebElement element)
-    {
-        try
-        {
+    public boolean isElementPresented(WebElement element) {
+        try {
             return elementPresented(element);
-        } catch (InvocationTargetException | StaleElementReferenceException | NoSuchElementException e)
-        {
+        } catch (InvocationTargetException | StaleElementReferenceException | NoSuchElementException e) {
             return false;
         }
     }
@@ -151,8 +131,7 @@ public abstract class Screen
         }
     }
 
-    public Screen scrollTo(WebElement fromElement, WebElement toElement)
-    {
+    public Screen scrollTo(WebElement fromElement, WebElement toElement) {
         int x = fromElement.getLocation().getX();
 
         int fromHeight = fromElement.getSize().getHeight();
@@ -164,8 +143,7 @@ public abstract class Screen
         return this;
     }
 
-    public Screen scrollUp(List<WebElement> elements)
-    {
+    public Screen scrollUp(List<WebElement> elements) {
         WebElement fromElement = elements.get(0);
         WebElement toElement = elements.get(elements.size() - 1);
 
@@ -174,8 +152,7 @@ public abstract class Screen
         return this;
     }
 
-    public Screen scrollDown(List<WebElement> elements)
-    {
+    public Screen scrollDown(List<WebElement> elements) {
         WebElement fromElement = elements.get(elements.size() - 1);
         WebElement toElement = elements.get(0);
 
@@ -196,7 +173,7 @@ public abstract class Screen
         ((JavascriptExecutor) webClient.driver).executeScript("arguments[0].scrollTop = arguments[1];", container, element.getLocation().getY());
     }
 
-    public void jsClick(WebElement element){
+    public void jsClick(WebElement element) {
         ((JavascriptExecutor) webClient.driver).executeScript("arguments[0].click();", element);
     }
 
@@ -206,28 +183,23 @@ public abstract class Screen
         element.click();
     }
 
-    public WebElement scrollDownUntil(List<WebElement> elements, String searchText)
-    {
+    public WebElement scrollDownUntil(List<WebElement> elements, String searchText) {
         WebElement matchElement = null;
         String firstElementText = "";
         boolean scroll = true;
 
-        do
-        {
+        do {
 
-            for (int i = 0; i < elements.size() && scroll; i++)
-            {
+            for (int i = 0; i < elements.size() && scroll; i++) {
                 WebElement element = elements.get(i);
                 String elementText = element.getText();
 
-                if (elementText.equals(searchText))
-                {
+                if (elementText.equals(searchText)) {
                     matchElement = element;
                     scroll = false;
                 }
 
-                if (i == 0)
-                {
+                if (i == 0) {
                     if (firstElementText.equals(elementText))
                         scroll = false;
 
@@ -243,53 +215,44 @@ public abstract class Screen
         return matchElement;
     }
 
-    public WebElement getElement(String name)
-    {
+    public WebElement getElement(String name) {
         WebElement element = null;
 
         // Convert to lower underscore
         name = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name);
         // Convert back to lower camel with fixed spaces
-        name = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name.replace(" ","_"));
+        name = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name.replace(" ", "_"));
 
-        try
-        {
+        try {
             element = (WebElement) this.getClass().getField(name).get(this);
-        } catch (IllegalAccessException e)
-        {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
-        } catch (NoSuchFieldException e)
-        {
+        } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
 
         return element;
     }
 
-    public List<WebElement> getElements(String name)
-    {
+    public List<WebElement> getElements(String name) {
         List<WebElement> elements = null;
 
-        try
-        {
+        try {
             elements = (List<WebElement>) this.getClass().getField(name).get(this);
-        } catch (IllegalAccessException e)
-        {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
-        } catch (NoSuchFieldException e)
-        {
+        } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
 
         return elements;
     }
 
-    public WebElement getElementByText(List<WebElement> elements, String searchText)
-    {
+    public WebElement getElementByText(List<WebElement> elements, String searchText) {
         WebElement matchElement = null;
 
         int i = 0;
-        while (i < elements.size() ) {
+        while (i < elements.size()) {
             if (elements.get(i).getText().equals(searchText))
                 matchElement = elements.get(i);
             i++;
@@ -299,13 +262,11 @@ public abstract class Screen
     }
 
 
-    public void type(WebElement field, String text)
-    {
+    public void type(WebElement field, String text) {
         field.sendKeys(text);
     }
 
-    public void typeWithClear(WebElement field, String text)
-    {
+    public void typeWithClear(WebElement field, String text) {
         //clickWithScrollToView(field);
         field.clear();
         type(field, text);
@@ -317,24 +278,21 @@ public abstract class Screen
         type(field, backSpaceSuffix + text);
     }
 
-    public void typeWithValueReplace(WebElement field,String value){
+    public void typeWithValueReplace(WebElement field, String value) {
         field.click();
         field.sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
     }
 
-    public void typeWithRetry(WebElement field, String text, int retries)
-    {
-        if (retries > 0)
-        {
+    public void typeWithRetry(WebElement field, String text, int retries) {
+        if (retries > 0) {
             type(field, text);
 
-            if( !field.getText().equals(text) )
+            if (!field.getText().equals(text))
                 typeWithRetry(field, text, --retries);
         }
     }
 
-    public void removeElementAttribute(WebElement field, String attribute)
-    {
+    public void removeElementAttribute(WebElement field, String attribute) {
         ((JavascriptExecutor) webClient.driver).executeScript(
                 "arguments[0].removeAttribute('" + attribute + "')", field);
     }
@@ -354,7 +312,7 @@ public abstract class Screen
         if (dateTimeInputField.getAttribute("value").matches("(\\d+)\\/(\\d+)\\/(\\d+) (\\d+):(\\d+)")) {
             String hour = dateTimeInputField.getAttribute("value").split(" ")[1];
             waitForTextFieldValue(dateTimeInputField, value + " " + hour);
-        } else if (dateTimeInputField.getAttribute("value").matches("(\\d+)\\/(\\d+)\\/(\\d+) (\\d+):(\\d+) (AM|PM)")){
+        } else if (dateTimeInputField.getAttribute("value").matches("(\\d+)\\/(\\d+)\\/(\\d+) (\\d+):(\\d+) (AM|PM)")) {
             String hour = dateTimeInputField.getAttribute("value").split(" ")[1] + " " + dateTimeInputField.getAttribute("value").split(" ")[2];
             waitForTextFieldValue(dateTimeInputField, value + " " + hour);
         } else {
@@ -362,13 +320,12 @@ public abstract class Screen
         }
     }
 
-    public void setElementAttribute(WebElement field, String attribute, String value)
-    {
+    public void setElementAttribute(WebElement field, String attribute, String value) {
         ((JavascriptExecutor) webClient.driver).executeScript(
-                "arguments[0].setAttribute('" + attribute + "','" + value +"')", field);
+                "arguments[0].setAttribute('" + attribute + "','" + value + "')", field);
     }
 
-    public void appendBaseURLandGoTo(String url, boolean alwaysNavigate){
+    public void appendBaseURLandGoTo(String url, boolean alwaysNavigate) {
 
         String baseURL = webClient.config.get("base.url");
 
@@ -379,9 +336,9 @@ public abstract class Screen
         appendBaseURLandGoTo(url, false);
     }
 
-    public void goToURL(String url, boolean alwaysNavigate){
+    public void goToURL(String url, boolean alwaysNavigate) {
 
-        if (!webClient.driver.getCurrentUrl().equals(url) || alwaysNavigate){
+        if (!webClient.driver.getCurrentUrl().equals(url) || alwaysNavigate) {
             this.webClient.driver.navigate().to(url);
             initElements();
         }
@@ -395,30 +352,31 @@ public abstract class Screen
         switchToWindow(name, true);
     }
 
-    public void switchWindowByTitle(String title){
-        Map<String,String> titlesMap = getHandlesAndTitles();
-        if(titlesMap.get(title)==null){
-            throw new NoSuchWindowException("There is no window handle associated with title: "+title);
-        }else{
+
+    public void switchWindowByTitle(String title) {
+        Map<String, String> titlesMap = getHandlesAndTitles();
+        if (titlesMap.get(title) == null) {
+            throw new NoSuchWindowException("There is no window handle associated with title: " + title);
+        } else {
             this.webClient.driver.switchTo().window(titlesMap.get(title));
         }
     }
 
-    public Map<String,String> getHandlesAndTitles(){
+    public Map<String, String> getHandlesAndTitles() {
         Set<String> handles = this.webClient.driver.getWindowHandles();
-        Map<String,String> handleTitleMap = new HashMap<String,String>();
+        Map<String, String> handleTitleMap = new HashMap<String, String>();
 
-        for(String handle:handles){
+        for (String handle : handles) {
             this.webClient.driver.switchTo().window(handle);
-            handleTitleMap.put(this.webClient.driver.getTitle(),handle);
+            handleTitleMap.put(this.webClient.driver.getTitle(), handle);
         }
-
+        System.out.println("HANDLES MAP:" + handleTitleMap);
         return handleTitleMap;
     }
 
     public void switchToWindow(String name, Boolean returnToDefaultFrame) {
 
-        if(returnToDefaultFrame) {
+        if (returnToDefaultFrame) {
             this.webClient.driver.switchTo().defaultContent();
         }
 
@@ -438,6 +396,11 @@ public abstract class Screen
         screenWindowHandle = webClient.driver.getWindowHandle();
     }
 
+    public void switchToWindowWithTitle(String title) {
+        WebDriverWait wait = new WebDriverWait(webClient.driver, waitIntervalScreen);
+        wait.until(CustomExpectedConditions.waitForWindowWithTitle(title));
+    }
+
     private boolean trySwitchToWindow(String name) {
         try {
             this.webClient.driver.switchTo().window(name);
@@ -447,9 +410,8 @@ public abstract class Screen
         }
     }
 
-    public void switchToFrame(WebElement frameElement, Boolean returnToDefaultFrame)
-    {
-        if ( returnToDefaultFrame ) {
+    public void switchToFrame(WebElement frameElement, Boolean returnToDefaultFrame) {
+        if (returnToDefaultFrame) {
             webClient.driver.switchTo().defaultContent();
         }
 
@@ -457,22 +419,19 @@ public abstract class Screen
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameElement));
     }
 
-    public void checkbox(WebElement element, Boolean select)
-    {
+    public void checkbox(WebElement element, Boolean select) {
         if ((element.isSelected() && !select) || (!element.isSelected() && select)) {
             element.click();
         }
     }
 
-    private Screen waitForElement(WebElement element, int waitInterval)
-    {
+    private Screen waitForElement(WebElement element, int waitInterval) {
         List<WebElement> elements = Arrays.asList(element);
 
         return waitForElements(elements, waitInterval);
     }
 
-    private Screen waitForElements(List<WebElement> elements, int waitInterval)
-    {
+    private Screen waitForElements(List<WebElement> elements, int waitInterval) {
         WebDriverWait wait = new WebDriverWait(webClient.driver, waitInterval);
         wait.until(CustomExpectedConditions.visibilityOfAllElements(elements));
 
@@ -481,7 +440,7 @@ public abstract class Screen
 
     public List<WebElement> waitForElementsCountChange(List<WebElement> elements, Integer oldCount) {
         WebDriverWait wait = new WebDriverWait(webClient.driver, waitIntervalElement);
-       return wait.until(CustomExpectedConditions.waitForElementsCountChange(elements, oldCount));
+        return wait.until(CustomExpectedConditions.waitForElementsCountChange(elements, oldCount));
     }
 
     public Screen waitForElementContentChange(WebElement element, String oldContent) {
@@ -582,8 +541,7 @@ public abstract class Screen
         return this;
     }
 
-    private boolean elementPresented(WebElement element) throws InvocationTargetException, StaleElementReferenceException, NoSuchElementException
-    {
+    private boolean elementPresented(WebElement element) throws InvocationTargetException, StaleElementReferenceException, NoSuchElementException {
         return element.isDisplayed();
     }
 
@@ -705,6 +663,7 @@ public abstract class Screen
     public WebElement getParentElement(WebElement childElement) {
         return childElement.findElement(By.xpath("./.."));
     }
+
     public List<String> getElementsText(List<WebElement> elements) {
 
         List<String> elementsText = new ArrayList<>(elements.size());
@@ -716,24 +675,23 @@ public abstract class Screen
         return elementsText;
     }
 
-    public WebElement getElementWithText( List<WebElement> elements,String elementText) {
+    public WebElement getElementWithText(List<WebElement> elements, String elementText) {
         WebDriverWait wait = new WebDriverWait(webClient.driver, waitIntervalElement);
         return wait.until(CustomExpectedConditions.elementWithTextVisible(elements, elementText, false));
     }
 
-    public WebElement getElementWithPartialText( List<WebElement> elements,String partialElementText) {
+    public WebElement getElementWithPartialText(List<WebElement> elements, String partialElementText) {
         WebDriverWait wait = new WebDriverWait(webClient.driver, waitIntervalElement);
         return wait.until(CustomExpectedConditions.elementWithTextVisible(elements, partialElementText, true));
     }
 
-    public WebElement getElementWithAttributeValue( List<WebElement> elements,String attributeName, String attributeValue) {
+    public WebElement getElementWithAttributeValue(List<WebElement> elements, String attributeName, String attributeValue) {
         WebDriverWait wait = new WebDriverWait(webClient.driver, waitIntervalElement);
         return wait.until(CustomExpectedConditions.elementWithAttributeValue(elements, attributeName, attributeValue));
     }
 
 
-
-    public String getWindowTitle(){
+    public String getWindowTitle() {
         return webClient.driver.getTitle();
     }
 

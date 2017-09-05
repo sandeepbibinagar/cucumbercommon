@@ -114,7 +114,7 @@ public class CustomExpectedConditions {
             public WebElement apply(WebDriver driver) {
                 for (WebElement element : elements) {
                     try {
-                        if ((!partial && element.getText().trim().equals(elementText)||(partial && element.getText().trim().contains(elementText)))
+                        if ((!partial && element.getText().trim().equals(elementText) || (partial && element.getText().trim().contains(elementText)))
                                 && element.isDisplayed()) {
                             return element;
                         }
@@ -127,9 +127,9 @@ public class CustomExpectedConditions {
 
             @Override
             public String toString() {
-                if(partial){
+                if (partial) {
                     return "Visibility of element with partial text " + elementText + " within list " + elements;
-                }else{
+                } else {
                     return "Visibility of element with text " + elementText + " within list " + elements;
                 }
 
@@ -172,6 +172,7 @@ public class CustomExpectedConditions {
                     return Boolean.FALSE;
                 }
             }
+
             @Override
             public String toString() {
                 return "Value of dropdown " + dropdown + " " + (equal ? " equals to " : " not equals to ") + expectedValue;
@@ -212,6 +213,7 @@ public class CustomExpectedConditions {
                     return null;
                 }
             }
+
             public String toString() {
                 return "Elements content " + element + " to be different than " + oldContent;
             }
@@ -231,8 +233,29 @@ public class CustomExpectedConditions {
                     return null;
                 }
             }
+
             public String toString() {
                 return "Attribute " + attributeName + " of element " + element + " to be different than " + oldContent;
+            }
+        };
+    }
+
+    public static ExpectedCondition<String> waitForWindowWithTitle(final String windowTitle) {
+        return new ExpectedCondition<String>() {
+            @Override
+            public String apply(WebDriver driver) {
+                for (String windowHandle : driver.getWindowHandles()) {
+                    driver.switchTo().window(windowHandle);
+                    if (driver.getTitle().equals(windowTitle)) {
+                        return windowHandle;
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            public String toString() {
+                return "Waiting of window with handle id " + windowTitle;
             }
         };
     }

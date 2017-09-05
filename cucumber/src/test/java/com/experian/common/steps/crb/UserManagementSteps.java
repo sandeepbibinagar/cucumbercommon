@@ -23,14 +23,18 @@ public class UserManagementSteps {
         HomeScreen home = new HomeScreen(webClient);
         home.selectMenu("System", "User Administration");
         UserManagementScreen umScreen = new UserManagementScreen(webClient);
+        umScreen.waitForElement(umScreen.securityProfilesButton);
         umScreen.securityProfilesButton.click();
         umScreen.waitForElement(umScreen.administratorProfile);
         umScreen.administratorProfile.click();
         umScreen.waitForElement(umScreen.profilePermissionsEditButton);
         umScreen.profilePermissionsEditButton.click();
         umScreen.waitForElements(umScreen.businessRulesTableRowCells);
-        umScreen.allowAllButton.click();
-        umScreen.okButton.click();
+        if(umScreen.listOfDeniedPermissions.size()!=0){
+            umScreen.allowAllButton.click();
+            umScreen.okButton.click();
+        }
+            umScreen.closeWindow();
     }
 
 /*

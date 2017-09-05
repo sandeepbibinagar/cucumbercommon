@@ -22,12 +22,22 @@ public class DynamicalParametersSteps {
 
 /*
     And I import dynamic parameters from files:
-     | Residential Status                          | Residential Status.csv                              |
-     | Purpose of Loan                             | Purpose of Loan.csv                                 |
-     | Purpose of Purchase                         | Purpose of Purchase.csv                             |
-     | Document Type                               | Document Type.csv                                   |
-     | Marital Status                              | Marital Status.csv                                  |
-     | Title                                       | Title.csv                                           |
+       | Purpose of Purchase                         | Purpose of Purchase.csv                             |
+       | Education                                   | Education.csv                                       |
+       | Occupation                                  | Occupation.csv                                      |
+       | Document Type                               | Document Type.csv                                   |
+       | Override Reason                             | Override Reason.csv                                 |
+       | Contact method                              | Contact method.csv                                  |
+       | Gender                                      | Gender.csv                                          |
+       | Country                                     | Country.csv                                         |
+       | Marital Status                              | Marital Status.csv                                  |
+       | Purpose of Loan                             | Purpose of Loan.csv                                 |
+       | Residential Status                          | Residential Status.csv                              |
+       | Title                                       | Title.csv                                           |
+       | Employment Status                           | Employment Status.csv                               |
+       | Current Lender                              | Current Lender.csv                                  |
+       | Relationship to applicant                   | Relationship to applicant.csv                       |
+       | Master Product-Second Product-Third Product | ALL-Master Product-Second Product-Third Product.csv |
 */
     @And("^I import dynamic parameters from files:$")
     public void importDynamicParameters(Map<String, String> parameters) throws Throwable {
@@ -38,6 +48,6 @@ public class DynamicalParametersSteps {
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             screen.uploadDynamicalParameter(entry.getKey(), entry.getValue());
         }
-
+        screen.closeWindow();
     }
 }

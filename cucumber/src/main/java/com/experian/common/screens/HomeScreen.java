@@ -1,6 +1,7 @@
 package com.experian.common.screens;
 
 import com.experian.common.WebClient;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -18,8 +19,14 @@ public class HomeScreen extends Screen {
     @FindBy(xpath = "//ul[@id='menu']/li/a")
     public List<WebElement> mainMenuItems;
 
+    @FindBy(id = "image")
+    public WebElement logo;
+
     @FindBy(xpath = "//ul[@id='menu']/li//ul//li/a")
     public List<WebElement> subMenuItems;
+
+    @FindBy(xpath = "//ul[@style='display: block;' and ancestor::ul[@id='menu']]")
+    public List<WebElement> subMenuList;
 
     @FindBy(xpath = "//ul[@id='menu']/li/div[@class='sub-container mega']")
     public WebElement subContainer;
@@ -32,12 +39,16 @@ public class HomeScreen extends Screen {
 
     public HomeScreen(WebClient client) {
         super(client);
-        switchWindowByTitle(windowTitle);
+        switchToWindowWithTitle(windowTitle);
     }
 
     public void selectMenu(String mainMenuItemName, String subMenuItemName) throws InterruptedException {
-        clickWithScrollToView(getElementWithText(mainMenuItems, mainMenuItemName));
-        clickWithScrollToView(getElementWithText(subMenuItems, subMenuItemName));
+        if(subMenuList.size()>0){
+            webClient.driver.navigate().refresh();
+            initElements();
+        }
+            clickWithScrollToView(getElementWithText(mainMenuItems, mainMenuItemName));
+            clickWithScrollToView(getElementWithText(subMenuItems, subMenuItemName));
     }
 
     public void selectMenu(String mainMenuItemName, String subMenuItemName, String label) throws InterruptedException {

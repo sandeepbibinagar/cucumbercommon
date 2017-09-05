@@ -20,26 +20,32 @@ public class DynamicParameterMaintenanceScreen extends Screen {
 
     public String window = "myWindow";
 
-    @FindBy(xpath="//div//h1[contains(text(),'Dynamic Parameter Administration')]")
+    @FindBy(xpath = "//div//h1[contains(text(),'Dynamic Parameter Administration')]")
     public WebElement header;
 
-    @FindBy(xpath="//li[@title]/span")
+    @FindBy(xpath = "//li[@title]/span")
     public List<WebElement> dynamicParameters;
 
-    @FindBy(xpath="//li[@class='import']")
+    @FindBy(xpath = "//li[@class='import']")
     public WebElement importButton;
 
-    @FindBy(id="input_file")
+    @FindBy(id = "input_file")
     public WebElement fileUploadInput;
 
-    @FindBy(id="import-ok-btn")
+    @FindBy(id = "import-ok-btn")
     public WebElement importParameterButton;
 
-    @FindBy(id="import-cancel-btn")
+    @FindBy(id = "import-cancel-btn")
     public WebElement imporCancelButton;
 
-    @FindBy(xpath="//legend[contains(text(),'Import Result')]")
+    @FindBy(xpath = "//legend[contains(text(),'Import Result')]")
     public WebElement importResult;
+
+    @FindBy(xpath = "//div[@class='param_list param_level_1']")
+    public WebElement parameterValuesMenu;
+
+    @FindBy(xpath = "//li[@title and ancestor::div[@class='param_list param_level_1']]")
+    public List<WebElement> parameterValuesList;
 
     public DynamicParameterMaintenanceScreen(WebClient webClient) {
         super(webClient);
@@ -48,23 +54,15 @@ public class DynamicParameterMaintenanceScreen extends Screen {
     }
 
     public void uploadDynamicalParameter(String parameterName, String fileName) throws MalformedURLException, NoSuchFileException {
-        boolean found = false;
-        for (WebElement parameterElement : dynamicParameters) {
-            if (parameterElement.getText().equals(parameterName)) {
-                found = true;
-                parameterElement.click();
-                new Actions(webClient.driver).contextClick(parameterElement).build().perform();
-                importButton.click();
-                fileUploadInput.sendKeys(webClient.config.get("solution.parameters.dir") + fileName);
-                importParameterButton.click();
-                waitForElement(importResult);
-                imporCancelButton.click();
-                break;
-            }
-        }
-        if(found==false){
-            throw new NoSuchElementException("Element with name "+parameterName+" not found.");
+        getElementWithText(dynamicParameters, parameterName).click();
+        waitForElement(parameterValuesMenu);
+        if (parameterValuesList.size() == 0) {
+            new Actions(webClient.driver).contextClick(getElementWithText(dynamicParameters, parameterName)).build().perform();
+            importButton.click();
+            fileUploadInput.sendKeys(webClient.config.get("solution.parameters.dir") + fileName);
+            importParameterButton.click();
+            waitForElement(importResult);
+            imporCancelButton.click();
         }
     }
-
 }
