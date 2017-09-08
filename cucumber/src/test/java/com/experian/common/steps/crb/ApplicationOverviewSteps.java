@@ -1,7 +1,7 @@
 package com.experian.common.steps.crb;
 
 import com.experian.common.WebClient;
-import com.experian.common.core.logger.Logger;
+import com.experian.common.logger.Logger;
 import com.experian.common.screens.crb.ApplicationOverviewScreen;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;

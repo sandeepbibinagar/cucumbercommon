@@ -1,4 +1,4 @@
-package com.experian.common.core.runner;
+package com.experian.common.runner;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

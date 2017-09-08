@@ -1,9 +1,8 @@
 package com.experian.common.steps.crb;
 
 import com.experian.common.WebClient;
-import com.experian.common.core.logger.Logger;
+import com.experian.common.logger.Logger;
 import com.experian.common.screens.HomeScreen;
-import com.experian.common.screens.crb.DynamicParameterMaintenanceScreen;
 import com.experian.common.screens.crb.TacticalParametersMaintananceScreen;
 import cucumber.api.java.en.And;
 

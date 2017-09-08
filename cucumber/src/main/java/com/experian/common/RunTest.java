@@ -1,7 +1,7 @@
 package com.experian.common;
 
-import com.experian.common.core.runner.CustomCucumberOptions;
-import com.experian.common.core.runner.CustomTestNGCucumberRunner;
+import com.experian.common.runner.CustomCucumberOptions;
+import com.experian.common.runner.CustomTestNGCucumberRunner;
 import cucumber.api.CucumberOptions;
 import org.testng.IHookCallBack;
 import org.testng.IHookable;

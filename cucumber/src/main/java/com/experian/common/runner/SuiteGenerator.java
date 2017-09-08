@@ -1,4 +1,4 @@
-package com.experian.common.core.runner;
+package com.experian.common.runner;
 
 import com.experian.common.RunTest;
 import com.google.common.collect.ImmutableMap;
@@ -60,7 +60,7 @@ public class SuiteGenerator
 			test.setParameters( ImmutableMap.of("scenario", scenarioPath) );
 
 			List<XmlClass> classes = new ArrayList<XmlClass>();
-			classes.add(new XmlClass(RunTest.class));
+			classes.add(new XmlClass("com.experian.common.AutomationRunner"));
 			test.setXmlClasses(classes);
 		}
 

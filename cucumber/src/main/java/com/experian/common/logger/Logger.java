@@ -1,6 +1,6 @@
-package com.experian.common.core.logger;
+package com.experian.common.logger;
 
-import com.experian.common.steps.ApplicationSteps;
+import com.experian.common.steps.CucumberSteps;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.WebDriverException;
 import org.slf4j.LoggerFactory;
@@ -51,8 +51,8 @@ public class Logger {
     }
 
     private void logToReport(String message) {
-        if (ApplicationSteps.currentScenario != null) {
-            ApplicationSteps.currentScenario.write(message);
+        if (CucumberSteps.currentScenario != null) {
+            CucumberSteps.currentScenario.write(message);
         } else {
             logger.warn("Cucumber scenario is not initialized, cannot write message to the report");
         }
@@ -77,13 +77,13 @@ public class Logger {
             return;
         }
 
-        if (ApplicationSteps.currentScenario != null) {
+        if (CucumberSteps.currentScenario != null) {
             try {
                 byte[] fileData = Files.readAllBytes(file.toPath());
                 if (StringUtils.isEmpty(mimeType)) {
                     mimeType = Files.probeContentType(file.toPath());
                 }
-                ApplicationSteps.currentScenario.embed(fileData, mimeType);
+                CucumberSteps.currentScenario.embed(fileData, mimeType);
             } catch (WebDriverException wde) {
                 logger.error(wde.getMessage());
             } catch (IOException | ClassCastException ex) {

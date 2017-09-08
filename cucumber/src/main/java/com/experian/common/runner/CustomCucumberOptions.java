@@ -1,4 +1,4 @@
-package com.experian.common.core.runner;
+package com.experian.common.runner;
 
 import com.experian.common.helpers.Config;
 

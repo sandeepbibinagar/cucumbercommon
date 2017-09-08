@@ -4,11 +4,8 @@
 package com.experian.common.steps.security;
 
 import com.experian.common.WebClient;
-import com.experian.common.core.logger.Logger;
-import com.experian.common.screens.HomeScreen;
-import com.experian.common.screens.crb.BasicApplicationScreen;
+import com.experian.common.logger.Logger;
 import com.experian.common.steps.security.helpers.BurpSuiteRestClient;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;

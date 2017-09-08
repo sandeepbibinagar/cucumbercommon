@@ -1,12 +1,11 @@
 package com.experian.common.steps;
 
 import com.experian.common.WebClient;
-import com.experian.common.core.logger.Logger;
+import com.experian.common.logger.Logger;
 import com.experian.common.screens.AdminPortal.PortalHomeScreen;
 import com.experian.common.screens.AdminPortal.PortalLoginScreen;
 import com.experian.common.screens.HomeScreen;
 import com.experian.common.screens.LoginScreen;
-import com.experian.common.steps.AdminPortal.PortalSolutionSelectionSteps;
 import cucumber.api.java.en.And;
 
 /**
