@@ -1,6 +1,7 @@
 package com.experian.common;
 
 import com.experian.common.helpers.Config;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
@@ -20,8 +21,7 @@ public class WebClient
 	public WebDriver driver;
 	public HashMap<Integer, WebDriver> driversMap;
 
-	public WebClient() throws IOException
-	{
+	public WebClient() throws IOException, ConfigurationException {
 		config = new Config();
 
 		stepData = new HashMap<>();

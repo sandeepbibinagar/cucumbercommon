@@ -4,12 +4,13 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.IOException;
 import java.util.Properties;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 
 public class Config
 {
 	private final Properties data;
 
-	public Config() throws IOException
+	public Config() throws IOException, ConfigurationException
 	{
 		data = new Properties();
 		data.load(getClass().getResourceAsStream("/config/config.properties"));
