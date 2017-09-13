@@ -1,6 +1,7 @@
 package com.experian.common.runner;
 
 import com.experian.common.helpers.Config;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,6 +64,8 @@ public class CustomCucumberOptions
 				}
 			} catch (IOException e)
 			{
+				e.printStackTrace();
+			} catch (ConfigurationException e) {
 				e.printStackTrace();
 			}
 		}
