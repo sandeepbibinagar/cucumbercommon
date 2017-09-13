@@ -31,10 +31,81 @@ public class DatabaseSteps {
      */
     @And("^I execute update sql query (.*)$")
     public void updateQuery(String query) throws Throwable {
-        //query = DataTransformer.transformSingleValue(query, xfat.getContextVariables());
         logger.info("Executing sql query: " + query);
         int affectedRecords = dbRuntime.update(query, new HashMap<>());
         logger.info("Query affected " + affectedRecords + " record(s)");
+    }
+
+
+    /*
+    And I execute select sql query select ID from TEAM where NAME in ('Unassigned','Team1','Team2','Team3') and save results:
+      | index | variable   |
+      | 1     | Unassigned |
+      | 2     | Team1      |
+      | 3     | Team2      |
+      | 4     | Team3      |
+     */
+    @And("^I execute select sql query (.*) and save results:$")
+    public void selectQuerySaveResults(String query, List<List<String>> dataTable) throws Throwable {
+
+        logger.info("Executing sql query: " + query);
+        List<String> result = dbRuntime.queryForObjects(query, new HashMap<>(), String.class);
+        logger.info("Query result: " + result.toString());
+
+        for (int i = 1; i < dataTable.size(); i++) {
+            List<String> dataTableRow = dataTable.get(i);
+
+            int rowIndex = Integer.parseInt(dataTableRow.get(0)) - 1;
+            String value = result.get(rowIndex);
+            String varName = dataTableRow.get(1);
+
+            logger.info("Set step data " + varName + " = " + value);
+            webClient.setStepData(varName, value);
+        }
+    }
+
+    /*
+    And I execute select sql query select ID from USERS where LOGINNAME='leader1' and save result as leader1 variable
+     */
+    @And("^I execute select sql query (.*) and save result as (.*) variable$")
+    public void selectQuerySaveResult(String query, String varName) throws Throwable {
+        selectQuerySaveResultForRow(query, 1, varName);
+    }
+
+
+    /*
+    And I execute select sql query select ID from TEAM and save 1st result as Unassigned variable
+     */
+    @And("^I execute select sql query (.*) and save (\\d+)(?:st|nd|rd|th) result as (.*) variable$")
+    public void selectQuerySaveResultForRow(String query, int resIndex, String varName) throws Throwable {
+
+        logger.info("Executing sql query: " + query);
+        List<String> result = dbRuntime.queryForObjects(query, new HashMap<>(), String.class);
+        logger.info("Query result: " + result.toString());
+
+        String value = result.get(resIndex - 1);
+
+        logger.info("Set step data " + varName + " = " + value);
+        webClient.setStepData(varName, value);
+    }
+
+
+    /*
+    And I execute select sql queries and save results:
+      | query                                             | variable   |
+      | select ID from USERS where LOGINNAME='collector3' | collector3 |
+      | select ID from TEAM where NAME='Unassigned'       | Unassigned |
+      | select ID from TEAM where NAME='Team1'            | Team1      |
+      | select ID from TEAM where NAME='Team2'            | Team2      |
+      | select ID from TEAM where NAME='Team3'            | Team3      |
+    */
+    @And("^I execute select sql queries and save results:$")
+    public void selectQueriesSaveResults(List<List<String>> dataTable) throws Throwable {
+
+        for (int i = 1; i < dataTable.size(); i++) {
+            List<String> dataTableRow = dataTable.get(i);
+            selectQuerySaveResult(dataTableRow.get(0), dataTableRow.get(1));
+        }
     }
 
     /*
@@ -105,12 +176,19 @@ public class DatabaseSteps {
      */
     @And("^I execute select sql query (.*) and verify first (\\d+) result(?:s)? for:$")
     public void selectQueryVerifyResultsForFirstRows(String query,int rowsCount, List<List<String>> dataTable) throws Throwable {
-        if(webClient.config.get("database.platform").equals("Oracle")) {
+        switch(webClient.config.get("database.platform")){
+            case "Oracle": query = "select * from (" + query + ") where rownum <= " + rowsCount;
+                break;
+            case "Postgre": query = query + " LIMIT " + rowsCount;
+                break;
+            default:  query = query.replaceAll("(?i)select", "select TOP " + rowsCount);
+        }
+        /*if(webClient.config.get("database.platform").equals("Oracle")) {
             query = "select * from (" + query + ") where rownum <= " + rowsCount;
         }
         else {
             query = query.replaceAll("(?i)select", "select TOP " + rowsCount);
-        }
+        }*/
         selectQueryVerifyResults(query, dataTable);
     }
 

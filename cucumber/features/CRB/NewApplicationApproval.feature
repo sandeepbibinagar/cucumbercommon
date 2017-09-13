@@ -7,10 +7,9 @@ Feature: New Application Approval
   Scenario: ID_1234 Applicant gets approved for Fixed Term Loan (Unsecured)
     Given I start the browser
     And I go to login page
-    And I login with username user and password User123@123
-#    And I login with username adm@example.com and password Password123
-#    And I select solution - PowerCurve Originations
-#    And I check user permissions and parameters for solution - PowerCurve Originations
+    And I login with username adm@example.com and password Password123
+    And I select solution - PowerCurve Originations
+    And I check user permissions and parameters for solution - PowerCurve Originations
     And I start a new application
     And I enter the new applicant personal details:
       | Title                    | Mrs            |
