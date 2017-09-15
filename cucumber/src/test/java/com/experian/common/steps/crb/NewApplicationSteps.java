@@ -1,15 +1,15 @@
 package com.experian.common.steps.crb;
 
 import com.experian.common.WebClient;
-import com.experian.common.core.logger.Logger;
+import com.experian.common.logger.Logger;
 import com.experian.common.screens.HomeScreen;
 import com.experian.common.screens.crb.*;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import java.util.Map;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by B04342A on 6/24/2017.
@@ -28,6 +28,7 @@ public class NewApplicationSteps {
         HomeScreen homeScreen = new HomeScreen(webClient);
         homeScreen.selectMenu("Apply", "New Application");
         BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
+        basicApplicationScreen.switchToWindowWithTitle(basicApplicationScreen.windowTitle);
     }
 
     @And("^I enter the new applicant personal details:$")
@@ -39,6 +40,7 @@ public class NewApplicationSteps {
     @And("^I navigate to \"([^\"]*)\" tab$")
     public void navigateToTab(String tabName) throws Throwable {
         BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
+        basicApplicationScreen.waitForElementToDisappear(basicApplicationScreen.ajaxLoader);
         basicApplicationScreen.selectDetailsTab(tabName);
     }
 
@@ -52,9 +54,10 @@ public class NewApplicationSteps {
     @And("^I proceed to \"([^\"]*)\" page$")
     public void proceed(String pageName) throws Throwable {
         BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
+        String labelOldContent = basicApplicationScreen.pageTitleLabel.getText();
         basicApplicationScreen.proceedNext();
-        basicApplicationScreen.waitForScreen(basicApplicationScreen.pageTitleLabel);
-        assert(basicApplicationScreen.getPageTitleLabel()).equals(pageName);
+        basicApplicationScreen.waitForElementContentChange(basicApplicationScreen.pageTitleLabel,labelOldContent);
+        assertTrue((basicApplicationScreen.getPageTitleLabel()).equals(pageName),"Page "+pageName+" loaded");
     }
 
     @And("^I enter identification information:$")
@@ -92,9 +95,10 @@ public class NewApplicationSteps {
     @And("^I proceed to Main Applicant Details edit$")
     public void goToMainApplicantDetais() throws Throwable {
         BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
+        String labelOldContent = basicApplicationScreen.pageTitleLabel.getText();
         basicApplicationScreen.edit();
-        basicApplicationScreen.waitForScreen(basicApplicationScreen.pageTitleLabel);
-        assert(basicApplicationScreen.getPageTitleLabel()).equals("Employment & Financial Details");
+        basicApplicationScreen.waitForElementContentChange(basicApplicationScreen.pageTitleLabel,labelOldContent);
+        assertTrue((basicApplicationScreen.getPageTitleLabel()).equals("Employment & Financial Details"));
     }
 
     @And("^I enter employment details:$")
@@ -106,6 +110,7 @@ public class NewApplicationSteps {
     @And("^I enter financial details:$")
     public void enterFinancialDetails(Map<String, String> details) throws Throwable {
         FinancialDetailsScreen financialDetailsScreen = new FinancialDetailsScreen(webClient);
+        financialDetailsScreen.waitForElementToDisappear(financialDetailsScreen.ajaxLoader);
         financialDetailsScreen.set(details);
     }
 
