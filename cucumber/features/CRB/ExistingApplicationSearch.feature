@@ -1,4 +1,4 @@
-@J003
+@skip @J003
 Feature: J003 Search and verify Basic Application Details and Audit Trail Details
   As a Client User I want to SEARCH an application through WEB PAGE
   so that I can review status of an application

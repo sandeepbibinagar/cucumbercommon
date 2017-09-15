@@ -1,3 +1,4 @@
+@skip
 Feature: New Application Approval
   In order to obtain a decision for an applicant
   As a CRB user

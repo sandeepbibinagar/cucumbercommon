@@ -1,4 +1,4 @@
-@J004
+@skip @J004
 Feature: J004 Search and verify Applicant Summary, Product Summary and Application Decisions
   As an underwriter (Back-Office User), I want to SEARCH AND UPDATE an application through WEB PAGE
   so that I can review an application and provide the update of decision to the server

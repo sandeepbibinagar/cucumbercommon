@@ -1,4 +1,4 @@
-@J005
+@skip @J005
 Feature: New Application approval/denial through the REST api
   In order to obtain a decision for an applicant,
   As a CRB user I want to send a POST request with the applicant information to the application, and receive a response
