@@ -9,7 +9,7 @@
 	<name>PowerCurve SaaS Automation</name>
 
 	<modules>
-		<!--module>cucumber-common-framework</module-->
+		<module>cucumber-common-framework</module>
 		<module>cucumber-saas</module>
 	</modules>
 
