@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class PortalLoginScreen extends Screen {
 
-    public String url = "/";
+    public String url = "${base.url}/";
 
     @FindBy(id= "input-username")
     public WebElement usernameInput;
@@ -23,7 +23,7 @@ public class PortalLoginScreen extends Screen {
     }
 
     public void goToURL() {
-        appendBaseURLandGoTo(this.url);
+        goToURL(this.url);
         waitForScreen(this.loginButton);
     }
 

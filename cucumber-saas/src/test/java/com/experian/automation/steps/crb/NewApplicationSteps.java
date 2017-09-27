@@ -28,7 +28,7 @@ public class NewApplicationSteps {
         HomeScreen homeScreen = new HomeScreen(webClient);
         homeScreen.selectMenu("Apply", "New Application");
         BasicApplicationScreen basicApplicationScreen = new BasicApplicationScreen(webClient);
-        basicApplicationScreen.switchToWindowWithTitle(basicApplicationScreen.windowTitle);
+        basicApplicationScreen.waitForWindowWithTitle(basicApplicationScreen.windowTitle);
     }
 
     @And("^I enter the new applicant personal details:$")

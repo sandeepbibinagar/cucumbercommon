@@ -38,7 +38,7 @@ public class HomeScreen extends Screen {
 
     public HomeScreen(WebClient client) {
         super(client);
-        switchToWindowWithTitle(windowTitle);
+        waitForWindowWithTitle(windowTitle);
     }
 
     public void selectMenu(String mainMenuItemName, String subMenuItemName) throws InterruptedException {
