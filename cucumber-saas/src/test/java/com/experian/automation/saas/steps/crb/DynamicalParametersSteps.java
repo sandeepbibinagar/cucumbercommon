@@ -1,6 +1,7 @@
 package com.experian.automation.saas.steps.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.HomeScreen;
 import com.experian.automation.saas.screens.crb.DynamicParameterMaintenanceScreen;
@@ -13,10 +14,12 @@ import static org.testng.Assert.assertEquals;
 public class DynamicalParametersSteps {
 
     private final Logger logger = Logger.getLogger(this.getClass());
-    private final WebClient webClient;
+    private final TestHarness testHarness;
+    private final WebHarness webHarness;
 
-    public DynamicalParametersSteps(WebClient webClient) {
-        this.webClient = webClient;
+    public DynamicalParametersSteps(TestHarness testHarness, WebHarness webHarness) {
+        this.testHarness = testHarness;
+        this.webHarness = webHarness;
     }
 
 /*
@@ -40,9 +43,9 @@ public class DynamicalParametersSteps {
 */
     @And("^I import dynamic parameters from files:$")
     public void importDynamicParameters(Map<String, String> parameters) throws Throwable {
-        HomeScreen home = new HomeScreen(webClient);
+        HomeScreen home = new HomeScreen(testHarness, webHarness);
         home.selectMenu("System", "Dynamic Parameter Maintenance");
-        DynamicParameterMaintenanceScreen screen = new DynamicParameterMaintenanceScreen(webClient);
+        DynamicParameterMaintenanceScreen screen = new DynamicParameterMaintenanceScreen(testHarness, webHarness);
         screen.waitForElements(screen.dynamicParameters);
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             screen.uploadDynamicalParameter(entry.getKey(), entry.getValue());

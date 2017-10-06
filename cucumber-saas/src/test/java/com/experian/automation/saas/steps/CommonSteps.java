@@ -1,6 +1,9 @@
 package com.experian.automation.saas.steps;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.AdminPortal.PortalHomeScreen;
 import com.experian.automation.saas.screens.LoginScreen;
@@ -13,20 +16,22 @@ import cucumber.api.java.en.And;
  */
 public class CommonSteps {
 
-    private final WebClient webClient;
+    private final TestHarness testHarness;
+    private final WebHarness webHarness;
     private final Logger logger = Logger.getLogger(this.getClass());
 
-    public CommonSteps(WebClient webClient) {
-        this.webClient = webClient;
+    public CommonSteps(TestHarness testHarness, WebHarness webHarness) {
+        this.testHarness = testHarness;
+        this.webHarness = webHarness;
     }
 
     @And("^I go to login page?$")
     public void goToLogin() throws Throwable {
-        if (webClient.config.get("portal.login").equals("true")) {
-            PortalLoginScreen portalScreen = new PortalLoginScreen(webClient);
+        if (testHarness.config.get("portal.login").equals("true")) {
+            PortalLoginScreen portalScreen = new PortalLoginScreen(testHarness, webHarness);
             portalScreen.goToURL();
         } else {
-            LoginScreen screen = new LoginScreen(webClient);
+            LoginScreen screen = new LoginScreen(testHarness, webHarness);
             screen.goToURL();
         }
     }
@@ -34,28 +39,28 @@ public class CommonSteps {
     @And("^I login with username (.*) and password (.*)$")
     public void login(String username, String password) throws Throwable {
 
-        if (webClient.config.get("portal.login").equals("true")) {
-            PortalLoginScreen portalScreen = new PortalLoginScreen(webClient);
+        if (testHarness.config.get("portal.login").equals("true")) {
+            PortalLoginScreen portalScreen = new PortalLoginScreen(testHarness, webHarness);
             portalScreen.type(portalScreen.usernameInput, username);
             portalScreen.type(portalScreen.passwordInput, password);
             portalScreen.loginButton.click();
-            PortalHomeScreen ps = new PortalHomeScreen(webClient);
+            PortalHomeScreen ps = new PortalHomeScreen(testHarness, webHarness);
 
         } else {
-            LoginScreen screen = new LoginScreen(webClient);
+            LoginScreen screen = new LoginScreen(testHarness, webHarness);
             screen.waitForElement(screen.loginBtn);
             screen.type(screen.usernameText, username);
             screen.type(screen.passwordText, password);
             screen.loginBtn.click();
 
-            HomeScreen homeScreen = new HomeScreen(webClient);
+            HomeScreen homeScreen = new HomeScreen(testHarness, webHarness);
         }
 
     }
 
     @And("^I logout from the solution$")
     public void solutionLogout() throws Throwable {
-        HomeScreen home = new HomeScreen(webClient);
+        HomeScreen home = new HomeScreen(testHarness, webHarness);
         home.selectMenu("System", "Logout");
     }
 }

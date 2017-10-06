@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.screens.Screen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -50,8 +51,8 @@ public class ApplicationOverviewScreen extends Screen {
             "not(descendant::input[string-length(@value)>0])]]]")
     public List<WebElement> labelsProductSummary;
 
-    public ApplicationOverviewScreen(WebClient webClient) {
-        super(webClient);
+    public ApplicationOverviewScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
     }
 
     public String get(String elementName){

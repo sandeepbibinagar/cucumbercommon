@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -46,8 +47,8 @@ public class AdvancedSearchScreen extends ApplicationSearchScreen {
     public WebElement status;
 
 
-    public AdvancedSearchScreen(WebClient webClient) {
-        super(webClient);
+    public AdvancedSearchScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
         //waitForScreen(applicationNumber);
     }
 }

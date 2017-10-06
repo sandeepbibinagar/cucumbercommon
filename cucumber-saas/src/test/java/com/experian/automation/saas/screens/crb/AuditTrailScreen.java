@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.screens.Screen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -28,8 +29,8 @@ public class AuditTrailScreen extends Screen {
     @FindBy(xpath = "//table//tbody//tr//td")
     public List<WebElement> tableCellsListTableAuditTrail;
 
-    public AuditTrailScreen(WebClient webClient) {
-        super(webClient);
+    public AuditTrailScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
         switchToWindow(this.window);
     }
 

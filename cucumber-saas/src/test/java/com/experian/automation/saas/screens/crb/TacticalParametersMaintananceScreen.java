@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.screens.Screen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -51,8 +52,8 @@ public class TacticalParametersMaintananceScreen extends Screen {
     @FindBy(xpath = "//button[child::span[contains(text(),'OK')] and not(@id)]")
     public WebElement importMessageOkButton;
 
-    public TacticalParametersMaintananceScreen(WebClient webClient) {
-        super(webClient);
+    public TacticalParametersMaintananceScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
         switchToWindow(window);
         waitForElement(header);
     }
@@ -75,7 +76,7 @@ public class TacticalParametersMaintananceScreen extends Screen {
             importFile.click();
             waitForElement(parameterSelect);
             new Select(parameterSelect).selectByVisibleText(parameter);
-            fileUploadInput.sendKeys(webClient.config.get("solution.parameters.dir") + file);
+            fileUploadInput.sendKeys(testHarness.config.get("solution.parameters.dir") + file);
             overwriteVersionInput.click();
             okButton.click();
             importMessageOkButton.click();

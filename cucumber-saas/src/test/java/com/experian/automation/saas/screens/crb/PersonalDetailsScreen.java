@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.saas.screens.DateTimePickerScreen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -74,8 +75,8 @@ public class PersonalDetailsScreen extends BasicApplicationScreen {
     public WebElement expiryDateCalendarBtn;
 
 
-    public PersonalDetailsScreen(WebClient webClient) {
-        super(webClient);
+    public PersonalDetailsScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
         waitForScreen(titleList);
     }
 
@@ -102,7 +103,7 @@ public class PersonalDetailsScreen extends BasicApplicationScreen {
 
                 case "Expiry Date":
 
-                    new DateTimePickerScreen(webClient).setDate(expiryDateCalendarBtn,entry.getValue(),"yyyy MM dd");
+                    new DateTimePickerScreen(testHarness, webHarness).setDate(expiryDateCalendarBtn,entry.getValue(),"yyyy MM dd");
                     break;
 
                 case "Forename":
@@ -115,7 +116,7 @@ public class PersonalDetailsScreen extends BasicApplicationScreen {
 
                 case "Date Of Birth":
                     waitForElementToDisappear(ajaxLoader);
-                    new DateTimePickerScreen(webClient).setDate(dateOfBirthCalendarBtn, entry.getValue(), "yyyy MM dd");
+                    new DateTimePickerScreen(testHarness, webHarness).setDate(dateOfBirthCalendarBtn, entry.getValue(), "yyyy MM dd");
                     break;
 
                 case "Existing Customer":

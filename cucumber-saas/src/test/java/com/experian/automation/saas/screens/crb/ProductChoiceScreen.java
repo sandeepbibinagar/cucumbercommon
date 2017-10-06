@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -27,8 +28,8 @@ public class ProductChoiceScreen extends BasicApplicationScreen {
     @FindBy(id = "textfieldParamMaxAmount1")
     public WebElement maxAmount;
 
-    public ProductChoiceScreen(WebClient webClient) {
-        super(webClient);
+    public ProductChoiceScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
     }
 
     public void selectProductByType(String productType) {

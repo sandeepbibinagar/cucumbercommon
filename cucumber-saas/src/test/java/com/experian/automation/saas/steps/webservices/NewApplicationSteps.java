@@ -1,6 +1,7 @@
 package com.experian.automation.saas.steps.webservices;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.saas.helpers.RESTWSOperations;
 import com.experian.automation.logger.Logger;
 
@@ -20,11 +21,13 @@ import static org.testng.Assert.assertTrue;
  */
 public class NewApplicationSteps {
 
-    private final WebClient webClient;
+    private final TestHarness testHarness;
+    private final WebHarness webHarness;
     private final Logger logger = Logger.getLogger(this.getClass());
 
-    public NewApplicationSteps(WebClient webClient) throws IOException {
-        this.webClient = webClient;
+    public NewApplicationSteps(TestHarness testHarness, WebHarness webHarness) throws IOException {
+        this.testHarness = testHarness;
+        this.webHarness = webHarness;
     }
 
 
@@ -40,7 +43,7 @@ public class NewApplicationSteps {
     public void sendPostRequestWithJSONStringBody(String resource, String username, String password,Integer expectedStatusCode, String body) throws Throwable {
 
         RESTWSOperations restwsOperations = new RESTWSOperations(resource);
-        String response = restwsOperations.execute(HttpMethod.POST, username, password,body,expectedStatusCode,webClient.stepData);
+        String response = restwsOperations.execute(HttpMethod.POST, username, password,body,expectedStatusCode,testHarness.stepData);
         logger.info(RESTWSOperations.RESPONSE_VARIABLE+":"+response);
     }
 
@@ -55,7 +58,7 @@ public class NewApplicationSteps {
 
     @Then("^I verify that the expected decision for (.*) is (.*)$")
     public void checkResponseEntryValue(String responseEntryKey, String responseEntryValue) throws Throwable {
-        String responseVariable = webClient.getStepData(RESTWSOperations.RESPONSE_VARIABLE);
+        String responseVariable = testHarness.getStepData(RESTWSOperations.RESPONSE_VARIABLE);
         HashMap map = JsonPath.read(responseVariable, "$.data");
         assertTrue(map.containsKey(responseEntryKey)&&map.get(responseEntryKey).equals(responseEntryValue),"Expected key-value pair "+responseEntryKey+" : "+responseEntryValue);
     }

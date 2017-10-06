@@ -1,6 +1,7 @@
 package com.experian.automation.saas.steps;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -15,12 +16,14 @@ import java.io.File;
 
 public class ApplicationSteps {
 
-    private final WebClient webClient;
+    private final TestHarness testHarness;
+    private final WebHarness webHarness;
     private final Logger logger = Logger.getLogger(this.getClass());
     public static Scenario currentScenario;
 
-    public ApplicationSteps(WebClient webClient) {
-        this.webClient = webClient;
+    public ApplicationSteps(TestHarness testHarness, WebHarness webHarness) {
+        this.testHarness = testHarness;
+        this.webHarness = webHarness;
     }
 
     @Before
@@ -31,21 +34,21 @@ public class ApplicationSteps {
     @After
     public void afterScenario(Scenario scenario) throws Throwable {
         if (scenario.isFailed()) {
-            if (webClient.driver != null) {
+            if (webHarness.driver != null) {
                 try {
 
-                    logger.error("Url on failure: " + webClient.driver.getCurrentUrl());
+                    logger.error("Url on failure: " + webHarness.driver.getCurrentUrl());
 
-                    File ImageFile = ((TakesScreenshot) webClient.driver).getScreenshotAs(OutputType.FILE);
+                    File ImageFile = ((TakesScreenshot) webHarness.driver).getScreenshotAs(OutputType.FILE);
                     FileUtils.copyFile(ImageFile,
-                            new File(webClient.config.getAsUnixPath("reports.dir") + "/data-" + scenario.getId().replace(";", "-") + ".png"));
+                            new File(testHarness.config.getAsUnixPath("reports.dir") + "/data-" + scenario.getId().replace(";", "-") + ".png"));
                     logger.embedFileToReport(ImageFile, "image/png");
 
                     //Quit all started web drivers
-                    for (WebDriver driver : webClient.driversMap.values()) {
+                    for (WebDriver driver : webHarness.driversMap.values()) {
                         driver.quit();
                     }
-                    webClient.driversMap.clear();
+                    webHarness.driversMap.clear();
                 } catch (WebDriverException wde) {
                     logger.error(wde.getMessage());
                 } catch (ClassCastException cce) {

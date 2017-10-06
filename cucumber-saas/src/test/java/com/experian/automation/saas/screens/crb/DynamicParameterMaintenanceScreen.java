@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.screens.Screen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -42,8 +43,8 @@ public class DynamicParameterMaintenanceScreen extends Screen {
     @FindBy(xpath = "//li[@title and ancestor::div[@class='param_list param_level_1']]")
     public List<WebElement> parameterValuesList;
 
-    public DynamicParameterMaintenanceScreen(WebClient webClient) {
-        super(webClient);
+    public DynamicParameterMaintenanceScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
         switchToWindow(window);
         waitForElement(header);
     }
@@ -52,9 +53,9 @@ public class DynamicParameterMaintenanceScreen extends Screen {
         getElementWithText(dynamicParameters, parameterName).click();
         waitForElement(parameterValuesMenu);
         if (parameterValuesList.size() == 0) {
-            new Actions(webClient.driver).contextClick(getElementWithText(dynamicParameters, parameterName)).build().perform();
+            new Actions(webHarness.driver).contextClick(getElementWithText(dynamicParameters, parameterName)).build().perform();
             importButton.click();
-            fileUploadInput.sendKeys(webClient.config.get("solution.parameters.dir") + fileName);
+            fileUploadInput.sendKeys(testHarness.config.get("solution.parameters.dir") + fileName);
             importParameterButton.click();
             waitForElement(importResult);
             imporCancelButton.click();

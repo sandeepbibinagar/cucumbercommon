@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
@@ -22,8 +23,8 @@ public class LoanApplicationScreen extends BasicApplicationScreen {
     @FindBy(id = "PurposeofLoanDdl")
     public WebElement loanPurpose;
 
-    public LoanApplicationScreen(WebClient webClient) {
-        super(webClient);
+    public LoanApplicationScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
     }
 
     public void set(Map<String, String> dataTable) throws InterruptedException {

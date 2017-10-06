@@ -1,6 +1,7 @@
 package com.experian.automation.saas.steps.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.HomeScreen;
 import com.experian.automation.saas.screens.crb.TacticalParametersMaintananceScreen;
@@ -11,10 +12,12 @@ import java.util.Map;
 public class TacticalParametersSteps {
 
     private final Logger logger = Logger.getLogger(this.getClass());
-    private final WebClient webClient;
+    private final TestHarness testHarness;
+    private final WebHarness webHarness;
 
-    public TacticalParametersSteps(WebClient webClient) {
-        this.webClient = webClient;
+    public TacticalParametersSteps(TestHarness testHarness, WebHarness webHarness) {
+        this.testHarness = testHarness;
+        this.webHarness = webHarness;
     }
 
 
@@ -35,9 +38,9 @@ public class TacticalParametersSteps {
 */
     @And("^I import tactical parameters from files:$")
     public void importTacticalParameters(Map<String, String> data) throws Throwable {
-        HomeScreen home = new HomeScreen(webClient);
+        HomeScreen home = new HomeScreen(testHarness, webHarness);
         home.selectMenu("System", "Tactical Parameters Maintenance");
-        TacticalParametersMaintananceScreen screen = new TacticalParametersMaintananceScreen(webClient);
+        TacticalParametersMaintananceScreen screen = new TacticalParametersMaintananceScreen(testHarness, webHarness);
         for (Map.Entry<String, String> params : data.entrySet()) {
             screen.uploadTacticalParameter(params.getKey(), params.getValue());
         }

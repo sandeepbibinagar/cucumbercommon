@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.AdminPortal;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.screens.Screen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,8 +22,8 @@ public class PortalHomeScreen extends Screen {
     @FindBy(id = "admin-portal")
     public WebElement adminPortal;
 
-    public PortalHomeScreen(WebClient webClient){
-        super(webClient);
+    public PortalHomeScreen(TestHarness testHarness, WebHarness webHarness){
+        super(testHarness, webHarness);
         waitForElements(solutions);
     }
 

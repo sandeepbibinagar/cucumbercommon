@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.saas.screens.DateTimePickerScreen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -50,8 +51,8 @@ public class EmploymentDetailsScreen extends BasicApplicationScreen {
     @FindBy(id = "workPhoneNoTxt")
     public WebElement workPhone;
 
-    public EmploymentDetailsScreen(WebClient webClient) {
-        super(webClient);
+    public EmploymentDetailsScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
     }
 
     public void set(Map<String, String> dataTable) {
@@ -96,7 +97,7 @@ public class EmploymentDetailsScreen extends BasicApplicationScreen {
                     break;
 
                 case "Start Date":
-                    new DateTimePickerScreen(webClient).setDate(startDateCalendarBtn, entry.getValue(), "yyyy MM dd");
+                    new DateTimePickerScreen(testHarness, webHarness).setDate(startDateCalendarBtn, entry.getValue(), "yyyy MM dd");
                     break;
 
                 case "Work Phone":

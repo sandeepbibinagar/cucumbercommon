@@ -1,6 +1,7 @@
 package com.experian.automation.saas.steps.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.crb.ApplicationOverviewScreen;
 import cucumber.api.java.en.And;
@@ -16,16 +17,18 @@ import static org.testng.Assert.assertEquals;
  */
 public class ApplicationOverviewSteps {
 
-    private final WebClient webClient;
+    private final TestHarness testHarness;
+    private final WebHarness webHarness;
     private final Logger logger = Logger.getLogger(this.getClass());
 
-    public ApplicationOverviewSteps(WebClient webClient) {
-        this.webClient = webClient;
+    public ApplicationOverviewSteps(TestHarness testHarness, WebHarness webHarness) {
+        this.testHarness = testHarness;
+        this.webHarness = webHarness;
     }
 
     @Then("^I should see Applicant Summary section with details:$")
     public void verifyApplicantSummaryDetails(List<List<String>> details) throws Throwable {
-        ApplicationOverviewScreen applicationOverviewScreen = new ApplicationOverviewScreen(webClient);
+        ApplicationOverviewScreen applicationOverviewScreen = new ApplicationOverviewScreen(testHarness, webHarness);
         applicationOverviewScreen.waitForElement(applicationOverviewScreen.applicantSummaryLabel);
 
         assertEquals(applicationOverviewScreen.applicantSummaryLabel.getText(),"Applicant Summary",
@@ -39,7 +42,7 @@ public class ApplicationOverviewSteps {
 
     @And("^I should see Product Summary section with details:$")
     public void verifyProductSummaryDetails(Map<String, String> details) {
-        ApplicationOverviewScreen applicationOverviewScreen = new ApplicationOverviewScreen(webClient);
+        ApplicationOverviewScreen applicationOverviewScreen = new ApplicationOverviewScreen(testHarness, webHarness);
         applicationOverviewScreen.waitForElement(applicationOverviewScreen.productSummaryLabel);
 
         assertEquals(applicationOverviewScreen.productSummaryLabel.getText(),"Product Summary",
@@ -53,7 +56,7 @@ public class ApplicationOverviewSteps {
 
     @And ("^I should see Application Decisions section with details:$")
     public void verifyApplicationDecisionsDetails(Map<String, String> details) {
-        ApplicationOverviewScreen applicationOverviewScreen = new ApplicationOverviewScreen(webClient);
+        ApplicationOverviewScreen applicationOverviewScreen = new ApplicationOverviewScreen(testHarness, webHarness);
         applicationOverviewScreen.waitForElement(applicationOverviewScreen.applicationDecisionsLabel);
 
         assertEquals(applicationOverviewScreen.applicationDecisionsLabel.getText(),"Application Decisions",

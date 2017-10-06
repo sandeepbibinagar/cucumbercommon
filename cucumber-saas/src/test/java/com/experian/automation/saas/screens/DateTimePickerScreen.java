@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.screens.Screen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,8 +22,8 @@ public class DateTimePickerScreen extends Screen {
     @FindBy(xpath = "//table[@class='ui-datepicker-calendar']//tr//td[@data-handler='selectDay']/a")
     public List<WebElement> calendarDate;
 
-    public DateTimePickerScreen(WebClient webClient) {
-        super(webClient);
+    public DateTimePickerScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
     }
 
     public void setDate(WebElement calendarButton,String entry,String simpleDateFormat){

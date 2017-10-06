@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -45,8 +46,8 @@ public class FinancialDetailsScreen extends BasicApplicationScreen {
     @FindBy(id = "IBANTxt")
     public WebElement iban;
 
-    public FinancialDetailsScreen(WebClient webClient) {
-        super(webClient);
+    public FinancialDetailsScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
     }
 
     public void set(Map<String, String> dataTable) {

@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.screens.Screen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -45,8 +46,8 @@ public class ApplicationSearchScreen extends Screen {
     @FindBy(xpath = "//table[@id='datagrid']//tbody//tr//td[1]//div")
     public List<WebElement> tableApplicationNumbers;
 
-    public ApplicationSearchScreen(WebClient webClient) {
-        super(webClient);
+    public ApplicationSearchScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
         waitForElementToDisappear(ajaxLoader);
     }
 
@@ -71,7 +72,7 @@ public class ApplicationSearchScreen extends Screen {
     }
 
     public void openBasicAppDetailsByAppNumber (String applicationNumber) throws Throwable {
-        ApplicationSearchScreen screen = new ApplicationSearchScreen(webClient);
+        ApplicationSearchScreen screen = new ApplicationSearchScreen(testHarness, webHarness);
         screen.waitForElements(screen.iconOpenList);
 
         List<String> applicationNumbersText = getElementsText(tableApplicationNumbers);
@@ -82,7 +83,7 @@ public class ApplicationSearchScreen extends Screen {
     }
 
     public void openApplicationOverviewDetailsByAppNumber (String applicationNumber) throws Throwable {
-        ApplicationSearchScreen screen = new ApplicationSearchScreen(webClient);
+        ApplicationSearchScreen screen = new ApplicationSearchScreen(testHarness, webHarness);
         screen.waitForElements(screen.iconOpenList);
 
         List<String> applicationNumbersText = getElementsText(tableApplicationNumbers);
@@ -93,7 +94,7 @@ public class ApplicationSearchScreen extends Screen {
     }
 
     public void openAuditTrailByAppNumber (String applicationNumber) throws Throwable {
-        ApplicationSearchScreen screen = new ApplicationSearchScreen(webClient);
+        ApplicationSearchScreen screen = new ApplicationSearchScreen(testHarness, webHarness);
         screen.waitForElements(screen.iconAuditTrailList);
 
         List<String> applicationNumbersText = getElementsText(tableApplicationNumbers);

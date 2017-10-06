@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.screens.Screen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -37,14 +38,14 @@ public class HomeScreen extends Screen {
     @FindBy (xpath = "//a[ancestor::ul[preceding-sibling::a[contains(text(),'Audit Trail Query')]]]")
     public List<WebElement> auditTrailQuery;
 
-    public HomeScreen(WebClient client) {
-        super(client);
+    public HomeScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
         waitForWindowWithTitle(windowTitle);
     }
 
     public void selectMenu(String mainMenuItemName, String subMenuItemName) throws InterruptedException {
         if(subMenuList.size()>0){
-            webClient.driver.navigate().refresh();
+            webHarness.driver.navigate().refresh();
             initElements();
         }
             clickWithScrollToView(getElementWithText(mainMenuItems, mainMenuItemName));

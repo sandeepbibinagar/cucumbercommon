@@ -1,6 +1,7 @@
 package com.experian.automation.saas.steps.application;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.helpers.DBRuntime;
 import cucumber.api.java.en.And;
@@ -15,12 +16,14 @@ import static org.testng.Assert.assertTrue;
  * Created by b04342a on 9/8/2017.
  */
 public class DatabaseSteps {
-    private final WebClient webClient;
+    private final TestHarness testHarness;
+    private final WebHarness webHarness;
     private final DBRuntime dbRuntime;
     private final Logger logger = Logger.getLogger(this.getClass());
 
-    public DatabaseSteps(WebClient webClient, DBRuntime dbRuntime){
-        this.webClient = webClient;
+    public DatabaseSteps(TestHarness testHarness, WebHarness webHarness, DBRuntime dbRuntime){
+        this.testHarness = testHarness;
+        this.webHarness = webHarness;
         this.dbRuntime = dbRuntime;
     }
 
@@ -58,7 +61,7 @@ public class DatabaseSteps {
             String varName = dataTableRow.get(1);
 
             logger.info("Set step data " + varName + " = " + value);
-            webClient.setStepData(varName, value);
+            testHarness.setStepData(varName, value);
         }
     }
 
@@ -84,7 +87,7 @@ public class DatabaseSteps {
         String value = result.get(resIndex - 1);
 
         logger.info("Set step data " + varName + " = " + value);
-        webClient.setStepData(varName, value);
+        testHarness.setStepData(varName, value);
     }
 
 
@@ -174,14 +177,14 @@ public class DatabaseSteps {
      */
     @And("^I execute select sql query (.*) and verify first (\\d+) result(?:s)? for:$")
     public void selectQueryVerifyResultsForFirstRows(String query,int rowsCount, List<List<String>> dataTable) throws Throwable {
-        switch(webClient.config.get("database.platform")){
+        switch(testHarness.config.get("database.platform")){
             case "Oracle": query = "select * from (" + query + ") where rownum <= " + rowsCount;
                 break;
             case "Postgre": query = query + " LIMIT " + rowsCount;
                 break;
             default:  query = query.replaceAll("(?i)select", "select TOP " + rowsCount);
         }
-        /*if(webClient.config.get("database.platform").equals("Oracle")) {
+        /*if(testHarness.config.get("database.platform").equals("Oracle")) {
             query = "select * from (" + query + ") where rownum <= " + rowsCount;
         }
         else {

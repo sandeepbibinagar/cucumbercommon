@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.screens.Screen;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -36,8 +37,8 @@ public class UserManagementScreen extends Screen{
     @FindBy(xpath="//td[@class='deny']")
     public List<WebElement> listOfDeniedPermissions;
 
-    public UserManagementScreen(WebClient webClient) {
-        super(webClient);
+    public UserManagementScreen(TestHarness testHarness, WebHarness webHarness) {
+        super(testHarness, webHarness);
         switchToWindow(window);
     }
 

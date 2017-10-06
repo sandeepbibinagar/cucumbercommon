@@ -1,6 +1,7 @@
 package com.experian.automation.saas.screens.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -12,6 +13,6 @@ public class DecisionSummaryScreen extends BasicApplicationScreen {
     @FindBy(id = "DecisionAcceptedImage")
     public WebElement acceptApplicationImage;
 
-    public DecisionSummaryScreen(WebClient webClient) { super(webClient); }
+    public DecisionSummaryScreen(TestHarness testHarness, WebHarness webHarness) { super(testHarness, webHarness); }
 
 }

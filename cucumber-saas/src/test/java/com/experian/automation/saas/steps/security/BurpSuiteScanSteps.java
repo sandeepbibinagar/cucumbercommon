@@ -3,7 +3,8 @@
  */
 package com.experian.automation.saas.steps.security;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.steps.security.helpers.BurpSuiteRestClient;
 import cucumber.api.java.en.And;
@@ -18,29 +19,31 @@ import static org.testng.Assert.assertTrue;
  * Created by c01266a on 8/31/2017.
  */
 public class BurpSuiteScanSteps {
-    private final WebClient webClient;
+    private final TestHarness testHarness;
+    private final WebHarness webHarness;
     private final Logger logger = Logger.getLogger(this.getClass());
 
     private BurpSuiteRestClient client;
     private String siteId;
     private String scanId;
 
-    public BurpSuiteScanSteps(WebClient webClient) {
-        this.webClient = webClient;
+    public BurpSuiteScanSteps(TestHarness testHarness, WebHarness webHarness) {
+        this.testHarness = testHarness;
+        this.webHarness = webHarness;
     }
 
     @Given("^I log into Burp Suite Enterprise with valid credentials")
     public void iLogIntoBurpSuiteEnterpriseOnURLWithUsernameAndPassword() {
-        String burpUrl = webClient.config.get("burp.url");
-        String burpUsername = webClient.config.get("burp.username");
-        String burpPassword = webClient.config.get("burp.password");
+        String burpUrl = testHarness.config.get("burp.url");
+        String burpUsername = testHarness.config.get("burp.username");
+        String burpPassword = testHarness.config.get("burp.password");
         client = new BurpSuiteRestClient(burpUrl, burpUsername, burpPassword.toCharArray());
     }
 
     @Given("^I create Burp Suite Site with username \"([^\"]*)\" and password \"([^\"]*)\"$")
     public void iCreateBurpSuiteSiteWithUsernameAndPassword(String username, String password) {
-        String baseURL = webClient.config.get("base.url");
-        String appName = webClient.config.get("app.name");
+        String baseURL = testHarness.config.get("base.url");
+        String appName = testHarness.config.get("app.name");
         siteId = client.burpScannerCreateSite(baseURL, appName, username, password.toCharArray());
     }
 

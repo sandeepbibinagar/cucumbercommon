@@ -1,6 +1,7 @@
 package com.experian.automation.saas.steps.crb;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.HomeScreen;
 import com.experian.automation.saas.screens.crb.UserManagementScreen;
@@ -11,17 +12,19 @@ import java.util.Map;
 public class UserManagementSteps {
 
     private final Logger logger = Logger.getLogger(this.getClass());
-    private final WebClient webClient;
+    private final TestHarness testHarness;
+    private final WebHarness webHarness;
 
-    public UserManagementSteps(WebClient webClient) {
-        this.webClient = webClient;
+    public UserManagementSteps(TestHarness testHarness, WebHarness webHarness) {
+        this.testHarness = testHarness;
+        this.webHarness = webHarness;
     }
 
     @And("^I set all permissions for security profile - Administrator$")
     public void setAllPermissions() throws Throwable {
-        HomeScreen home = new HomeScreen(webClient);
+        HomeScreen home = new HomeScreen(testHarness, webHarness);
         home.selectMenu("System", "User Administration");
-        UserManagementScreen umScreen = new UserManagementScreen(webClient);
+        UserManagementScreen umScreen = new UserManagementScreen(testHarness, webHarness);
         umScreen.waitForElement(umScreen.securityProfilesButton);
         umScreen.securityProfilesButton.click();
         umScreen.waitForElement(umScreen.administratorProfile);
@@ -46,9 +49,9 @@ public class UserManagementSteps {
 */
     @And("^I set custom permissions for security profile - Administrator:$")
     public void setPermissionsForProfile(Map<String, String> permissionsMatrix) throws Throwable {
-        HomeScreen home = new HomeScreen(webClient);
+        HomeScreen home = new HomeScreen(testHarness, webHarness);
         home.selectMenu("System", "User Administration");
-        UserManagementScreen umScreen = new UserManagementScreen(webClient);
+        UserManagementScreen umScreen = new UserManagementScreen(testHarness, webHarness);
         umScreen.securityProfilesButton.click();
         umScreen.waitForElement(umScreen.administratorProfile);
         umScreen.administratorProfile.click();

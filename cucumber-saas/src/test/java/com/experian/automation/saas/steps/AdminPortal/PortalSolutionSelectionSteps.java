@@ -1,6 +1,7 @@
 package com.experian.automation.saas.steps.AdminPortal;
 
-import com.experian.automation.WebClient;
+import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.AdminPortal.PortalHomeScreen;
 import com.experian.automation.saas.screens.HomeScreen;
@@ -17,21 +18,23 @@ import java.util.Map;
 public class PortalSolutionSelectionSteps {
 
     private final Logger logger = Logger.getLogger(this.getClass());
-    private final WebClient webClient;
+    private final TestHarness testHarness;
+    private final WebHarness webHarness;
 
-    public PortalSolutionSelectionSteps(WebClient webClient) {
-        this.webClient = webClient;
+    public PortalSolutionSelectionSteps(TestHarness testHarness, WebHarness webHarness) {
+        this.testHarness = testHarness;
+        this.webHarness = webHarness;
     }
 
     @And("^I select solution - (PowerCurve Originations|PoweCurve Admin Portal)$")
     public void selectSolution(String solution) {
-        PortalHomeScreen portalScreen = new PortalHomeScreen(webClient);
+        PortalHomeScreen portalScreen = new PortalHomeScreen(testHarness, webHarness);
         switch (solution) {
             case "PowerCurve Originations":
                 portalScreen.waitForElement(portalScreen.originationsSolution);
                 portalScreen.originationsSolution.click();
 //                portalScreen.closeWindow();
-                HomeScreen hm = new HomeScreen(webClient);
+                HomeScreen hm = new HomeScreen(testHarness, webHarness);
                 hm.waitForElement(hm.homeButton);
                 break;
             case "PowerCurve Admin Portal":
@@ -79,11 +82,11 @@ public class PortalSolutionSelectionSteps {
                 dynamicalParams.put("Relationship to applicant", "Relationship to applicant.csv ");
                 dynamicalParams.put("Master Product-Second Product-Third Product", "ALL-Master Product-Second Product-Third Product.csv");
 
-                new UserManagementSteps(webClient).setAllPermissions();
-                new CommonSteps(webClient).solutionLogout();
-                new PortalSolutionSelectionSteps(webClient).selectSolution(solution);
-                new TacticalParametersSteps(webClient).importTacticalParameters(tacticalParams);
-                new DynamicalParametersSteps(webClient).importDynamicParameters(dynamicalParams);
+                new UserManagementSteps(testHarness, webHarness).setAllPermissions();
+                new CommonSteps(testHarness, webHarness).solutionLogout();
+                new PortalSolutionSelectionSteps(testHarness, webHarness).selectSolution(solution);
+                new TacticalParametersSteps(testHarness, webHarness).importTacticalParameters(tacticalParams);
+                new DynamicalParametersSteps(testHarness, webHarness).importDynamicParameters(dynamicalParams);
 
                 break;
 
