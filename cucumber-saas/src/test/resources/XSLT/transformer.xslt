@@ -20,6 +20,7 @@
 	   <xsl:apply-templates select="//menu-item"/>
 	   <xsl:apply-templates select="//label"/>
 	   <xsl:apply-templates select="//dynamic-combo"/>
+	   <xsl:apply-templates select="//combobox"/>
 	   <xsl:apply-templates select="//button"/>
 	   <xsl:apply-templates select="//title"/>
 	   <xsl:apply-templates select="//textfield"/>
@@ -58,10 +59,24 @@
 		 <xsl:attribute name="type">select</xsl:attribute>
 		 <xsl:if test="preceding-sibling::*[1]/local-name()='label'">	
                <xsl:attribute name="display-text"><xsl:value-of select="preceding-sibling::*[1]/text/text()"/></xsl:attribute>		
+               <xsl:attribute name="display-xpath">//label[contains(text(),'<xsl:value-of select="preceding-sibling::*[1]/text/text()"/>')]</xsl:attribute>		
+               <xsl:attribute name="xpath">//select[@id='<xsl:value-of select="@id"/>']</xsl:attribute>			   
+		 </xsl:if>
+		 <xsl:if test="./next-combo-id">
+		    <xsl:attribute name="display-text"><xsl:value-of select="./parameter/text()"/></xsl:attribute>
+		    <xsl:attribute name="xpath">//select[@id='<xsl:value-of select="@id"/>']</xsl:attribute>	
+		 </xsl:if>
+		   
+    </component>
+	</xsl:template>	
+	<xsl:template match="combobox">
+	<component>
+		 <xsl:attribute name="type">combobox</xsl:attribute>
+		 <xsl:if test="preceding-sibling::*[1]/local-name()='label'">	
+               <xsl:attribute name="display-text"><xsl:value-of select="preceding-sibling::*[1]/text/text()"/></xsl:attribute>		
                <xsl:attribute name="display-xpath">//label[contains(text(),'<xsl:value-of select="preceding-sibling::*[1]/text/text()"/>')]</xsl:attribute>				   
 		 </xsl:if>
 		 <xsl:attribute name="xpath">//select[@id='<xsl:value-of select="@id"/>']</xsl:attribute>
-		   
     </component>
 	</xsl:template>	
 	
