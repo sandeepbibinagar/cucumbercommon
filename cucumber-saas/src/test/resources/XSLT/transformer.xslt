@@ -4,7 +4,7 @@
 
 	<xsl:template match="/">
 	<pages>
-      <xsl:for-each select="collection(concat('file:///C:/temp//deployables/bundles', '?select=*.pg.xml;recurse=yes'))">
+      <xsl:for-each select="collection(concat('file:///@@@bundles-path@@@', '?select=*.pg.xml;recurse=yes'))">
 	  <xsl:apply-templates/>
 	   </xsl:for-each>
     </pages>
