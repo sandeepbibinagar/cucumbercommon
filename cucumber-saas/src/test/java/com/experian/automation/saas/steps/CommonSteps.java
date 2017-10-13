@@ -17,7 +17,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by B04342A on 6/24/2017.
@@ -33,27 +32,31 @@ public class CommonSteps {
         this.webHarness = webHarness;
     }
 
-    @And("^I crate page object from file (.*)$")
+    @And("^I create the solution page object model from file (.*)$")
     public void createPageObject(String deployablePath) throws Throwable {
 
-        String transformedXMLfile = testHarness.config.get("temp.dir")+"/output.xml";
-        String pageObjectsJSONfile = testHarness.config.get("temp.dir")+"/pageObject.json";
+        File deployableFile = new File(deployablePath);
+        String solutionPageObjectFile = getClass().getResource("/XSLT/solution-pageobject.xslt").getFile();
+        String tempDeployablesFolder = testHarness.config.get("temp.dir") + "/deployables";
+        String dataFile = tempDeployablesFolder + "/data.xml";
+        String transformedXMLfile = testHarness.config.get("temp.dir") + "/output.xml";
+        String pageObjectsJSONfile = testHarness.config.get("temp.dir") + deployableFile.getName()+".json";
+
 
         String filepathRegex = "(?<=file:\\/\\/\\/)(.*)(?=',)";
-        String dataFile = testHarness.config.get("temp.dir")+"/data.xml";
         String dataFileContent = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><pages></pages>";
 
-        new ArchiversOperations().unzip(deployablePath, testHarness.config.get("temp.dir")+"/deployables");
+        new ArchiversOperations().unzip(deployableFile.getAbsolutePath(), tempDeployablesFolder);
 
-        new TextFileOperations().replaceStringInFile(getClass().getResource("/XSLT/transformer.xslt").getFile(), filepathRegex, testHarness.config.get("temp.dir")+"/deployables/bundles");
+        new TextFileOperations().replaceStringInFile(solutionPageObjectFile, filepathRegex, testHarness.config.get("temp.dir") + "/deployables/bundles");
 
-        new FileOperationsSteps(testHarness).createFile(dataFile,dataFileContent);
+        new FileOperationsSteps(testHarness).createFile(dataFile, dataFileContent);
 
-        new XMLOperations().XSLtransform(transformedXMLfile,dataFile,getClass().getResource("/XSLT/transformer.xslt").getFile());
+        new XMLOperations().XSLtransform(transformedXMLfile, dataFile, solutionPageObjectFile);
 
-        new FSOperations().delete(testHarness.config.get("temp.dir")+"/deployables");
+        new FSOperations().delete(tempDeployablesFolder);
 
-        new XMLOperations().convertXMLToJSON(transformedXMLfile,pageObjectsJSONfile);
+        new XMLOperations().convertXMLToJSON(transformedXMLfile, pageObjectsJSONfile);
     }
 
     @Given("^Initial setup$")
