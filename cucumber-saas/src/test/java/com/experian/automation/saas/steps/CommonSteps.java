@@ -15,6 +15,7 @@ import com.experian.automation.saas.screens.HomeScreen;
 import com.experian.automation.steps.FileOperationsSteps;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 
@@ -40,7 +41,7 @@ public class CommonSteps {
         String tempDeployablesFolder = testHarness.config.get("temp.dir") + "/deployables";
         String dataFile = tempDeployablesFolder + "/data.xml";
         String transformedXMLfile = testHarness.config.get("temp.dir") + "/output.xml";
-        String pageObjectsJSONfile = testHarness.config.get("temp.dir") + deployableFile.getName()+".json";
+        String pageObjectsJSONfile = testHarness.config.get("temp.dir") +"page-object-"+ FilenameUtils.removeExtension(deployableFile.getName())+".json";
 
 
         String filepathRegex = "(?<=file:\\/\\/\\/)(.*)(?=',)";
