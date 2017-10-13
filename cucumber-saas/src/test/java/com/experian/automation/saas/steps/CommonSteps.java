@@ -37,7 +37,7 @@ public class CommonSteps {
     public void createPageObject(String deployablePath) throws Throwable {
 
         File deployableFile = new File(deployablePath);
-        String solutionPageObjectFile = getClass().getResource("/XSLT/solution-pageobject.xslt").getFile();
+        String solutionPageObjectFile = getClass().getResource("/XSLT/solution-page-object.xslt").getFile();
         String tempDeployablesFolder = testHarness.config.get("temp.dir") + "/deployables";
         String dataFile = tempDeployablesFolder + "/data.xml";
         String transformedXMLfile = testHarness.config.get("temp.dir") + "/output.xml";
