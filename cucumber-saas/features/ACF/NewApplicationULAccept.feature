@@ -5,7 +5,8 @@ Feature: New Application for Unsecured Personal Loans Accepted through the REST 
   I want to send a POST request with the applicant information to the application and receive a response
 
   Scenario: NA007 As a User I want to CREATE an application through CLIENT SYSTEM to get final decision Accept when Pre bureau decision is Refer
-    When I send POST request to /v1/applications/TENANT1/CreditEvaluation with username admin and password Secret123! and receive status code HTTP 200:
+    When I set the base webservice url to ${base.webservices.url}
+    And I prepare REST request body:
       """
       {
           "Applicant-DV.APP.NME[1].FirstName" : "BERK",
@@ -37,4 +38,10 @@ Feature: New Application for Unsecured Personal Loans Accepted through the REST 
           "Application-DV.Product Details[1].Requested Term":100
       }
       """
-    Then I verify that the expected decision for Results-DV.RSLT.Pst-B-Policy-Decision-Text is Accept
+    And I add the following headers to the REST request:
+      | Content-Type | application/json |
+      | Accept       | application/json |
+    And I prepare REST authentcation username admin and password Secret123!
+    And I send a REST POST request to /v1/applications/TENANT1/CreditEvaluation and receive status code HTTP 200
+    And I verify that the JSON response has fields:
+      | $.data.['Results-DV.RSLT.Pst-B-Policy-Decision-Text'] | Accept |
