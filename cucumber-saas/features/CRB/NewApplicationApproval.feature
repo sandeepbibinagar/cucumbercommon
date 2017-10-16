@@ -5,78 +5,81 @@ Feature: New Application Approval
   I want to create an application through web page
 
   Scenario: ID_1234 Applicant gets approved for Fixed Term Loan (Unsecured)
-    Given I start the browser
+    Given Initial setup
+    And I start the browser
     And I go to login page
-    And I login with username user and password User123@123
+    And I login with username admin and password Secret123
 #    And I login with username adm@example.com and password Password123
 #    And I select solution - PowerCurve Originations
 #    And I check user permissions and parameters for solution - PowerCurve Originations
-    And I start a new application
-    And I enter the new applicant personal details:
+    And I select menu item Apply and sub-menu item New Application on page homeStartPage
+    And I enter enter values for dropdowns on page Basic Application Details Page
       | Title                    | Mrs            |
-      | Surname                  | McIver         |
-      | Forename                 | Rita           |
-      | Date Of Birth            | 1986 02 20     |
-      | Existing Customer        | Yes            |
-      | Existing Customer Number | 1008877963     |
+      | Existing Customer?       | Yes            |
       | Marital Status           | Married        |
-      | Home Phone Number        | 457875678999   |
-      | Email                    | Rita@gmail.com |
       | Residential Status       | Owner occupier |
       | Employment Status        | Full time      |
-      | Total Annual Income      | 72500          |
-    And I navigate to "Product Details" tab
-    And I select a "Fixed Term Loan (Unsecured)" product
-    And I proceed to "Previous Applicant Search" page
-    And I proceed to "Applicant Details" page
-    And I enter identification information:
-      | Identification Type | Driving Licence |
-      | ID Number           | A455            |
-      | Expiry Date         | 2019 06 06      |
-    And I navigate to "Address Details" tab
-    And I enter applicant's address details:
-      | Number                 | 1              |
-      | Street                 | Mill Crescent  |
-      | City                   | London         |
-      | Postcode               | WC10 4MX       |
-      | Country                | United Kingdom |
-      | Time at Address Years  | 10             |
-      | Time at Address Months | 5              |
-
-    And I proceed to "Applicant Summary" page
-    And I proceed to "Product Choice Confirmation" page
-    And I choose loan type "UL Classic"
-    And I proceed to "Loan Application" page
-    And I enter requested loan details:
-      | Requested Loan Amount | 12000             |
-      | Requested Loan Term   | 36                |
-      | Purpose of Loan       | Home Improvements |
-
-    And I proceed to "Financial & Employment Details" page
-    And I proceed to Main Applicant Details edit
-
-    And I navigate to "Employment Details" tab
-    And I enter employment details:
+      | Preferred Contact Method | Email          |
+    And I enter enter values for textfields on page Basic Application Details Page
+      | Surname             | McIver         |
+      | Forename            | Rita           |
+      | Home Phone Number   | 457875678999   |
+      | Customer Number     | 1008877963     |
+      | Email Address       | Rita@gmail.com |
+      | Total Annual Income | 72500          |
+    And I enter value 1986-02-20 for datepicker Date Of Birth on page Basic Application Details Page
+    And I select tab with text Product Details on page Basic Application Details Page
+    And I enter enter values for dropdowns on page Basic Application Details Page
+      | Master Product | Fixed Term Loan (Unsecured) |
+    And I click on button with text Next on page Basic Application Details Page
+    And I click on button with text Next on page Search Applicants on previous Applications
+    And I select value Driving Licence from select with ID DocumentTypeDDL
+    And I enter value 2019-06-06 for datepicker Expiry Date on page Applicant and Address Details Page
+    And I enter value A455 for field ID Number on page Applicant and Address Details Page
+    And I click on button with text Next on page Applicant and Address Details Page
+    And I enter enter values for textfields on page Applicant and Address Details Page
+      | Number / Name | 1             |
+      | Street        | Mill Crescent |
+      | Postcode      | WC10 4MX      |
+      | City          | London        |
+    And I enter enter values for dropdowns on page Applicant and Address Details Page
+      | Country | United Kingdom |
+    And I fill consecutive inputs with label Time at Address on page Applicant and Address Details Page:
+      | 10 |
+      | 5  |
+    #    Defect in the solution - Next button has to be clicked twice to switch page
+    And I click on button with text Next on page Applicant and Address Details Page
+    And I click on button with text Next on page Applicant and Address Details Page
+    And I click on button with text Next on page Existing Customer Matches
+    And I click on button with text Next on page Applicant Summary Page
+    And I click on button with text Next on page Loan - Product Choice Confirmation
+    And I enter enter values for textfields on page Loan - Details Page
+      | Requested Loan Amount | 12000 |
+      | Requested Loan Term   | 36    |
+    And I select value Home Improvements from dropdown field Purpose of Loan on page Loan - Details Page
+    And I click on button with text Next on page Loan - Details Page
+    And I click on button with value yes
+    And I click on button with text Edit on page Applicant Selection for Financial & Employment details Page
+    And I select tab with text Employment Details on page Applicant Employment and Affordability Page
+    And I enter enter values for dropdowns on page Applicant Employment and Affordability Page
       | Occupation | Senior level professional/admin |
-      | Employer   | IT technology Ltd               |
-      | Premise    | 8                               |
-      | Street     | Oxford Street                   |
-      | City       | London                          |
-      | Post Code  | WC8 7XX                         |
       | Country    | United Kingdom                  |
-      | Start Date | 2007 01 01                      |
-      | Work Phone | 87978999                        |
-
-    And I navigate to "Financial Details" tab
-    And I enter financial details:
+    And I enter enter values for textfields on page Applicant Employment and Affordability Page
+      | Employer   | IT technology Ltd |
+      | Premise    | 8                 |
+      | Street     | Oxford Street     |
+      | City       | London            |
+      | Post Code  | WC8 7XX           |
+      | Work Phone | 87978999          |
+    And I select tab with text Financial Details on page Applicant Employment and Affordability Page
+    And I enter enter values for textfields on page Applicant Employment and Affordability Page
       | Monthly Income After Deductions             | 3700     |
       | Monthly Credit Card and Store Card Payments | 150      |
       | Bank Name                                   | Cashbank |
-      | Time with Bank Years                        | 3        |
-      | Time with Bank Months                       | 2        |
-
-    And I proceed to "Financial & Employment Details" page
-
-    When I submit the application
-    Then I should see that application has been accepted
+    And I fill consecutive inputs with label Time with Bank on page Applicant Employment and Affordability Page:
+      | 10 |
+      | 5  |
+    And I click on button with text Next on page Applicant Employment and Affordability Page
+    And I click on button with text Next on page Applicant Selection for Financial & Employment details Page
+    And I click on button with text Continue on page Decision Page
     And I stop the browser
