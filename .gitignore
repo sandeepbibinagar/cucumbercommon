@@ -1,0 +1,17 @@
+# Build
+target/
+
+# Eclipse
+.metadata
+.classpath
+.project
+.settings
+.target/
+
+# Idea
+*.iml
+*/.idea
+.idea/
+
+#xfat Report
+out.xml
