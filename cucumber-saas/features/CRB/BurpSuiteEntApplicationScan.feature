@@ -5,6 +5,7 @@ Feature: Burp Suite Enterprise Application Scan
   I want to run dynamic scan to a URL
 
   Scenario: Burp Suite Enterprise scan
+    # Test-ID: 3702047
     Given I log into Burp Suite Enterprise with valid credentials
     And I create Burp Suite Site with username "adm@example.com" and password "Password123"
     When I run scan

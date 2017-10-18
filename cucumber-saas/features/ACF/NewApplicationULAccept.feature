@@ -4,7 +4,8 @@ Feature: New Application for Unsecured Personal Loans Accepted through the REST 
   As a ACF user
   I want to send a POST request with the applicant information to the application and receive a response
 
-  Scenario: NA007 As a User I want to CREATE an application through CLIENT SYSTEM to get final decision Accept when Pre bureau decision is Refer
+  Scenario: NA002 As a User I want to CREATE an application through CLIENT SYSTEM to get final decision Accept when Pre bureau decision is Refer
+    # Test-ID: 4056743
     When I set the base webservice url to ${base.webservices.url}
     And I prepare REST request body:
       """
