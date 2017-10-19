@@ -7,10 +7,7 @@ import com.experian.automation.screens.Screen;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 import org.apache.commons.configuration2.ex.ConfigurationException;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
@@ -18,6 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.testng.Assert.assertTrue;
 
@@ -31,97 +30,204 @@ public class SolutionScreen extends Screen {
 
     public SolutionScreen(TestHarness testHarness, WebHarness webHarness, String pageObjectModel) throws IOException, ConfigurationException {
         super(testHarness, webHarness);
-        this.pageObjectModel=pageObjectModel;
+        this.pageObjectModel = pageObjectModel;
     }
 
     public WebElement getScreenLoader() {
         return ajaxLoader;
     }
 
-    public void selectMenu(String mainMenu, String subMenu, String page) throws IOException {
-        selectMainMenu(mainMenu, page);
-        selectSubMenu(subMenu, page);
+    /**
+     * The method is used to find objects in the PageObjectModel by their label and to return them as web elements
+     *
+     * @param page The title of the page where the required web element resides
+     * @param type The type of the web element which we search for
+     * @param text The label of the element which we search for
+     */
+
+    private List<WebElement> getPageObjects(String page, String type, String text) {
+        JSONArray pages = JsonPath.read(this.pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].id");
+        JSONArray pageObjects = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='" + type + "')].[?(@.display-text=='" + text + "')].xpath");
+        if (pages.size() > 1) {
+            boolean duplicatePages = true;
+            for (int k = 1; k < pages.size(); k++) {
+                if (!pages.get(0).equals(pages.get(k))) {
+                    duplicatePages = false;
+                    break;
+                }
+            }
+            if (duplicatePages) {
+                JSONArray samePages = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')]");
+                pageObjects = JsonPath.read(samePages.toJSONString(), "$[0].components.*[?(@.type=='" + type + "')].[?(@.display-text=='" + text + "')].xpath");
+            }
+        }
+
+        List<WebElement> elements = new ArrayList<>();
+
+        for (int j = 0; j < pageObjects.size(); j++) {
+            try {
+                WebElement element = waitForElementPresence(By.xpath((String) pageObjects.get(j)));
+                elements.add(element);
+            } catch (NoSuchElementException | TimeoutException exception) {
+                exception.getMessage();
+            }
+        }
+
+        return elements;
     }
 
-    public void selectMainMenu(String mainMenu, String page) throws IOException {
-        JSONArray menuItems = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='menu-item')].[?(@.text=='" + mainMenu + "')].xpath");
-        String xpath = (String) menuItems.get(0);
-        WebElement element = waitForElementPresence(By.xpath(xpath));
-        clickWithScrollToView(element);
+    /**
+     * The method is used to check the type of certain web element in the PageObject model
+     *
+     * @param label The label of the element for which we want to check the type in the PageObjectModel
+     * @param page  The title of the page where the required web element resides
+     */
+
+    public String getPageObjectTypeByLabel(String label, String page) {
+        JSONArray pageObjects = JsonPath.read(this.pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.display-text=='" + label + "')].type");
+        JSONArray pages = JsonPath.read(this.pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].id");
+        if (pageObjects.size() > 1) {
+            boolean duplicatePages = true;
+            for (int k = 1; k < pages.size(); k++) {
+                if (!pages.get(0).equals(pages.get(k))) {
+                    duplicatePages = false;
+                    break;
+                }
+            }
+            if (duplicatePages) {
+                JSONArray samePages = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')]");
+                pageObjects = JsonPath.read(samePages.toJSONString(), "$[0].components.*[?(@.display-text=='" + label + "')].type");
+            }
+        }
+
+        if (pageObjects.size() == 0) {
+            throw new NoSuchElementException("Cannot find element with label: " + label + ".List of available elements: " + pageObjects);
+        }
+        return (String) pageObjects.get(0);
     }
 
-    public void selectSubMenu(String subMenu, String page) throws IOException {
+    /**
+     * The method is used to get all elements from given type on a page and return them as List
+     *
+     * @param type The type of the elements we want to get get from the PageObjectModel
+     * @param page The title of the page where the required web element resides
+     */
 
-        waitForElementToDisappear(ajaxLoader);
-        assertTrue(getWindowTitle().equals(page),"Page loaded: "+page);
+    private List<WebElement> getAllPageObjectsByType(String page, String type) {
+        JSONArray pageObjects = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='" + type + "')].xpath");
+        JSONArray pages = JsonPath.read(this.pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].id");
+        if (pageObjects.size() > 1) {
+            boolean duplicatePages = true;
+            for (int k = 1; k < pages.size(); k++) {
+                if (!pages.get(0).equals(pages.get(k))) {
+                    duplicatePages = false;
+                    break;
+                }
+            }
+            if (duplicatePages) {
+                JSONArray samePages = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')]");
+                pageObjects = JsonPath.read(samePages.toJSONString(), "$[0].components.*[?(@.type=='" + type + "')].xpath");
+            }
+        }
 
-        JSONArray subMenuItems = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='sub-menu-item')].[?(@.text=='" + subMenu + "')].xpath");
-        String xpath = (String) subMenuItems.get(0);
-        WebElement element = waitForElementPresence(By.xpath(xpath));
-        clickWithScrollToView(element);
+        List<WebElement> elements = new ArrayList<>();
+        for (int j = 0; j < pageObjects.size(); j++) {
+            try {
+                WebElement element = waitForElementPresence(By.xpath((String) pageObjects.get(j)));
+                elements.add(element);
+            } catch (NoSuchElementException | TimeoutException exception) {
+                exception.getMessage();
+            }
+        }
+
+        return elements;
     }
 
-    public void selectSubMenuSectionItem(String subMenuText, String item, String page) throws IOException {
-        JSONArray subMenuItems = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='sub-menu-item')].[?(@.text=='" + subMenuText + "')].xpath");
-        WebElement subMenu = waitForElementPresence(By.xpath((String) subMenuItems.get(0)));
+    /**
+     * The method is used to check the value of an element for the purpose of verification
+     *
+     * @param page          The title of the page where the required web element resides
+     * @param type          The type of the elements we want to get get from the PageObjectModel
+     * @param displayText   The label of the element
+     * @param expectedValue The expected value of the element
+     */
+
+    public boolean verifyFieldValue(String page, String type, String displayText, String expectedValue) {
+        if (!type.equals("dropdown")) {
+            return getPageObjects(page, type, displayText).get(0).getAttribute("value").equals(expectedValue);
+        } else {
+            return new Select(getPageObjects(page, type, displayText).get(0)).getFirstSelectedOption().getText().equals(expectedValue);
+        }
+    }
+
+    /**
+     * The method is used to select menu items.
+     *
+     * @param menu The path for main menu and sub menu items in format MainMenu/SubMenu/SubSubMenu
+     * @param page The title of the page where the required web element resides
+     */
+
+    public void selectMenu(String menu, String page) {
+        Pattern pattern = Pattern.compile("[^\\/]+");
+        Matcher matcher = pattern.matcher(menu);
+        int position = 0;
+        while (matcher.find()) {
+            if (position != 0) {
+                WebElement subMenuElement = getPageObjects(page, "sub-menu-item", matcher.group().trim()).get(0);
+                clickWithScrollToView(subMenuElement);
+            } else {
+                WebElement mainMenuElement = getPageObjects(page, "menu-item", matcher.group().trim()).get(0);
+                clickWithScrollToView(mainMenuElement);
+            }
+            position++;
+        }
+    }
+
+    /**
+     * The method is used to select sub menu when there are different
+     * sections with sub-menu items which have the same text
+     *
+     * @param sectionText The text of the menu section
+     * @param item        The text of the sub-menu item element
+     * @param page        The title of the page where the required web element resides
+     */
+    public void selectSubMenuSectionItem(String sectionText, String item, String page) throws IOException {
+        WebElement subMenu = getPageObjects(page, "sub-menu-item", sectionText).get(0);
         WebElement sectionItem = subMenu.findElement(By.xpath("..//*[contains(text(),'" + item + "') and @id]"));
         clickWithScrollToView(sectionItem);
     }
 
-    public void verifySelectLabelPairs(String page, Map<String, String> data) throws IOException {
-        waitForElementToDisappear(ajaxLoader);
-        for (Map.Entry<String, String> entry : data.entrySet()) {
-            JSONArray textfieldItems = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='select')].[?(@.display-text=='" + entry.getKey() + "')].xpath");
-            if (textfieldItems.size() == 0) {
-                WebElement common = waitForElementPresence(By.xpath("//select[parent::div[parent::div[child::div/label[contains(text(),'" + entry.getKey() + "')]]]]"));
-                Select select = new Select(common);
-                assertTrue(select.getFirstSelectedOption().getText().equals(entry.getValue()), "Field with title: "+ entry.getKey()+" contains value " + entry.getValue());
-            } else {
-                String xpath = (String) textfieldItems.get(0);
-                WebElement element = waitForElementPresence(By.xpath(xpath));
-                Select select = new Select(element);
-                assertTrue(select.getFirstSelectedOption().getText().equals(entry.getValue()), "Field with title: "+ entry.getKey()+" contains value " + entry.getValue());
-            }
-        }
-    }
-
-    public void verifyInputLabelPairs(String page, Map<String, String> data) throws IOException {
-        waitForElementToDisappear(ajaxLoader);
-        for (Map.Entry<String, String> entry : data.entrySet()) {
-            JSONArray textfieldItems = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='textfield')].[?(@.display-text=='" + entry.getKey() + "')].xpath");
-            if (textfieldItems.size() == 0) {
-                WebElement common = waitForElementPresence(By.xpath("//input[parent::div[parent::div[child::div/label[contains(text(),'" + entry.getKey() + "')]]]]"));
-                assertTrue(common.getAttribute("value").equals(entry.getValue()),"Field with title: "+ entry.getKey()+" contains value " + entry.getValue());
-            } else {
-                String xpath = (String) textfieldItems.get(0);
-                WebElement element = waitForElementPresence(By.xpath(xpath));
-                String inputValue = element.getAttribute("value");
-                assertTrue(entry.getValue().equals(inputValue),"Field with title: "+ entry.getKey()+" contains value " + entry.getValue());
-            }
-        }
-    }
-
-    public void fillConsequtiveInputs(String labelText, List<String> data,String page) throws IOException {
+    /**
+     * The method is used to fill consecutive inputs after a label
+     *
+     * @param labelText The text of the label for which the inputs has to be filled
+     * @param data      A list with the values for the inputs ordered as in the UI
+     * @param page      The title of the page where the required web element resides
+     */
+    public void fillConsequtiveInputs(String labelText, List<String> data, String page) throws IOException {
         List<WebElement> commonRoot = waitForElementsPresence(By.xpath("//input[parent::div[parent::div[child::div/label[contains(text(),'" + labelText + "')]]]]"));
-        if(commonRoot.size()==data.size()){
-            for(int j=0;j<commonRoot.size();j++){
+        if (commonRoot.size() == data.size()) {
+            for (int j = 0; j < commonRoot.size(); j++) {
                 commonRoot.get(j).sendKeys(data.get(j));
             }
-        }else{
-            JSONArray textfieldItems = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='textfield')].[?(@.display-text=='" + labelText + "')].xpath");
-            throw new NoSuchElementException("Cannot find inputs with label: "+labelText+" available input ID's:"+textfieldItems);
+        } else {
+            List<WebElement> textfieldItems = getPageObjects(page, "textfield", labelText);
+            throw new NoSuchElementException("Cannot find inputs with label: " + labelText + " available input ID's:" + textfieldItems);
         }
     }
 
+    /**
+     * The method is used to click on a button by its text
+     *
+     * @param text The text of the button which has to be clicked
+     * @param page The title of the page where the required web element resides
+     */
     public void clickButton(String text, String page) throws IOException {
 
         waitForElementToDisappear(ajaxLoader);
-        assertTrue(getWindowTitle().equals(page),"Page loaded: "+page);
+        assertTrue(getWindowTitle().equals(page), "Page loaded: " + page);
 
-        JSONArray buttons = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='button')].id");
-
-        List<WebElement> buttonsList = new ArrayList<>();
-
+        List<WebElement> buttonsList = getAllPageObjectsByType(page, "button");
         List<WebElement> buttonsWithSameText = new ArrayList<>();
 
         for (int j = 0; j < buttonsList.size(); j++) {
@@ -137,7 +243,7 @@ public class SolutionScreen extends Screen {
         if (buttonsWithSameText.size() != 0) {
             for (WebElement el : buttonsWithSameText) {
                 if (el.getText().equals(text)) {
-                    throw new IllegalArgumentException("There is another button with text: " + text + "\n Available buttons by ID: " + buttons);
+                    throw new IllegalArgumentException("There is another button with text: " + text + "\n Available buttons by ID: " + buttonsList);
                 }
             }
         }
@@ -146,7 +252,16 @@ public class SolutionScreen extends Screen {
         button.click();
     }
 
-
+    /**
+     * The method is used to click on element in some column inside a table
+     * based on value in the same row in different column inside the table
+     *
+     * @param title        The title of the element which has to be clicked
+     * @param header       The header of the table where the element resides
+     * @param searchHeader The header in the table where the locator element resides
+     * @param searchValue  The value of the locator element
+     * @param tableId      The ID of the table
+     */
     public void clickOnElementWithTitleInTable(String title, String header, String searchHeader, String searchValue, String tableId) {
         List<WebElement> tableHeaders = waitForElementsPresence(By.xpath("//table[@id='" + tableId + "']//th"));
         List<WebElement> tableCells = waitForElementsPresence(By.xpath("//table[@id='" + tableId + "']//tr/td"));
@@ -181,6 +296,13 @@ public class SolutionScreen extends Screen {
         }
     }
 
+    /**
+     * The method is used to verify the values in the cells in a table
+     *
+     * @param selector The type of attribute of the table headers which is used for locating
+     * @param value    The value of attribute of the table headers which is used for locating
+     * @param data     The table data which has to be verified
+     */
     public void verifyDataInTable(String selector, String value, List<List<String>> data) {
         List<WebElement> tableHeaders = new ArrayList<>();
         List<WebElement> tableCells = new ArrayList<>();
@@ -196,31 +318,38 @@ public class SolutionScreen extends Screen {
         findDataInTable(data, tableHeaders, tableCells, true, false, false);
     }
 
+    /**
+     * The method is used to set the values for dropdown fields in given page
+     *
+     * @param label The field label
+     * @param value The field value to be set
+     * @param page  The title of the page where the element resides
+     */
     public void setDropdownValueByLabel(String label, String value, String page) throws IOException {
         waitForElementToDisappear(ajaxLoader);
-        assertTrue(getWindowTitle().equals(page),"Page loaded: "+page);
+        assertTrue(getWindowTitle().equals(page), "Page loaded: " + page);
 
-        JSONArray pageObject = JsonPath.read(this.pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='select'||@.type=='combobox')].[?(@.display-text=='" + label + "')].xpath");
-        JSONArray objectType = JsonPath.read(this.pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='select'||@.type=='combobox')].[?(@.display-text=='" + label + "')].type");
-        JSONArray allSelects = JsonPath.read(this.pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='select'||@.type=='combobox')].xpath");
+        String elementType = getPageObjectTypeByLabel(label, page);
+        List<WebElement> pageObjects = getPageObjects(page, elementType, label);
+        if (pageObjects.size() == 0) {
+            throw new NoSuchElementException("There is no element with label " + label);
+        }
 
-        if (pageObject.size() == 0) {
-            if (webHarness.driver.findElement(By.xpath("//select[parent::div[parent::div[child::div/label[contains(text(),'" + label + "')]]]]")) != null) {
-                new Select(webHarness.driver.findElement(By.xpath("//select[parent::div[parent::div[child::div/label[contains(text(),'" + label + "')]]]]"))).selectByVisibleText(value);
-            } else {
-                throw new NoSuchElementException("There is no element with label " + label + " in the object file. Available objects:" + allSelects);
+        if (pageObjects.size() > 1) {
+            boolean isSameElement = true;
+            for (int k = 1; k < pageObjects.size(); k++) {
+                if (!pageObjects.get(0).equals(pageObjects.get(k))) {
+                    isSameElement = false;
+                    break;
+                }
+            }
+            if (!isSameElement) {
+                throw new IllegalArgumentException("There is more than one element with label " + label);
             }
         }
-        if (pageObject.size() > 1) {
-            if (webHarness.driver.findElement(By.xpath("//select[parent::div[parent::div[child::div/label[contains(text(),'" + label + "')]]]]")) != null) {
-                new Select(webHarness.driver.findElement(By.xpath("//select[parent::div[parent::div[child::div/label[contains(text(),'" + label + "')]]]]"))).selectByVisibleText(value);
-            } else {
-                throw new NoSuchElementException("There are several elements with label " + label + " in the object file. Available objects:" + pageObject);
-            }
-        }
-        String xpath = (String) pageObject.get(0);
-        WebElement element = waitForElementPresence(By.xpath(xpath));
-        if ((!element.isDisplayed()) && objectType.get(0).equals("select")) {
+
+        WebElement element = pageObjects.get(0);
+        if ((!element.isDisplayed())) {
             WebElement option = element.findElement(By.xpath("./following-sibling::*[1]//*[contains(text(),'" + value + "')]"));
             clickWithScrollToView(option);
         } else {
@@ -228,31 +357,48 @@ public class SolutionScreen extends Screen {
         }
     }
 
+    /**
+     * The method is used to set the values for text fields in given page
+     *
+     * @param label The field label
+     * @param value The field value to be set
+     * @param page  The title of the page where the element resides
+     */
     public void setTextfieldValueByLabel(String label, String value, String page) throws IOException {
         waitForElementToDisappear(ajaxLoader);
-        JSONArray textfieldItems = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='textfield')].[?(@.display-text=='" + label + "')].xpath");
-        if (textfieldItems.size() == 0) {
-            WebElement common = waitForElementPresence(By.xpath("//input[parent::div[parent::div[child::div/label[contains(text(),'" + label + "')]]]]"));
-            common.sendKeys(value);
-        } else {
-            String xpath = (String) textfieldItems.get(0);
-            waitForElementPresence(By.xpath(xpath));
-            typeWithClear(webHarness.driver.findElement(By.xpath((String) textfieldItems.get(0))), value);
+        List<WebElement> textfieldItems = getPageObjects(page, "textfield", label);
+        if (textfieldItems.size() > 1) {
+            throw new IllegalArgumentException("There is more than one field with label: " + label);
         }
+        if (textfieldItems.size() == 0) {
+            throw new NoSuchElementException("There is no textfield with label: " + label + ".List of available fields:" + getAllPageObjectsByType(page, "textfield"));
+        }
+        typeWithClear(textfieldItems.get(0), value);
     }
 
+    /**
+     * The method is used to set the values for datepickers in given page
+     *
+     * @param label The field label
+     * @param value The field value to be set
+     * @param page  The title of the page where the element resides
+     */
     public void setDatepickerValueByLabel(String label, String value, String page) throws IOException {
-        JSONArray textfieldItems = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='jquerydatepicker')].[?(@.display-text=='" + label + "')].xpath");
-        WebElement element = waitForElementPresence(By.xpath((String) textfieldItems.get(0)));
+        WebElement element = getPageObjects(page,"datepicker",label).get(0);
         typeWithClear(element, value);
         element.sendKeys(Keys.TAB);
-
     }
 
+    /**
+     * The method is used to select a tab in given page by the tab title
+     *
+     * @param title The title of the tab to be selected
+     * @param page  The title of the page where the element resides
+     */
     public void selectTabWithTitle(String title, String page) throws IOException {
 
         waitForElementToDisappear(ajaxLoader);
-        assertTrue(getWindowTitle().equals(page),"Page loaded: "+page);
+        assertTrue(getWindowTitle().equals(page), "Page loaded: " + page);
 
         JSONArray textfieldItems = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page + "')].components.*[?(@.type=='title')].[?(@.text=='" + title + "')].xpath");
         String xpath = (String) textfieldItems.get(0);
@@ -260,6 +406,12 @@ public class SolutionScreen extends Screen {
         clickWithScrollToView(element);
     }
 
+    /**
+     * The method is used to click a button by some of its attributes
+     *
+     * @param type  The attribute used for location
+     * @param value The value of the attribute used for location
+     */
     public void clickButtonBy(String type, String value) {
         if (type.equals("id")) {
             getElementById(value).click();
@@ -270,10 +422,33 @@ public class SolutionScreen extends Screen {
 
     }
 
-    public void selectDynamicComboBoxById(String id, String text) {
-        new Select(getElementById(id)).selectByVisibleText(text);
+    public void clickOnLinkWithText(String text) {
+        WebElement link = waitForElementPresence(By.xpath("//*[contains(text(),'" + text + "')]"));
+        clickWithScrollToView(link);
     }
 
+    public WebElement getElementById(String id) {
+        WebElement element = waitForElementPresence(By.id(id));
+        return element;
+    }
+
+    public WebElement getElementByValue(String value) {
+        WebElement element = waitForElementPresence(By.xpath("//*[@value='" + value + "']"));
+        return element;
+    }
+
+    public WebElement getElementByName(String name) {
+        WebElement element = waitForElementPresence(By.xpath("//*[@name='" + name + "']"));
+        return element;
+    }
+
+    public WebElement getElementByClass(String value) {
+        WebElement element = waitForElementPresence(By.xpath("//*[@class='" + value + "']"));
+        return element;
+    }
+
+
+    /* TODO: Change with image recognition solution*/
     public void verifyLabelInputPairInSection(String labelText, Map<String, String> elementsText) throws InterruptedException {
         List<WebElement> allMapLabels = new ArrayList<>();
         for (Map.Entry<String, String> entry : elementsText.entrySet()) {
@@ -284,17 +459,17 @@ public class SolutionScreen extends Screen {
 
         WebElement root;
         if (allMapLabels.size() == 1) {
-            root = findCommonRootOfElements(label, allMapLabels.get(0));
+            root = findCommonRootOfTwoElements(label, allMapLabels.get(0));
         } else {
             WebElement commonRootOfList = webHarness.driver.findElement(By.xpath("//html"));
             if (allMapLabels.size() == 2) {
-                commonRootOfList = findCommonRootOfElements(allMapLabels.get(0), allMapLabels.get(1));
+                commonRootOfList = findCommonRootOfTwoElements(allMapLabels.get(0), allMapLabels.get(1));
             }
 
             if (allMapLabels.size() > 2) {
                 commonRootOfList = findCommonRootOfList(allMapLabels, allMapLabels.get(0), 1);
             }
-            root = findCommonRootOfElements(commonRootOfList, label);
+            root = findCommonRootOfTwoElements(commonRootOfList, label);
         }
 
         List<WebElement> rootInnerLeaf = root.findElements(By.xpath("./descendant::*[local-name()='label' or local-name()='input']"));
@@ -319,55 +494,8 @@ public class SolutionScreen extends Screen {
         }
     }
 
-    public void clickOnElementWithText(String text) {
-        WebElement button = waitForElementPresence(By.xpath("//*[contains(text(),'" + text + "')]"));
-        clickWithScrollToView(button);
-    }
 
-    public WebElement getElementById(String id) {
-        WebElement element = waitForElementPresence(By.id(id));
-        return element;
-    }
 
-    public WebElement getElementByValue(String value) {
-        WebElement element = waitForElementPresence(By.xpath("//*[@value='" + value + "']"));
-        return element;
-    }
-
-    public WebElement findCommonRootOfElements(WebElement element1, WebElement element2) {
-        List<WebElement> descendatsOfElement1 = element1.findElements(By.xpath("./descendant::*"));
-        List<WebElement> descendatsOfElement2 = element2.findElements(By.xpath("./descendant::*"));
-        if (descendatsOfElement1.contains(element2)) {
-            return element1;
-        } else if (descendatsOfElement2.contains(element1)) {
-            return element2;
-        } else {
-            WebElement temp = element1.findElement(By.xpath(".."));
-            List<WebElement> descendantsOfUpperElement = temp.findElements(By.xpath("./descendant::*"));
-            if (descendantsOfUpperElement.contains(element2)) {
-                descendantsOfUpperElement = null;
-                return temp;
-            }
-            return findCommonRootOfElements(temp, element2);
-        }
-    }
-
-    public WebElement findCommonRootOfList(List<WebElement> list, WebElement firstElement, Integer iterationStartNum) {
-        WebElement root = firstElement;
-        List<WebElement> descendants = firstElement.findElements(By.xpath("./descendant::*"));
-        if (descendants.contains(list.get(iterationStartNum))) {
-            firstElement = root;
-            iterationStartNum++;
-            if (iterationStartNum.equals(list.size())) {
-                return root;
-            }
-            return findCommonRootOfList(list, firstElement, iterationStartNum);
-        } else {
-            firstElement = firstElement.findElement(By.xpath(".."));
-            return findCommonRootOfList(list, firstElement, iterationStartNum);
-        }
-
-    }
 }
 
 

@@ -9,6 +9,9 @@ import cucumber.api.java.en.And;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.openqa.selenium.support.ui.Select;
+
+import static org.testng.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,88 +31,207 @@ public class SolutionWebSteps {
     File pageObjectModelFile = new File(new Config().get("temp.dir") + "page-object-" + FilenameUtils.removeExtension(new File(new Config().get("deployable.file")).getName()) + ".json");
     String pageObjectModel = FileUtils.readFileToString(pageObjectModelFile);
 
-    @And("^I select menu item (.*) and sub-menu item (.*) on page (.*)$")
-    public void selectMenu(String menu, String subMenu, String pageTitle) throws IOException, ConfigurationException {
+    /*
+    * Usage example(s):
+    *
+    * And I select menu Apply/New Application on page homeStartPage
+    *
+    */
+    @And("^I select menu (.*) on page (.*)$")
+    public void selectMenu(String menu, String page) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.selectMenu(menu, subMenu, pageTitle);
+        screen.selectMenu(menu, page);
     }
 
-    @And("^I select sub-menu item (.*) in section (.*) in menu (.*) on page (.*)$")
+    /*
+    * Usage example(s):
+    *
+    * And I enter values for fields on page Query All Search Page
+    *  | Surname            | McIver         |
+    *  | Forename           | Rita           |
+    *  | Application Number | BK000000002210 |
+    *
+    */
+    @And("I enter values for fields on page (.*)")
+    public void enterValuesForFields(String page, Map<String, String> fields) throws IOException, ConfigurationException {
+        SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+        for (Map.Entry<String, String> entry : fields.entrySet()) {
+            String elementType = screen.getPageObjectTypeByLabel(entry.getKey(), page);
+            switch (elementType) {
+                case ("textfield"):
+                    screen.setTextfieldValueByLabel(entry.getKey(), entry.getValue(), page);
+                    break;
+                case ("dropdown"):
+                    screen.setDropdownValueByLabel(entry.getKey(), entry.getValue(), page);
+                    break;
+                case ("datepicker"):
+                    screen.setDatepickerValueByLabel(entry.getKey(), entry.getValue(), page);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Illegal element type argument: " + elementType);
+            }
+        }
+    }
+
+    /*
+    * Usage example(s):
+    *
+    * And I select item Pending in section Pending Applications in menu Apply on page homeStartPage
+    *
+    */
+    @And("^I select item (.*) in section (.*) in menu (.*) on page (.*)$")
     public void selectMenuWithSection(String subMenu, String sectionItemText, String menu, String pageTitle) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.selectMainMenu(menu, pageTitle);
+        screen.selectMenu(menu, pageTitle);
         screen.selectSubMenuSectionItem(sectionItemText, subMenu, pageTitle);
     }
 
-    @And("^I enter value (.*) for field (.*) on page (.*)$")
-    public void enterTextFieldValue(String value, String fieldLabel, String pageTitle) throws IOException, ConfigurationException {
+    /*
+    * Usage example(s):
+    *
+    * And I enter value A455 for textfield with id DocumentIdNumberTxt
+    *
+    */
+    @And("^I enter value (.*) for textfield with (id|class|name|value) (.*)$")
+    public void enterTextFieldValBySelector(String fieldValue, String selector, String selectorValue) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.setTextfieldValueByLabel(fieldLabel, value, pageTitle);
-    }
-
-    @And("^I enter enter values for textfields on page (.*)$")
-    public void enterTextFieldValues(String page, Map<String, String> data) throws IOException, ConfigurationException {
-        SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.waitForElementToDisappear(screen.getScreenLoader());
-        for (Map.Entry<String, String> entry : data.entrySet()) {
-            screen.setTextfieldValueByLabel(entry.getKey(), entry.getValue(), page);
+        switch (selector) {
+            case ("id"):
+                screen.typeWithClear(screen.getElementById(selectorValue), fieldValue);
+                break;
+            case ("class"):
+                screen.typeWithClear(screen.getElementByClass(selectorValue), fieldValue);
+                break;
+            case ("name"):
+                screen.typeWithClear(screen.getElementByName(selectorValue), fieldValue);
+                break;
+            case ("value"):
+                screen.typeWithClear(screen.getElementByValue(selectorValue), fieldValue);
+                break;
+            default:
+                throw new IllegalArgumentException("Illegal value " + selector + " for selector.");
         }
     }
 
-    @And("^I enter enter values for dropdowns on page (.*)$")
-    public void enterSelectFieldsValues(String page, Map<String, String> data) throws IOException, ConfigurationException {
+    /*
+    * Usage example(s):
+    *
+    * And I enter value Mrs for dropdown with name Title
+    *
+    */
+    @And("^I enter value (.*) for dropdown with (id|class|name) (.*)$")
+    public void enterDropdownValBySelector(String fieldValue, String selector, String selectorValue) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.waitForElementToDisappear(screen.getScreenLoader());
-        for (Map.Entry<String, String> entry : data.entrySet()) {
-            screen.setDropdownValueByLabel(entry.getKey(), entry.getValue(), page);
+        switch (selector) {
+            case ("id"):
+                new Select(screen.getElementById(selectorValue)).selectByVisibleText(fieldValue);
+                break;
+            case ("class"):
+                new Select(screen.getElementByClass(selectorValue)).selectByVisibleText(fieldValue);
+                break;
+            case ("name"):
+                new Select(screen.getElementByName(selectorValue)).selectByVisibleText(fieldValue);
+                break;
+            default:
+                throw new IllegalArgumentException("Illegal value " + selector + " for selector.");
         }
     }
 
+    /*
+    * Usage example(s):
+    *
+    *  And I verify values for fields on page Basic Application Details Page:
+    *   | Surname             | McIver             |
+    *   | Forename            | Rita               |
+    *   | Home Phone Number   | (+45) 787 567 8999 |
+    *   | Email Address       | Rita@gmail.com     |
+    *   | Total Annual Income | 72,500.00          |
+    *   | Title               | Mrs                |
+    */
+    @And("^I verify values for fields on page (.*):$")
+    public void verifyFieldsValues(String page, Map<String, String> data) throws IOException, ConfigurationException {
+        SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+        for (Map.Entry<String, String> entry : data.entrySet()) {
+            String elementType = screen.getPageObjectTypeByLabel(entry.getKey(), page);
+            assertTrue(screen.verifyFieldValue(page, elementType, entry.getKey(), entry.getValue()), "Element " + entry.getKey() + " contains value: " + entry.getValue());
+        }
+    }
+
+
+    /*
+     * And I verify data in table with class audit-trail-table:
+     *   | Date & Time        | Duration | User ID | Channel | Service ID | BPF Name        | Status  | Worklist |
+     *   | 10/10/2017 1:42 PM | 00:01:29 | admin   | Web     | 1          | New Application | Pending | Pending  |
+     *   | 10/10/2017 1:42 PM | 00:01:16 | admin   | Web     | 1          | New Application | Pending | Pending  |
+     */
+    @And("^I verify data in table with (id|class) (.*):$")
+    public void verifyDataInTableWithId(String selector, String selectorValue, List<List<String>> data) throws IOException, ConfigurationException {
+        SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+        screen.verifyDataInTable(selector, selectorValue, data);
+    }
+
+    /*
+     * Usage example(s):
+     *
+     * And I select value Credit Card from dropdown field Payment Type on page productsPaymentPage
+     *
+     */
     @And("^I select value (.*) from dropdown field (.*) on page (.*)$")
     public void selectValueForDropdown(String value, String dropdownLabelTitle, String pageTitle) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
         screen.setDropdownValueByLabel(dropdownLabelTitle, value, pageTitle);
     }
 
-    @And("^I select value (.*) from dropdown field wit id (.*)$")
-    public void selectDropdownValueById(String value, String id) throws IOException, ConfigurationException {
-        SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.selectDynamicComboBoxById(id, value);
-    }
-
-
+    /*
+     * Usage example(s):
+     *
+     * And I select value 27/10/2002 for datepicker Date Of Birth on page Basic Application Details page
+     *
+     */
     @And("^I enter value (.*) for datepicker (.*) on page (.*)$")
     public void enterDatepickerValue(String value, String fieldLabel, String pageTitle) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
         screen.setDatepickerValueByLabel(fieldLabel, value, pageTitle);
     }
 
+    /*
+   * Usage example(s):
+   *
+   * I select tab with text Products on page Decision Analytics Page
+   *
+   */
     @And("^I select tab with text (.*) on page (.*)$")
     public void selectTab(String tabText, String pageTitle) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
         screen.selectTabWithTitle(tabText, pageTitle);
     }
 
-    @And("^I click on element with text (.*)$")
+    /*
+    * Usage example(s):
+    *
+    * I click on link with text Calculate
+    *
+    */
+    @And("^I click on link with text (.*)$")
     public void clickOnElementWithText(String text) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.clickOnElementWithText(text);
+        screen.clickOnLinkWithText(text);
     }
 
-    @And("^I select value (.*) from select with ID (.*)$")
-    public void dynamicComboSelect(String value, String selector) throws IOException, ConfigurationException {
-        SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.selectDynamicComboBoxById(selector, value);
 
-    }
-
+    /*
+   * Usage example(s):
+   *
+   * I click on button with text Cancel on page Decision Page
+   *
+   */
     @And("^I click on button with (text|id) (.*) on page (.*)$")
     public void buttonClick(String identifier, String value, String pageTitle) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
         if (identifier.equals("text")) {
             screen.clickButton(value, pageTitle);
         } else {
-            screen.clickButton("id", value);
+            screen.clickButtonBy("id", value);
         }
     }
 
@@ -119,6 +241,12 @@ public class SolutionWebSteps {
         screen.clickButtonBy("value", value);
     }
 
+    /*
+    * Usage example(s):
+    *
+    *  And I select element with title Audit Trail in column Action ,where column Application Number contains value BK000000002210 in table with id datagrid
+    *
+    */
     @And("^I select element with title (.*) in column (.*) ,where column (.*) contains value (.*) in table with id (.*)$")
     public void selectLinkInTable(String elementText, String columnText, String searchColumn, String searchColumnRowValue, String tableId) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
@@ -131,31 +259,26 @@ public class SolutionWebSteps {
         screen.waitForWindowWithTitle(title);
     }
 
-    @And("^I verify data in table with (id|class) (.*):$")
-    public void verifyDataInTableWithId(String selector, String selectorValue, List<List<String>> data) throws IOException, ConfigurationException {
-        SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.verifyDataInTable(selector, selectorValue, data);
-    }
-
-
+    /*
+    * Usage example(s):
+    *
+    *  I verify pairs in section with label Details:
+    *   | Credit Card    | accept.png             |
+    *   | Loan           | bundled.png            |
+    */
     @And("^I verify pairs in section with label (.*):$")
     public void verifyPairs(String label, Map<String, String> values) throws IOException, ConfigurationException, InterruptedException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
         screen.verifyLabelInputPairInSection(label, values);
     }
 
-    @And("^I verify input-label pairs on page (.*):$")
-    public void verifyInpuLabelPairsInSection(String page, Map<String, String> data) throws IOException, ConfigurationException {
-        SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.verifyInputLabelPairs(page, data);
-    }
-
-    @And("^I verify select-label pairs on page (.*):$")
-    public void verifySelectLabelPair(String page, Map<String, String> data) throws IOException, ConfigurationException {
-        SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.verifySelectLabelPairs(page, data);
-    }
-
+    /*
+     * Usage example(s):
+     *
+     * And I fill consecutive inputs with label Time at Address on page Applicant and Address Details Page:
+     *  | 10 |
+     *  | 5  |
+    */
     @And("^I fill consecutive inputs with label (.*) on page (.*):$")
     public void fillInputs(String label, String page, List<String> data) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
@@ -163,3 +286,4 @@ public class SolutionWebSteps {
     }
 
 }
+

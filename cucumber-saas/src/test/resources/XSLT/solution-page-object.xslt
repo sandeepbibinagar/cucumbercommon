@@ -33,7 +33,7 @@
 	<xsl:template match="sub-menu-item">
 	<component>
 	     <xsl:attribute name="type">menu-item</xsl:attribute>
-         <xsl:attribute name="text"><xsl:value-of select="@id"/></xsl:attribute>		 
+         <xsl:attribute name="display-text"><xsl:value-of select="@id"/></xsl:attribute>		 
 		 <xsl:attribute name="xpath">//a[contains(text(),'<xsl:value-of select="@id"/>')]</xsl:attribute>
     </component>
 	</xsl:template>
@@ -41,7 +41,7 @@
 	<xsl:template match="menu-item">
 	<component>
 	     <xsl:attribute name="type">sub-menu-item</xsl:attribute>
-         <xsl:attribute name="text"><xsl:value-of select="@id"/></xsl:attribute>		 
+         <xsl:attribute name="display-text"><xsl:value-of select="@id"/></xsl:attribute>		 
 		 <xsl:attribute name="xpath">//a[contains(text(),'<xsl:value-of select="@id"/>')]</xsl:attribute>
     </component>
 	</xsl:template>
@@ -56,7 +56,7 @@
 	
 	<xsl:template match="dynamic-combo">
 	<component>
-		 <xsl:attribute name="type">select</xsl:attribute>
+		 <xsl:attribute name="type">dropdown</xsl:attribute>
 		 <xsl:if test="preceding-sibling::*[1]/local-name()='label'">	
                <xsl:attribute name="display-text"><xsl:value-of select="preceding-sibling::*[1]/text/text()"/></xsl:attribute>		
                <xsl:attribute name="display-xpath">//label[contains(text(),'<xsl:value-of select="preceding-sibling::*[1]/text/text()"/>')]</xsl:attribute>		
@@ -71,7 +71,7 @@
 	</xsl:template>	
 	<xsl:template match="combobox">
 	<component>
-		 <xsl:attribute name="type">combobox</xsl:attribute>
+		 <xsl:attribute name="type">dropdown</xsl:attribute>
 		 <xsl:if test="preceding-sibling::*[1]/local-name()='label'">	
                <xsl:attribute name="display-text"><xsl:value-of select="preceding-sibling::*[1]/text/text()"/></xsl:attribute>		
                <xsl:attribute name="display-xpath">//label[contains(text(),'<xsl:value-of select="preceding-sibling::*[1]/text/text()"/>')]</xsl:attribute>				   
@@ -109,7 +109,7 @@
 	
 	<xsl:template match="jquerydatepicker">
 	<component>    
-		 <xsl:attribute name="type"><xsl:value-of select="local-name()"/></xsl:attribute>
+		 <xsl:attribute name="type">datepicker</xsl:attribute>
 		 <xsl:attribute name="xpath">//*[@id='<xsl:value-of select="@id"/>']/input</xsl:attribute>
 			<xsl:if test="preceding-sibling::*[1]/local-name()='label'">
 			    <xsl:attribute name="display-text"><xsl:value-of select="preceding-sibling::*[1]/text/text()"/></xsl:attribute>
