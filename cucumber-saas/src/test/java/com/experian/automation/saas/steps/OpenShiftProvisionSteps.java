@@ -64,20 +64,23 @@ public class OpenShiftProvisionSteps {
         serviceGroupName = testHarness.contextResources.allocate("openshift-environment");
         testHarness.setStepData("openshift.servicegroup", serviceGroupName);
 
-        System.out.print("openshift-environment--" + serviceGroupName + " > allocating......" + Thread.currentThread().getId() + "\n");
+        testHarness.logger.info("Allocate OpenShift environment: " + serviceGroupName);
 
         // Delete use case env
         deleteServiceGroupIfDoesntExists(serviceGroupName, "TRUE");
 
         // Create use case env
+        logger.info("Create OpenShift environment: " + serviceGroupName);
         createUseCaseEnvironment("ACF", serviceGroupName);
 
         // Wait for BPS port health check
+        logger.info("BPS OpenShift environment port health check: " + serviceGroupName);
         String bpsHost = "bps-" + serviceGroupName + ".dyn.dl-non-prod.genesaas.io";
         Boolean healthCheckPort = new NetworkOperations(bpsHost, 80).checkPortAvailability(true);
         Assert.assertTrue(healthCheckPort, "Port: 80 on " + bpsHost + " is not accessible");
 
-        // Wait for BPS service health chech
+        // Wait for BPS service health check
+        logger.info("BPS OpenShift environment service health check: " + serviceGroupName);
         String webServicesBaseURL = "http://" +  bpsHost + "/services";
 
         HttpResponse<String> response;
