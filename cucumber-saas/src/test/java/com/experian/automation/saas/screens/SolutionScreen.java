@@ -3,15 +3,28 @@ package com.experian.automation.saas.screens;
 
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
+import com.experian.automation.helpers.ImagesOperations;
 import com.experian.automation.screens.Screen;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.CookieStore;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -258,13 +271,13 @@ public class SolutionScreen extends Screen {
      *
      * @param title        The title of the element which has to be clicked
      * @param header       The header of the table where the element resides
-     * @param searchHeader The header in the table where the locator element resides
-     * @param searchValue  The value of the locator element
-     * @param tableId      The ID of the table
+     * @param searchHeader The header in the table where the element which we use for search resides
+     * @param searchValue  The value of the element which we use for search
+     * @param locatorValue The value of the locator element (id|class|vale)
      */
-    public void clickOnElementWithTitleInTable(String title, String header, String searchHeader, String searchValue, String tableId) {
-        List<WebElement> tableHeaders = waitForElementsPresence(By.xpath("//table[@id='" + tableId + "']//th"));
-        List<WebElement> tableCells = waitForElementsPresence(By.xpath("//table[@id='" + tableId + "']//tr/td"));
+    public void clickOnElementWithTitleInTable(String title, String header, String searchHeader, String searchValue, String locator, String locatorValue) {
+        List<WebElement> tableHeaders = waitForElementsPresence(By.xpath("//table[@" + locator + "='" + locatorValue + "']//th"));
+        List<WebElement> tableCells = waitForElementsPresence(By.xpath("//table[@" + locator + "='" + locatorValue + "']//tr/td"));
         List<String> headersText = new ArrayList<>();
         List<String> cellsText = new ArrayList<>();
 
@@ -291,7 +304,7 @@ public class SolutionScreen extends Screen {
             throw new NoSuchElementException("Cannot find row with value: " + searchValue + " in column: " + searchHeader);
         } else {
             Integer elementPosition = ((row + 1) * (elementHeaderIndex + 1)) - 1;
-            WebElement element = tableCells.get(elementPosition).findElement(By.xpath(".//*[@title='" + title + "']"));
+            WebElement element = tableCells.get(elementPosition).findElement(By.xpath(".//*[@title='" + title + "' or text()='" + title + "']"));
             clickWithScrollToView(element);
         }
     }
@@ -384,7 +397,7 @@ public class SolutionScreen extends Screen {
      * @param page  The title of the page where the element resides
      */
     public void setDatepickerValueByLabel(String label, String value, String page) throws IOException {
-        WebElement element = getPageObjects(page,"datepicker",label).get(0);
+        WebElement element = getPageObjects(page, "datepicker", label).get(0);
         typeWithClear(element, value);
         element.sendKeys(Keys.TAB);
     }
@@ -448,54 +461,77 @@ public class SolutionScreen extends Screen {
     }
 
 
-    /* TODO: Change with image recognition solution*/
-    public void verifyLabelInputPairInSection(String labelText, Map<String, String> elementsText) throws InterruptedException {
-        List<WebElement> allMapLabels = new ArrayList<>();
-        for (Map.Entry<String, String> entry : elementsText.entrySet()) {
-            allMapLabels.add(waitForElementPresence(By.xpath("//label[contains(text(),'" + entry.getKey() + "')]")));
-        }
+    /**
+     * The method is used to compare web image with certain label with some local image
+     *
+     * @param webImageLabel The label of the image in the web page
+     * @param localImageSrc The name of the local image to which the web image will be compared
+     */
+    public void verifyImageWithLabel(String webImageLabel, String localImageSrc) throws IOException {
 
-        WebElement label = waitForElementPresence(By.xpath("//label[contains(text(),'" + labelText + "')]"));
+        WebElement image = waitForElementPresence(By.xpath("(//img[@src and parent::div[parent::div[parent::div[parent::div[preceding-sibling::div/label[contains(text(),'" + webImageLabel + "')]]]]]])[1]"));
+        String link = image.getAttribute("src");
+        URL url = new URL(link);
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet(url.toString());
 
-        WebElement root;
-        if (allMapLabels.size() == 1) {
-            root = findCommonRootOfTwoElements(label, allMapLabels.get(0));
-        } else {
-            WebElement commonRootOfList = webHarness.driver.findElement(By.xpath("//html"));
-            if (allMapLabels.size() == 2) {
-                commonRootOfList = findCommonRootOfTwoElements(allMapLabels.get(0), allMapLabels.get(1));
-            }
+        CookieStore cookieStore = new BasicCookieStore();
+        HttpClientContext context = new HttpClientContext();
+        context.setCookieStore(cookieStore);
+        HttpResponse response = client.execute(request, context);
 
-            if (allMapLabels.size() > 2) {
-                commonRootOfList = findCommonRootOfList(allMapLabels, allMapLabels.get(0), 1);
-            }
-            root = findCommonRootOfTwoElements(commonRootOfList, label);
-        }
+        File webImage = new File(testHarness.config.get("temp.dir") + java.lang.System.currentTimeMillis() + ".png");
+        FileUtils.copyToFile(response.getEntity().getContent(), webImage);
+        File localImage = new File(testHarness.config.get("temp.dir") + File.separator + localImageSrc);
 
-        List<WebElement> rootInnerLeaf = root.findElements(By.xpath("./descendant::*[local-name()='label' or local-name()='input']"));
-        List<String> rootInnerLeafTexts = new ArrayList<>();
-        for (WebElement el : rootInnerLeaf) {
-            if (el.getTagName().equals("label")) {
-                rootInnerLeafTexts.add(el.getText());
-            }
-            if (el.getTagName().equals("input")) {
-                rootInnerLeafTexts.add(el.getAttribute("value"));
-            }
-        }
-
-        assertTrue(rootInnerLeafTexts.get(0).equals(labelText));
-
-        int index = 1;
-        for (Map.Entry<String, String> entry : elementsText.entrySet()) {
-            if (entry.getKey().equals(rootInnerLeafTexts.get(index))) {
-                assertTrue(entry.getValue().equals(rootInnerLeafTexts.get(index + 1)));
-            }
-            index++;
-        }
+        ImagesOperations imageOps = new ImagesOperations();
+        assertTrue(imageOps.compareImages(webImage, localImage));
     }
 
+    /**
+     * The method is used to find and click on element with some text in one of the table columns
+     *
+     * @param elementText  The text used to find the element to click on
+     * @param columnText   The text of the header of the column where the element is
+     * @param locator      The type of attrbute used to locate the table
+     * @param locatorValue The value of the attrbute used to locate the table
+     */
+    public void clickOnCellWithText(String elementText, String columnText, String locator, String locatorValue) {
+        List<WebElement> tableHeaders = waitForElementsPresence(By.xpath("//table[@" + locator + "='" + locatorValue + "']//th"));
+        List<WebElement> tableCells = waitForElementsPresence(By.xpath("//table[@" + locator + "='" + locatorValue + "']//tr/td"));
 
+        Integer headerIndex = -1;
 
+        for (int headerCell = 0; headerCell < tableHeaders.size(); headerCell++) {
+            if (tableHeaders.get(headerCell).getText().equals(columnText)) {
+                headerIndex = headerCell;
+                break;
+            }
+        }
+
+        if (headerIndex == -1) {
+            throw new NoSuchElementException("There is no column with text:" + columnText + " in table with " + locator + ": " + locatorValue);
+        }
+
+        boolean found = false;
+        int num = 0;
+        for (int rowCellIndex = headerIndex; rowCellIndex < tableCells.size(); rowCellIndex = rowCellIndex + tableHeaders.size()) {
+            System.out.print(tableCells.get(rowCellIndex).getText());
+            if (tableCells.get(rowCellIndex).getText().equals(elementText)) {
+                num++;
+                found = true;
+                if (num > 1) {
+                    throw new IllegalArgumentException("There is more than one element with text: " + elementText + "in column: " + columnText + " in table with " + locator + ": " + locatorValue);
+                }
+                WebElement element = tableCells.get(rowCellIndex).findElement(By.xpath(".//*[@title='" + elementText + "' or text()='" + elementText + "']"));
+                clickWithScrollToView(element);
+            }
+        }
+        if (!found) {
+            throw new NoSuchElementException("There is no element with text: " + elementText + " in column: " + columnText + " in table with " + locator + ": " + locatorValue);
+        }
+    }
 }
+
 
 

@@ -225,32 +225,40 @@ public class SolutionWebSteps {
    * I click on button with text Cancel on page Decision Page
    *
    */
-    @And("^I click on button with (text|id) (.*) on page (.*)$")
+    @And("^I click on button with (text|id|value) (.*) on page (.*)$")
     public void buttonClick(String identifier, String value, String pageTitle) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
         if (identifier.equals("text")) {
             screen.clickButton(value, pageTitle);
+        } else if (identifier.equals("value")) {
+            screen.clickButtonBy("value", value);
         } else {
             screen.clickButtonBy("id", value);
         }
     }
 
-    @And("^I click on button with value (.*)$")
-    public void buttonClick(String value) throws IOException, ConfigurationException {
+    /*
+    * Usage example(s):
+    *
+    *   I click on table cell link with text Audit Trail in column Action on row identified by cell text BK000000002210 in column Application Number on table with id datagrid
+    *
+    */
+    @And("^I click on table cell link with text (.*) in column (.*) on row identified by cell text (.*) in column (.*) on table with (id|class|name) (.*)$")
+    public void selectLinkInTable(String elementText, String columnText, String searchColumnRowValue, String searchColumn, String tableLocator, String locatorValue) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.clickButtonBy("value", value);
+        screen.clickOnElementWithTitleInTable(elementText, columnText, searchColumn, searchColumnRowValue, tableLocator, locatorValue);
     }
 
     /*
     * Usage example(s):
     *
-    *  And I select element with title Audit Trail in column Action ,where column Application Number contains value BK000000002210 in table with id datagrid
+    *   I click on table cell with text McIver in column Surname on table with id datagrid
     *
     */
-    @And("^I select element with title (.*) in column (.*) ,where column (.*) contains value (.*) in table with id (.*)$")
-    public void selectLinkInTable(String elementText, String columnText, String searchColumn, String searchColumnRowValue, String tableId) throws IOException, ConfigurationException {
+    @And("^I click on table cell with text (.*) in column (.*) on table with (id|class|name) (.*)$")
+    public void clickOnCellInColumn(String elementText, String columnText,String locator,String locatorValue) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.clickOnElementWithTitleInTable(elementText, columnText, searchColumn, searchColumnRowValue, tableId);
+        screen.clickOnCellWithText(elementText, columnText,locator,locatorValue);
     }
 
     @And("^I switch to page with title: (.*)$")
@@ -262,24 +270,26 @@ public class SolutionWebSteps {
     /*
     * Usage example(s):
     *
-    *  I verify pairs in section with label Details:
-    *   | Credit Card    | accept.png             |
-    *   | Loan           | bundled.png            |
+    *  I compare web image with label to local image:
+    *   | Credit Card    | Accept.png             |
+    *   | Loan           | Bundled.png            |
     */
-    @And("^I verify pairs in section with label (.*):$")
-    public void verifyPairs(String label, Map<String, String> values) throws IOException, ConfigurationException, InterruptedException {
+    @And("^I compare web image with label to local image:$")
+    public void verifyPairs(Map<String, String> data) throws IOException, ConfigurationException, InterruptedException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.verifyLabelInputPairInSection(label, values);
+        for (Map.Entry<String, String> entry : data.entrySet()) {
+            screen.verifyImageWithLabel(entry.getKey(), entry.getValue());
+        }
     }
 
     /*
      * Usage example(s):
      *
-     * And I fill consecutive inputs with label Time at Address on page Applicant and Address Details Page:
+     * And I fill multiple inputs with label Time at Address on page Applicant and Address Details Page:
      *  | 10 |
      *  | 5  |
     */
-    @And("^I fill consecutive inputs with label (.*) on page (.*):$")
+    @And("^I fill multiple inputs with label (.*) on page (.*):$")
     public void fillInputs(String label, String page, List<String> data) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
         screen.fillConsequtiveInputs(label, data, page);

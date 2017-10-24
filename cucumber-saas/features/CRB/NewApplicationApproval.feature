@@ -43,7 +43,7 @@ Feature: New Application Approval
       | Postcode      | WC10 4MX      |
     And I enter value London for textfield with id currAddressLine5Txt
     And I enter value United Kingdom for dropdown with id currAddressCountryDDL
-    And I fill consecutive inputs with label Time at Address on page Applicant and Address Details Page:
+    And I fill multiple inputs with label Time at Address on page Applicant and Address Details Page:
       | 10 |
       | 5  |
     #    Defect in the solution - Next button has to be clicked twice to switch page
@@ -57,7 +57,7 @@ Feature: New Application Approval
       | Requested Loan Term   | 36                |
       | Purpose of Loan       | Home Improvements |
     And I click on button with text Next on page Loan - Details Page
-    And I click on button with value yes
+    And I click on button with value yes on page Loan - Details Page
     And I click on button with text Edit on page Applicant Selection for Financial & Employment details Page
     And I select tab with text Employment Details on page Applicant Employment and Affordability Page
     And I enter values for fields on page Applicant Employment and Affordability Page
@@ -74,7 +74,7 @@ Feature: New Application Approval
       | Monthly Income After Deductions             | 3700     |
       | Monthly Credit Card and Store Card Payments | 150      |
       | Bank Name                                   | Cashbank |
-    And I fill consecutive inputs with label Time with Bank on page Applicant Employment and Affordability Page:
+    And I fill multiple inputs with label Time with Bank on page Applicant Employment and Affordability Page:
       | 10 |
       | 5  |
     And I click on button with text Next on page Applicant Employment and Affordability Page

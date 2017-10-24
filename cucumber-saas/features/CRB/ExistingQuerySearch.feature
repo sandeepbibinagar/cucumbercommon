@@ -14,13 +14,17 @@ Feature: J004 Search and verify Applicant Summary, Product Summary and Applicati
       | Surname            | McIver         |
       | Application Number | BK000000000061 |
     And I click on button with text Search on page Query All Search Page
-    And I select element with title Open in column Action ,where column Application Number contains value BK000000000061 in table with id datagrid
+    And I click on table cell link with text Open in column Action on row identified by cell text BK000000000061 in column Application Number on table with id datagrid
     And I verify data in table with id ApplicantSummaryDGRD:
       | No. | Type           | Forename | Surname | Date of Birth |
       | 1   | Main Applicant | Rita     | McIver  | 02/20/1986    |
-    And I verify pairs in section with label Product Summary:
-      | Credit Card Product | Accept |
-      | Loan Product        | Accept |
+    And I compare web image with label to local image:
+      | Credit Card Product     | Bundled.png  |
+      | Loan Product            | Accept.png   |
+      | Offer Bundle            | Accept.png   |
+      | Mortgage Product        | Declined.png |
+      | Current Account Product | Declined.png |
+      | Savings Account Product | Declined.png |
     And I verify values for fields on page Application Overview:
       | System Decision | Accept     |
       | Date            | 2017-02-01 |
