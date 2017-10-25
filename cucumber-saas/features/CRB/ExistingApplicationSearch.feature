@@ -3,45 +3,47 @@ Feature: J003 Search and verify Basic Application Details and Audit Trail Detail
   As a Client User I want to SEARCH an application through WEB PAGE
   so that I can review status of an application
 
-  Background:
-    Given I start the browser
-      And I go to login page
-      And I login with username user and password User123@123
-      And I start a pending application
+  Scenario: I want to review the Personal Details of an Applicant
+    Given Initial setup
+    And I start the browser
+    And I go to login page
+    And I login with username admin and password Secret123
+    And I select item Pending in section Pending Applications in menu Apply on page homeStartPage
+    And I enter values for fields on page Query All Search Page
+      | Surname            | McIver         |
+      | Forename           | Rita           |
+      | Application Number | BK000000002210 |
+    And I click on button with text Search on page Query All Search Page
+    And I click on table cell link with text Open in column Action on row identified by cell text BK000000002210 in column Application Number on table with id datagrid
+    And I verify values for fields on page Basic Application Details Page:
+      | Surname             | McIver             |
+      | Forename            | Rita               |
+      | Home Phone Number   | (+45) 787 567 8999 |
+      | Email Address       | Rita@gmail.com     |
+      | Total Annual Income | 72,500.00          |
+      | Title               | Mrs                |
+      | Existing Customer?  | Yes                |
+      | Marital Status      | Married            |
+      | Residential Status  | Owner occupier     |
+      | Employment Status   | Full time          |
+    And I stop the browser
 
   Scenario: I want to review the Personal Details of an Applicant
-    When I enter search details:
-      |Forename         |Rita                 |
-      |Surname          |McIver               |
+    And I start the browser
+    And I go to login page
+    And I login with username admin and password Secret123
+    And I select item Pending in section Pending Applications in menu Apply on page homeStartPage
+    And I enter values for fields on page Query All Search Page
+      | Surname            | McIver         |
+      | Forename           | Rita           |
+      | Application Number | BK000000002210 |
     And I search for an application
-    And I open Basic Application Details with Application Number BK000000051371
-    Then I should see Personal Details tab with details:
-      |Title                     |Mrs                  |
-      |Surname                   |McIver               |
-      |Forename                  |Rita                 |
-      |Middlename                |                     |
-      |Date Of Birth             |1986-02-20           |
-      |Existing Customer         |Yes                  |
-      |Customer Number           |1008877963           |
-      |Marital Status            |Married              |
-      |Home Phone Number         |(+45) 787 567        |
-      |Mobile Number             |                     |
-      |Email Address             |Rita@gmail.com       |
-      |Preferred Contact Method  |Choose One           |
-      |Residential Status        |Owner occupier       |
-      |Employment Status         |Full time            |
-      |Total Annual Income       |72,500.00            |
+    And I click on table cell link with text Audit Trail in column Action on row identified by cell text BK000000002210 in column Application Number on table with id datagrid
+    And I switch to page with title: Audit Trail Page
+    And I verify data in table with class audit-trail-table:
+      | Date & Time        | Duration | User ID | Channel | Service ID | BPF Name        | Status  | Worklist |
+      | 10/10/2017 1:42 PM | 00:01:29 | admin   | Web     | 1          | New Application | Pending | Pending  |
+      | 10/10/2017 1:42 PM | 00:01:16 | admin   | Web     | 1          | New Application | Pending | Pending  |
     And I stop the browser
 
-  Scenario: I want to review the Audit Trail for an Application
-    When I enter search details:
-      |Forename         |Rita                 |
-      |Surname          |McIver               |
-    And I search for an application
-    And I open Audit Trail with Application Number BK000000051371
-    Then I should see Audit Trail page with details:
-      |Date & Time       |Duration|User ID|Channel|Service ID|BPF Name       |Status |Worklist|
-      |07/24/2017 7:07 AM|00:00:49|user   |Web    |1         |New Application|Pending|Pending |
-      |07/24/2017 7:07 AM|00:00:39|user   |Web    |1         |New Application|Pending|Pending |
-      |07/24/2017 7:07 AM|00:00:23|user   |Web    |1         |New Application|Pending|Pending |
-    And I stop the browser
+
