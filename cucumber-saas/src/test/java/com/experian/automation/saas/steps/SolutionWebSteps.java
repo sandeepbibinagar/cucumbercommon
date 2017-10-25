@@ -3,7 +3,6 @@ package com.experian.automation.saas.steps;
 
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
-import com.experian.automation.helpers.Config;
 import com.experian.automation.saas.screens.SolutionScreen;
 import cucumber.api.java.en.And;
 import org.apache.commons.configuration2.ex.ConfigurationException;
@@ -28,8 +27,9 @@ public class SolutionWebSteps {
         this.testHarness = testHarness;
     }
 
-    File pageObjectModelFile = new File(new Config().get("temp.dir") + "page-object-" + FilenameUtils.removeExtension(new File(new Config().get("deployable.file")).getName()) + ".json");
-    String pageObjectModel = FileUtils.readFileToString(pageObjectModelFile);
+    String pageObjectFileName = "page-object-" + FilenameUtils.removeExtension(new File(new TestHarness().config.get("deployable.file")).getName()) + ".json";
+    File pageObjecFile = new File(new TestHarness().config.get("temp.dir") + pageObjectFileName);
+    String pageObjectModel = FileUtils.readFileToString(pageObjecFile);
 
     /*
     * Usage example(s):
@@ -41,6 +41,20 @@ public class SolutionWebSteps {
     public void selectMenu(String menu, String page) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
         screen.selectMenu(menu, page);
+    }
+
+
+    /*
+    * Usage example(s):
+    *
+    * And I select item Pending in section Pending Applications in menu Apply on page homeStartPage
+    *
+    */
+    @And("^I select item (.*) in section (.*) in menu (.*) on page (.*)$")
+    public void selectMenuWithSection(String subMenu, String sectionItemText, String menu, String pageTitle) throws IOException, ConfigurationException {
+        SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+        screen.selectMenu(menu, pageTitle);
+        screen.selectSubMenuSectionItem(sectionItemText, subMenu, pageTitle);
     }
 
     /*
@@ -71,19 +85,6 @@ public class SolutionWebSteps {
                     throw new IllegalArgumentException("Illegal element type argument: " + elementType);
             }
         }
-    }
-
-    /*
-    * Usage example(s):
-    *
-    * And I select item Pending in section Pending Applications in menu Apply on page homeStartPage
-    *
-    */
-    @And("^I select item (.*) in section (.*) in menu (.*) on page (.*)$")
-    public void selectMenuWithSection(String subMenu, String sectionItemText, String menu, String pageTitle) throws IOException, ConfigurationException {
-        SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.selectMenu(menu, pageTitle);
-        screen.selectSubMenuSectionItem(sectionItemText, subMenu, pageTitle);
     }
 
     /*
@@ -140,34 +141,14 @@ public class SolutionWebSteps {
     /*
     * Usage example(s):
     *
-    *  And I verify values for fields on page Basic Application Details Page:
-    *   | Surname             | McIver             |
-    *   | Forename            | Rita               |
-    *   | Home Phone Number   | (+45) 787 567 8999 |
-    *   | Email Address       | Rita@gmail.com     |
-    *   | Total Annual Income | 72,500.00          |
-    *   | Title               | Mrs                |
-    */
-    @And("^I verify values for fields on page (.*):$")
-    public void verifyFieldsValues(String page, Map<String, String> data) throws IOException, ConfigurationException {
+    * And I fill multiple inputs with label Time at Address on page Applicant and Address Details Page:
+    *  | 10 |
+    *  | 5  |
+   */
+    @And("^I fill multiple inputs with label (.*) on page (.*):$")
+    public void fillInputs(String label, String page, List<String> data) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        for (Map.Entry<String, String> entry : data.entrySet()) {
-            String elementType = screen.getPageObjectTypeByLabel(entry.getKey(), page);
-            assertTrue(screen.verifyFieldValue(page, elementType, entry.getKey(), entry.getValue()), "Element " + entry.getKey() + " contains value: " + entry.getValue());
-        }
-    }
-
-
-    /*
-     * And I verify data in table with class audit-trail-table:
-     *   | Date & Time        | Duration | User ID | Channel | Service ID | BPF Name        | Status  | Worklist |
-     *   | 10/10/2017 1:42 PM | 00:01:29 | admin   | Web     | 1          | New Application | Pending | Pending  |
-     *   | 10/10/2017 1:42 PM | 00:01:16 | admin   | Web     | 1          | New Application | Pending | Pending  |
-     */
-    @And("^I verify data in table with (id|class) (.*):$")
-    public void verifyDataInTableWithId(String selector, String selectorValue, List<List<String>> data) throws IOException, ConfigurationException {
-        SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.verifyDataInTable(selector, selectorValue, data);
+        screen.fillMultipleInputs(label, data, page);
     }
 
     /*
@@ -261,38 +242,65 @@ public class SolutionWebSteps {
         screen.clickOnCellWithText(elementText, columnText,locator,locatorValue);
     }
 
-    @And("^I switch to page with title: (.*)$")
-    public void switchToPageWithTitle(String title) throws IOException, ConfigurationException {
+    /*
+   * Usage example(s):
+   *
+   *  And I verify values for fields on page Basic Application Details Page:
+   *   | Surname             | McIver             |
+   *   | Forename            | Rita               |
+   *   | Home Phone Number   | (+45) 787 567 8999 |
+   *   | Email Address       | Rita@gmail.com     |
+   *   | Total Annual Income | 72,500.00          |
+   *   | Title               | Mrs                |
+   */
+    @And("^I verify values for fields on page (.*):$")
+    public void verifyFieldsValues(String page, Map<String, String> data) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.waitForWindowWithTitle(title);
+        for (Map.Entry<String, String> entry : data.entrySet()) {
+            String elementType = screen.getPageObjectTypeByLabel(entry.getKey(), page);
+            assertTrue(screen.verifyFieldValue(page, elementType, entry.getKey(), entry.getValue()), "Element " + entry.getKey() + " contains value: " + entry.getValue());
+        }
+    }
+
+
+    /*
+     * And I verify data in table with class audit-trail-table:
+     *   | Date & Time        | Duration | User ID | Channel | Service ID | BPF Name        | Status  | Worklist |
+     *   | 10/10/2017 1:42 PM | 00:01:29 | admin   | Web     | 1          | New Application | Pending | Pending  |
+     *   | 10/10/2017 1:42 PM | 00:01:16 | admin   | Web     | 1          | New Application | Pending | Pending  |
+     */
+    @And("^I verify data in table with (id|class) (.*):$")
+    public void verifyDataInTableWithId(String selector, String selectorValue, List<List<String>> data) throws IOException, ConfigurationException {
+        SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+        screen.verifyDataInTable(selector, selectorValue, data);
     }
 
     /*
-    * Usage example(s):
-    *
-    *  I compare web image with label to local image:
-    *   | Credit Card    | Accept.png             |
-    *   | Loan           | Bundled.png            |
-    */
+   * Usage example(s):
+   *
+   *  I compare web image with label to local image:
+   *   | Credit Card    | Accept.png             |
+   *   | Loan           | Bundled.png            |
+   */
     @And("^I compare web image with label to local image:$")
-    public void verifyPairs(Map<String, String> data) throws IOException, ConfigurationException, InterruptedException {
+    public void verifyImageWithLabel(Map<String, String> data) throws IOException, ConfigurationException, InterruptedException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
         for (Map.Entry<String, String> entry : data.entrySet()) {
             screen.verifyImageWithLabel(entry.getKey(), entry.getValue());
         }
     }
 
+
     /*
-     * Usage example(s):
-     *
-     * And I fill multiple inputs with label Time at Address on page Applicant and Address Details Page:
-     *  | 10 |
-     *  | 5  |
+    *
+    * And I switch to page with title Bureau Data
+    *
     */
-    @And("^I fill multiple inputs with label (.*) on page (.*):$")
-    public void fillInputs(String label, String page, List<String> data) throws IOException, ConfigurationException {
+
+    @And("^I switch to page with title: (.*)$")
+    public void switchToPageWithTitle(String title) throws IOException, ConfigurationException {
         SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-        screen.fillConsequtiveInputs(label, data, page);
+        screen.waitForWindowWithTitle(title);
     }
 
 }

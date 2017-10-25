@@ -217,7 +217,7 @@ public class SolutionScreen extends Screen {
      * @param data      A list with the values for the inputs ordered as in the UI
      * @param page      The title of the page where the required web element resides
      */
-    public void fillConsequtiveInputs(String labelText, List<String> data, String page) throws IOException {
+    public void fillMultipleInputs(String labelText, List<String> data, String page) throws IOException {
         List<WebElement> commonRoot = waitForElementsPresence(By.xpath("//input[parent::div[parent::div[child::div/label[contains(text(),'" + labelText + "')]]]]"));
         if (commonRoot.size() == data.size()) {
             for (int j = 0; j < commonRoot.size(); j++) {
@@ -516,7 +516,6 @@ public class SolutionScreen extends Screen {
         boolean found = false;
         int num = 0;
         for (int rowCellIndex = headerIndex; rowCellIndex < tableCells.size(); rowCellIndex = rowCellIndex + tableHeaders.size()) {
-            System.out.print(tableCells.get(rowCellIndex).getText());
             if (tableCells.get(rowCellIndex).getText().equals(elementText)) {
                 num++;
                 found = true;
