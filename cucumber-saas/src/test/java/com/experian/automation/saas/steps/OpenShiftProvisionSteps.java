@@ -64,7 +64,7 @@ public class OpenShiftProvisionSteps {
         serviceGroupName = testHarness.contextResources.allocate("openshift-environment");
         testHarness.setStepData("openshift.servicegroup", serviceGroupName);
 
-        testHarness.logger.info("Allocate OpenShift environment: " + serviceGroupName);
+        logger.info("Allocate OpenShift environment: " + serviceGroupName);
 
         // Delete use case env
         deleteServiceGroupIfDoesntExists(serviceGroupName, "TRUE");
