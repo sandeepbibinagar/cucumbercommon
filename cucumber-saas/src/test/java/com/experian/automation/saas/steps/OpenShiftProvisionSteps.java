@@ -3,10 +3,13 @@ package com.experian.automation.saas.steps;
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.helpers.NetworkOperations;
 import com.experian.automation.logger.Logger;
+import com.experian.automation.steps.CucumberSteps;
 import com.jayway.jsonpath.Filter;
 import com.jayway.jsonpath.JsonPath;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
+import cucumber.api.Scenario;
+import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import net.minidev.json.JSONArray;
 import org.apache.commons.io.FileUtils;
@@ -22,7 +25,6 @@ import static com.jayway.jsonpath.Criteria.where;
 import static com.jayway.jsonpath.Filter.filter;
 
 public class OpenShiftProvisionSteps {
-
 
     private final TestHarness testHarness;
     private final Logger logger = Logger.getLogger(this.getClass());
@@ -73,36 +75,11 @@ public class OpenShiftProvisionSteps {
         logger.info("Create OpenShift environment: " + serviceGroupName);
         createUseCaseEnvironment("ACF", serviceGroupName);
 
-        // Wait for BPS port health check
-        logger.info("BPS OpenShift environment port health check: " + serviceGroupName);
-        String bpsHost = "bps-" + serviceGroupName + ".dyn.dl-non-prod.genesaas.io";
-        Boolean healthCheckPort = new NetworkOperations(bpsHost, 80).checkPortAvailability(true);
-        Assert.assertTrue(healthCheckPort, "Port: 80 on " + bpsHost + " is not accessible");
-
-        // Wait for BPS service health check
-        logger.info("BPS OpenShift environment service health check: " + serviceGroupName);
-        String webServicesBaseURL = "http://" +  bpsHost + "/services";
-
-        HttpResponse<String> response;
-        Boolean healthCheckService = false;
-
-        // Wait for 5 min
-        long timeoutTime = System.currentTimeMillis() + 5 * 60 * 1000;
-        do {
-            response = Unirest.get(webServicesBaseURL + "/health").asString();
-            if ( response.getStatus() == 200 ){
-                healthCheckService = JsonPath.parse(response.getBody()).read("$.BPS.healthy");
-            }
-            Thread.sleep(500);
-        } while (!healthCheckService && System.currentTimeMillis() < timeoutTime);
-
-        Assert.assertTrue(healthCheckPort, "BPS service health check failed");
-
-        testHarness.setStepData("base.webservices.url", webServicesBaseURL);
+        verifyServiceHealth("pc-acquirecustomersfaster-us", serviceGroupName);
     }
 
-    @And("^Destroy provisioned environments$")
-    public void releaseResources() throws Throwable {
+    @And("^Destroy provisioned environment$")
+    public void destroyUseCaseEnvironment() throws Throwable {
 
         String serviceGroupName = testHarness.getStepData("openshift.servicegroup");
 
@@ -119,14 +96,14 @@ public class OpenShiftProvisionSteps {
         createServiceGroupIfDoesntExists(serviceGroupName, "TRUE");
 
         if ( ucName.equals("ACF") ){
-            createService("powercurve-simulation", serviceGroupName, "LATEST");
-            createService("powercurve-connectivity", serviceGroupName, "LATEST");
-            createService("pc-acquirecustomersfaster-us", serviceGroupName, "LATEST");
-            createService("admin-portal-server", serviceGroupName, "LATEST");
-            createService("user-service", serviceGroupName, "LATEST");
-            createService("originations-facade", serviceGroupName, "LATEST");
-            createService("token-service", serviceGroupName, "LATEST");
-            createService("admin-portal-ui", serviceGroupName, "LATEST");
+            createService("powercurve-simulation", serviceGroupName, testHarness.config.get("openshift.release.powercurve-simulation"));
+            createService("powercurve-connectivity", serviceGroupName, testHarness.config.get("openshift.release.powercurve-connectivity"));
+            createService("pc-acquirecustomersfaster-us", serviceGroupName, testHarness.config.get("openshift.release.pc-acquirecustomersfaster-us"));
+            createService("admin-portal-server", serviceGroupName, testHarness.config.get("openshift.release.admin-portal-server"));
+            createService("user-service", serviceGroupName, testHarness.config.get("openshift.release.user-service"));
+            createService("originations-facade", serviceGroupName, testHarness.config.get("openshift.release.originations-facade"));
+            createService("token-service", serviceGroupName, testHarness.config.get("openshift.release.token-service"));
+            createService("admin-portal-ui", serviceGroupName, testHarness.config.get("openshift.release.admin-portal-ui"));
         }
 
     }
@@ -155,14 +132,14 @@ public class OpenShiftProvisionSteps {
         }
     }
 
-    @And("^I delete environment service group (.*)( if it doesn't exist)?$")
+    @And("^I delete environment service group (.*)( if it exists)?$")
     public void deleteServiceGroupIfDoesntExists(String serviceGroupName, String checkExistence) throws Throwable {
 
         Boolean skipDeletion = false;
 
-        HttpResponse<String> response = Unirest.get(getRequestURL("list-service-group")).asString();
+        HttpResponse<String> responseList = Unirest.get(getRequestURL("list-service-group")).asString();
         Filter filter = filter(where("name").eq(serviceGroupName));
-        List<Integer> serviceGroupIDs = JsonPath.parse(response.getBody()).read("$.serviceGroups[?].id", filter);
+        List<Integer> serviceGroupIDs = JsonPath.parse(responseList.getBody()).read("$.serviceGroups[?].id", filter);
 
         if( checkExistence != null && serviceGroupIDs.size() == 0 ){
             skipDeletion = true;
@@ -171,10 +148,19 @@ public class OpenShiftProvisionSteps {
         if( !skipDeletion ){
             // Create Service Group
             String requestURL = String.format(getRequestURL("delete-service-group"), serviceGroupIDs.get(0).toString());
-            response = Unirest.delete(requestURL).asString();
+            HttpResponse<String>  responseDelete = Unirest.delete(requestURL).asString();
 
             // Skip because of ESSP-6069
-            // Assert.assertEquals(response.getStatus(), 504, "Cannot delete service group.");
+            // Assert.assertEquals(responseDelete.getStatus(), 504, "Cannot delete service group.");
+
+            // Wait for 5 min
+            long timeoutTime = System.currentTimeMillis() + 5 * 60 * 1000;
+            do {
+                responseList = Unirest.get(getRequestURL("list-service-group")).asString();
+                serviceGroupIDs = JsonPath.parse(responseList.getBody()).read("$.serviceGroups[?].id", filter);
+                Thread.sleep(5000);
+            } while (serviceGroupIDs.size() != 0 && System.currentTimeMillis() < timeoutTime);
+
         }
     }
 
@@ -213,6 +199,52 @@ public class OpenShiftProvisionSteps {
             String serviceName = service.get(0);
             String releaseName = service.get(1);
             createService(serviceName, serviceGroupName, releaseName);
+        }
+
+    }
+
+    @And("^I verify the (.*) service health in service group (.*)$")
+    public void verifyServiceHealth(String serviceName, String serviceGroupName) throws Throwable {
+
+        if ( serviceName.equals("pc-acquirecustomersfaster-us") ){
+
+            // Wait for BPS port health check
+            logger.info("BPS OpenShift environment port health check: " + serviceGroupName);
+            String bpsHost = "bps-" + serviceGroupName + ".dyn.dl-non-prod.genesaas.io";
+            Boolean healthCheckPort = new NetworkOperations(bpsHost, 80).checkPortAvailability(true);
+            Assert.assertTrue(healthCheckPort, "Port: 80 on " + bpsHost + " is not accessible");
+
+            // Wait for BPS service health check
+            logger.info("BPS OpenShift environment service health check: " + serviceGroupName);
+            String webServicesBaseURL = "http://" +  bpsHost + "/services";
+
+            HttpResponse<String> response;
+            Boolean healthCheckService = false;
+
+            // Wait for 5 min
+            long timeoutTime = System.currentTimeMillis() + 5 * 60 * 1000;
+            do {
+                response = Unirest.get(webServicesBaseURL + "/health").asString();
+                if ( response.getStatus() == 200 ){
+                    healthCheckService = JsonPath.parse(response.getBody()).read("$.BPS.healthy");
+                }
+                Thread.sleep(5000);
+            } while (!healthCheckService && System.currentTimeMillis() < timeoutTime);
+
+            Assert.assertTrue(healthCheckPort, "BPS service health check failed");
+
+            testHarness.setStepData("base.webservices.url", webServicesBaseURL);
+        }
+    }
+
+
+    @After
+    public void afterScenario(Scenario scenario) throws Throwable {
+
+        String serviceGroupName = testHarness.getStepData("openshift.servicegroup");
+
+        if ( serviceGroupName != null ){
+            deleteServiceGroupIfDoesntExists(serviceGroupName, "TRUE");
         }
 
     }
