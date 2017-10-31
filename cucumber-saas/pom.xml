@@ -77,6 +77,18 @@
                 <version>1.4.0</version>
                 <executions>
                     <execution>
+                        <id>background-generator</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <classpathScope>test</classpathScope>
+                            <mainClass>com.experian.automation.runner.BackgroundGenerator</mainClass>
+                        </configuration>
+                    </execution>
+
+                    <execution>
                         <id>suite-generator</id>
                         <phase>process-test-classes</phase>
                         <goals>
