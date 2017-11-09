@@ -1,6 +1,6 @@
 {
   "list-release":{
-    "uri":"/releases/?size=100000"
+    "uri":"/releases?releaseGroup=%s&size=10000"
   },
   "list-service-group":{
     "uri":"/service-groups?size=100000"
@@ -13,10 +13,16 @@
     }
   },
   "delete-service-group":{
-    "uri":"/service-groups/%1$s"
+    "uri":"/service-groups/%1$d"
+  },
+  "list-services":{
+    "uri":"/service-groups/%1$d/services"
+  },
+  "delete-service":{
+    "uri":"/service-groups/%1$d/services/%2$d"
   },
   "create-service-powercurve-simulation":{
-    "uri":"/service-groups/%1$s/services",
+    "uri":"/service-groups/%1$d/services",
     "body":{
       "name":"powercurve-simulation-%1$s",
       "release":{
@@ -29,7 +35,7 @@
     }
   },
   "create-service-powercurve-connectivity":{
-    "uri":"/service-groups/%1$s/services",
+    "uri":"/service-groups/%1$d/services",
     "body":{
       "name":"powercurve-connectivity-%1$s",
       "release":{
@@ -44,7 +50,7 @@
     }
   },
   "create-service-pc-acquirecustomersfaster-us":{
-    "uri":"/service-groups/%1$s/services",
+    "uri":"/service-groups/%1$d/services",
     "body":{
       "name":"pc-acquirecustomersfaster-us-%1$s",
       "allowedReleaseGroup":"pc-acquirecustomersfaster-us",
@@ -60,7 +66,7 @@
     }
   },
   "create-service-admin-portal-server":{
-    "uri":"/service-groups/%1$s/services",
+    "uri":"/service-groups/%1$d/services",
     "body":{
       "name":"admin-portal-server-%1$s",
       "allowedReleaseGroup":"admin-portal-server",
@@ -74,7 +80,7 @@
     }
   },
   "create-service-user-service":{
-    "uri":"/service-groups/%1$s/services",
+    "uri":"/service-groups/%1$d/services",
     "body":{
       "name":"user-service-%1$s",
       "allowedReleaseGroup":"user-service",
@@ -88,7 +94,7 @@
     }
   },
   "create-service-originations-facade":{
-    "uri":"/service-groups/%1$s/services",
+    "uri":"/service-groups/%1$d/services",
     "body":{
       "name":"originations-facade-%1$s",
       "allowedReleaseGroup":"originations-facade",
@@ -102,7 +108,7 @@
     }
   },
   "create-service-token-service":{
-    "uri":"/service-groups/%1$s/services",
+    "uri":"/service-groups/%1$d/services",
     "body":{
       "name":"token-service-%1$s",
       "allowedReleaseGroup":"token-service",
@@ -116,7 +122,7 @@
     }
   },
   "create-service-admin-portal-ui":{
-    "uri":"/service-groups/%1$s/services",
+    "uri":"/service-groups/%1$d/services",
     "body":{
       "name":"admin-portal-ui-%1$s",
       "allowedReleaseGroup":"admin-portal-ui",
