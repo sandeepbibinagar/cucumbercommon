@@ -27,12 +27,12 @@ import java.util.stream.IntStream;
 import static com.jayway.jsonpath.Criteria.where;
 import static com.jayway.jsonpath.Filter.filter;
 
-public class OpenShiftProvisionSteps {
+public class ProvisionAPISteps {
 
     private final TestHarness testHarness;
     private final Logger logger = Logger.getLogger(this.getClass());
 
-    public OpenShiftProvisionSteps(TestHarness testHarness) {
+    public ProvisionAPISteps(TestHarness testHarness) {
         this.testHarness = testHarness;
     }
 
@@ -98,6 +98,7 @@ public class OpenShiftProvisionSteps {
                             testHarness.contextResources.add("openshift-environment-deleted", serviceGroupName);
                         } catch (Throwable throwable) {
                             throwable.printStackTrace();
+                            testHarness.contextResources.release("openshift-environment", serviceGroupName);
                         }
                     }
 
@@ -109,8 +110,10 @@ public class OpenShiftProvisionSteps {
                         } catch (Throwable throwable) {
                             throwable.printStackTrace();
                             action = "failed";
+                            testHarness.contextResources.release("openshift-environment", serviceGroupName);
                         }
                         testHarness.contextResources.delete("openshift-environment-deleted", serviceGroupName);
+
                     }
 
                     if (action.equals("verify") || action.equals("initial")) {
@@ -126,6 +129,7 @@ public class OpenShiftProvisionSteps {
                 })
         ).get();
 
+        Assert.assertTrue(testHarness.getStepData("openshift.servicegroup") != null, "Cannot create environment");
     }
 
     @And("^Destroy provisioned environment$")
@@ -215,16 +219,11 @@ public class OpenShiftProvisionSteps {
 
         if (!skipDeletion) {
 
-            // Delete services
-            List<String> serviceNames = apiOps.getServices(serviceGroupName);
-            deleteServices(serviceGroupName, serviceNames);
-
             logger.info(String.format("-Deleting service group %s", serviceGroupName));
 
             // Delete Service Group
             Boolean status = apiOps.deleteServiceGroup(serviceGroupName);
-            // Skip because of ESSP-6069
-            // Assert.assertTrue(status, String.format("Cannot detele service group %s", serviceGroupName));
+            Assert.assertTrue(status, String.format("Cannot delete service group %s", serviceGroupName));
 
             // Wait until service group is not presented in the list with groups
             long timeoutTime = System.currentTimeMillis() + 5 * 60 * 1000;
