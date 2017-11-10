@@ -31,7 +31,7 @@ public class ProvisionAPIOperations {
 
     public ProvisionAPIOperations() throws IOException {
 
-        File jsonFilePath = new File(getClass().getResource("/steps/openshift-provision/api.json").getPath());
+        File jsonFilePath = new File(getClass().getResource("/steps/provision-api/requests.json").getPath());
         apiRequests = FileUtils.readFileToString(jsonFilePath, "UTF-8");
 
         defaultHeaders = new HashMap<String,String>();
