@@ -182,7 +182,8 @@ public class ProvisionAPIOperations {
             statusCode = -1;
         }
 
-        return statusCode == 202;
+        // 504 will be returned because of ENP-8849
+        return statusCode == 202 || statusCode == 504;
     }
 
     public boolean deleteService(String serviceName, String serviceGroupName) throws UnirestException {

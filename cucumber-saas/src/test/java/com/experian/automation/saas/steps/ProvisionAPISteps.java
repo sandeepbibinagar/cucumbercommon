@@ -83,10 +83,13 @@ public class ProvisionAPISteps {
             serviceGroupActions.put("verify", serviceGroupToVerify);
         }
 
+
         // Thread all service group actions
         ForkJoinPool forkPool = new ForkJoinPool(3);
+        List<String> actions = new ArrayList<String>(serviceGroupActions.keySet());
+
         forkPool.submit(() ->
-                serviceGroupActions.keySet().parallelStream().forEach(action -> {
+                actions.parallelStream().forEach(action -> {
 
                     String serviceGroupName = serviceGroupActions.get(action);
 
@@ -223,8 +226,7 @@ public class ProvisionAPISteps {
 
             // Delete Service Group
             Boolean status = apiOps.deleteServiceGroup(serviceGroupName);
-            // Skip assertion because of ENP-8849
-            // Assert.assertTrue(status, String.format("Cannot delete service group %s", serviceGroupName));
+            Assert.assertTrue(status, String.format("Cannot delete service group %s", serviceGroupName));
 
             // Wait until service group is not presented in the list with groups
             long timeoutTime = System.currentTimeMillis() + 5 * 60 * 1000;
