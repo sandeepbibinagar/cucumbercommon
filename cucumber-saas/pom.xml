@@ -62,6 +62,9 @@
                         <suiteXmlFile>${project.build.directory}/testng-suite.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <testFailureIgnore>true</testFailureIgnore>
+                    <systemPropertyVariables>
+                        <test.threads>${test.threads}</test.threads>
+                    </systemPropertyVariables>
                 </configuration>
                 <executions>
                     <execution>
