@@ -6,6 +6,8 @@ Feature: New Application for Unsecured Personal Loans Accepted through the REST 
 
   Scenario: NA002 As a User I want to CREATE an application through CLIENT SYSTEM to get final decision Accept when Pre bureau decision is Refer
     # Test-ID: 4056743
+    # Use-Case: ACF
+    # Priority: P3
     When I set the base webservice url to ${base.webservices.url}
     And I prepare REST request body:
       """

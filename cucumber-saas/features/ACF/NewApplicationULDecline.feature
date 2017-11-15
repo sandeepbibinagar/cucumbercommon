@@ -6,6 +6,8 @@ Feature: New Application for Unsecured Personal Loans Declined through the REST 
 
   Scenario: NA006 As a User I want to CREATE an application through CLIENT SYSTEM to get final decision Decline when Pre bureau decision is Decline
     # Test-ID: 4097478
+    # Use-Case: ACF
+    # Priority: P3
     When I set the base webservice url to ${base.webservices.url}
     And I prepare REST request body:
       """
