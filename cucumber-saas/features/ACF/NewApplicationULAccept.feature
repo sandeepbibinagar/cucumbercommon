@@ -1,4 +1,3 @@
-@execute
 Feature: New Application for Unsecured Personal Loans Accepted through the REST api
   In order to obtain a decision for an applicant,
   As a ACF user

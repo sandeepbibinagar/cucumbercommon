@@ -1,4 +1,3 @@
-@execute
 Feature: Burp Suite Enterprise Application Scan
   In order to obtain a security status for an application
   As a Security tester
