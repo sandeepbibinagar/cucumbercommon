@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.jayway.jsonpath.Criteria.where;
 import static com.jayway.jsonpath.Filter.filter;
@@ -224,4 +225,16 @@ public class ProvisionAPIOperations {
     private String getRequestBody(String request) {
         return JsonPath.parse((Object) JsonPath.parse(apiRequests).read("$." + request + ".body")).jsonString();
     }
+
+    public Map<String,String> getServiceProperties(int serviceGroupID,int serviceID) throws UnirestException {
+
+        String requestURL = String.format(getRequestURL("list-service"), serviceGroupID, serviceID);
+
+        HttpResponse<String> responseServices = Unirest.get(requestURL).headers(defaultHeaders).asString();
+
+        Map<String,String> serviceNames = JsonPath.read(responseServices.getBody(), "$.properties");
+
+        return serviceNames;
+    }
+
 }
