@@ -1,4 +1,3 @@
-@execute
 Feature: New Application for Credit Card Referred through the REST api
 	In order to obtain a decision for an applicant,
 	As an User
