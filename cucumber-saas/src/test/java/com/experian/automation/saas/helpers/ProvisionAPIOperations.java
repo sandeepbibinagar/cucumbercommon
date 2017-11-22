@@ -140,9 +140,9 @@ public class ProvisionAPIOperations {
 
         HttpResponse<String> responseServices = Unirest.get(requestURL).headers(defaultHeaders).asString();
 
-        Map<String,String> serviceNames = JsonPath.read(responseServices.getBody(), "$.properties");
+        Map<String,String> serviceProperties = JsonPath.read(responseServices.getBody(), "$.properties");
 
-        return serviceNames;
+        return serviceProperties;
     }
 
     public boolean createServiceGroup(String serviceGroupName) throws UnirestException {
