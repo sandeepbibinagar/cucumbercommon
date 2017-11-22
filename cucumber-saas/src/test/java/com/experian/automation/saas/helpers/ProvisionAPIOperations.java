@@ -134,6 +134,17 @@ public class ProvisionAPIOperations {
         return releaseName;
     }
 
+    public Map<String,String> getServiceProperties(int serviceGroupID,int serviceID) throws UnirestException {
+
+        String requestURL = String.format(getRequestURL("list-service"), serviceGroupID, serviceID);
+
+        HttpResponse<String> responseServices = Unirest.get(requestURL).headers(defaultHeaders).asString();
+
+        Map<String,String> serviceNames = JsonPath.read(responseServices.getBody(), "$.properties");
+
+        return serviceNames;
+    }
+
     public boolean createServiceGroup(String serviceGroupName) throws UnirestException {
 
         String requestURL = getRequestURL("create-service-group");
@@ -224,17 +235,6 @@ public class ProvisionAPIOperations {
 
     private String getRequestBody(String request) {
         return JsonPath.parse((Object) JsonPath.parse(apiRequests).read("$." + request + ".body")).jsonString();
-    }
-
-    public Map<String,String> getServiceProperties(int serviceGroupID,int serviceID) throws UnirestException {
-
-        String requestURL = String.format(getRequestURL("list-service"), serviceGroupID, serviceID);
-
-        HttpResponse<String> responseServices = Unirest.get(requestURL).headers(defaultHeaders).asString();
-
-        Map<String,String> serviceNames = JsonPath.read(responseServices.getBody(), "$.properties");
-
-        return serviceNames;
     }
 
 }
