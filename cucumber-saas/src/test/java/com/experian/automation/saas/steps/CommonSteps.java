@@ -13,11 +13,15 @@ import com.experian.automation.saas.screens.AdminPortal.PortalLoginScreen;
 import com.experian.automation.saas.screens.HomeScreen;
 
 import com.experian.automation.steps.FileOperationsSteps;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * Created by B04342A on 6/24/2017.
@@ -33,16 +37,34 @@ public class CommonSteps {
         this.webHarness = webHarness;
     }
 
+    @And("^I download solution (.*)$")
+    public void getSolutionDeployables(String solutionName) throws IOException, UnirestException {
+
+        /* Have to check where EPP solutions deployables will be taken from */
+        ProvisionAPISteps apiSteps = new ProvisionAPISteps(testHarness);
+        apiSteps.getServiceProperty("WEB_ENGINE_SOLUTION_FILES", solutionName, "SOLUTION_FILES_PATH_VAR");
+
+        File solutionFilesZip = new File(testHarness.config.get("temp.dir") + File.separator + solutionName + ".zip");
+        FileUtils.copyURLToFile(new URL(testHarness.getStepData("SOLUTION_FILES_PATH_VAR")),solutionFilesZip);
+
+        new ArchiversOperations().unzip(solutionFilesZip.getAbsolutePath(), testHarness.config.get("temp.dir"));
+
+    }
+
     @And("^I create the solution page object model from file (.*)$")
     public void createPageObject(String deployablePath) throws Throwable {
+
+        if (testHarness.config.get("portal.login").equals("true")) {
+            getSolutionDeployables("pc-acquirecustomersfaster-us");
+        }
+
 
         File deployableFile = new File(deployablePath);
         String solutionPageObjectFile = getClass().getResource("/XSLT/solution-page-object.xslt").getFile();
         String tempDeployablesFolder = testHarness.config.get("temp.dir") + "/deployables";
         String dataFile = tempDeployablesFolder + "/data.xml";
         String transformedXMLfile = testHarness.config.get("temp.dir") + "/output.xml";
-        String pageObjectsJSONfile = testHarness.config.get("temp.dir") +"page-object-"+ FilenameUtils.removeExtension(deployableFile.getName())+".json";
-
+        String pageObjectsJSONfile = testHarness.config.get("temp.dir") + "page-object-" + FilenameUtils.removeExtension(deployableFile.getName()) + ".json";
 
         String filepathRegex = "(?<=file:\\/\\/\\/)(.*)(?=',)";
         String dataFileContent = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><pages></pages>";

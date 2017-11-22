@@ -8,6 +8,7 @@ import com.jayway.jsonpath.Filter;
 import com.jayway.jsonpath.JsonPath;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -61,7 +62,7 @@ public class ProvisionAPISteps {
         HashMap<String, String> serviceGroupActions = new HashMap<>();
 
         // Skip stand-by service groups actions
-        if (enableStandByEnvironments){
+        if (enableStandByEnvironments) {
 
             String serviceGroupToDelete = testHarness.contextResources.allocate("openshift-environment");
             String serviceGroupToCreate = testHarness.contextResources.allocate("openshift-environment-deleted");
@@ -340,6 +341,20 @@ public class ProvisionAPISteps {
         for (String serviceName : services) {
             verifyServiceHealth(serviceName, serviceGroupName);
         }
+    }
+
+    @And("^I save property (.*) from service (.*) as (.*) variable$")
+    public void getServiceProperty(String property, String service, String variable) throws IOException, UnirestException {
+
+        ProvisionAPIOperations apiOps = new ProvisionAPIOperations();
+
+        int serviceGroupID = apiOps.getServiceGroupID(testHarness.config.get("openshift.service.group.name"));
+        int serviceID = apiOps.getServiceID(service, testHarness.config.get("openshift.service.group.name"));
+
+        Map<String,String> properties = apiOps.getServiceProperties(serviceGroupID,serviceID);
+        Object propertyValue = properties.get(property);
+
+        testHarness.setStepData(variable,propertyValue.toString());
     }
 
     @After

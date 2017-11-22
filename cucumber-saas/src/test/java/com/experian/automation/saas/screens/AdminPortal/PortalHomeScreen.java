@@ -13,10 +13,13 @@ public class PortalHomeScreen extends Screen {
     @FindBy(xpath = "//nav//span[contains(text(),'SaaS Portal')]")
     public WebElement portalHeader;
 
+    @FindBy(xpath="//i[@class='exp-icon-apps']")
+    public WebElement solutionsListButton;
+
     @FindBy(xpath="//div[@class='destination']")
     public List<WebElement> solutions;
 
-    @FindBy(id = "originations")
+    @FindBy(id = "app-switcher-originations")
     public WebElement originationsSolution;
 
     @FindBy(id = "admin-portal")
@@ -24,7 +27,7 @@ public class PortalHomeScreen extends Screen {
 
     public PortalHomeScreen(TestHarness testHarness, WebHarness webHarness){
         super(testHarness, webHarness);
-        waitForElements(solutions);
+        waitForElement(solutionsListButton);
     }
 
 }

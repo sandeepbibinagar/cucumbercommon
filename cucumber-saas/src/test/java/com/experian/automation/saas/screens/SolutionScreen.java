@@ -237,9 +237,6 @@ public class SolutionScreen extends Screen {
      */
     public void clickButton(String text, String page) throws IOException {
 
-        waitForElementToDisappear(ajaxLoader);
-        assertTrue(getWindowTitle().equals(page), "Page loaded: " + page);
-
         List<WebElement> buttonsList = getAllPageObjectsByType(page, "button");
         List<WebElement> buttonsWithSameText = new ArrayList<>();
 

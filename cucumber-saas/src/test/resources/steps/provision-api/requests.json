@@ -18,6 +18,9 @@
   "list-services":{
     "uri":"/service-groups/%1$d/services"
   },
+  "list-service":{
+    "uri":"/service-groups/%1$d/services/%2$d"
+  },
   "delete-service":{
     "uri":"/service-groups/%1$d/services/%2$d"
   },

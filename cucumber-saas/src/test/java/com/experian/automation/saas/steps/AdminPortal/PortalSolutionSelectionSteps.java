@@ -31,11 +31,8 @@ public class PortalSolutionSelectionSteps {
         PortalHomeScreen portalScreen = new PortalHomeScreen(testHarness, webHarness);
         switch (solution) {
             case "PowerCurve Originations":
-                portalScreen.waitForElement(portalScreen.originationsSolution);
-                portalScreen.originationsSolution.click();
-//                portalScreen.closeWindow();
-                HomeScreen hm = new HomeScreen(testHarness, webHarness);
-                hm.waitForElement(hm.homeButton);
+                portalScreen.clickWithScrollToView(portalScreen.solutionsListButton);
+                portalScreen.clickWithScrollToView(portalScreen.originationsSolution);
                 break;
             case "PowerCurve Admin Portal":
                 portalScreen.adminPortal.click();
