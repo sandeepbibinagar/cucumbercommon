@@ -1,4 +1,4 @@
-package com.experian.automation.saas.screens.crb;
+package com.experian.automation.saas.screens.ParametersScreens;
 
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;

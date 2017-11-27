@@ -1,4 +1,4 @@
-package com.experian.automation.saas.screens.crb;
+package com.experian.automation.saas.screens.ParametersScreens;
 
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class TacticalParametersMaintananceScreen extends Screen {
 
-    public String window = "myWindow";
+    public String window = "Decision Analytics platform - Tactical Parameter Administration";
 
     @FindBy(xpath = "//div//h1[contains(text(),'Tactical Parameter Administration')]")
     public WebElement header;
@@ -54,7 +54,7 @@ public class TacticalParametersMaintananceScreen extends Screen {
 
     public TacticalParametersMaintananceScreen(TestHarness testHarness, WebHarness webHarness) {
         super(testHarness, webHarness);
-        switchToWindow(window);
+        switchWindowByTitle(window);
         waitForElement(header);
     }
 

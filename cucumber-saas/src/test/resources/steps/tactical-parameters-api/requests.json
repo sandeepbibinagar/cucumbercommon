@@ -1,0 +1,14 @@
+{
+  "list-all-parameters": {
+    "uri": "/services/tactical/parameter_group/TENANT1/all"
+  },
+  "list-single-parameter": {
+    "uri": "/services/tactical/parameter_group/TENANT1/%1$s"
+  },
+  "update-parameter": {
+    "uri": "/services/tactical/parameter_group/TENANT1/update"
+  },
+  "deploy-parameter": {
+    "uri": "/services/tactical/parameter_group/TENANT1/deploy/%1$s"
+  }
+}

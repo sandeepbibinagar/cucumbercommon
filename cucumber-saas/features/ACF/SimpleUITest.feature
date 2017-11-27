@@ -1,4 +1,3 @@
-@skip
 Feature: Simple UI POC
 
   Scenario: ACF form test
@@ -7,6 +6,13 @@ Feature: Simple UI POC
     And I go to login page
     And I login with username adm@example.com and password Password123
     And I select solution - PowerCurve Originations
+#    And I select solution - Options
+#    And I import tactical parameters from files:
+#      | ExpCons_TP - TP - ExpCons_TP Search               | ACF_Tactical_Parameters.xml |
+#      | Bureau_Enabler_TP - TP - Bureau Enabler           | ACF_Tactical_Parameters.xml |
+#      | MiddleName_Mandatory - TP - Middle Name Mandatory | ACF_Tactical_Parameters.xml |
+#      | WorkflowTP - TP - Workflow Search                 | ACF_Tactical_Parameters.xml |
+#      | EquCons_TP - TP - EquCons_TP Search               | ACF_Tactical_Parameters.xml |
     And I select menu Capture Data on page Home Page
     And I enter values for fields on page P - New Application Screen
       | First Name            | Petar         |

@@ -1,21 +1,21 @@
-package com.experian.automation.saas.steps.crb;
+package com.experian.automation.saas.steps.TacticalParameters;
 
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.HomeScreen;
-import com.experian.automation.saas.screens.crb.TacticalParametersMaintananceScreen;
+import com.experian.automation.saas.screens.ParametersScreens.TacticalParametersMaintananceScreen;
 import cucumber.api.java.en.And;
 
 import java.util.Map;
 
-public class TacticalParametersSteps {
+public class TacticalParametersScreenSteps {
 
     private final Logger logger = Logger.getLogger(this.getClass());
     private final TestHarness testHarness;
     private final WebHarness webHarness;
 
-    public TacticalParametersSteps(TestHarness testHarness, WebHarness webHarness) {
+    public TacticalParametersScreenSteps(TestHarness testHarness, WebHarness webHarness) {
         this.testHarness = testHarness;
         this.webHarness = webHarness;
     }
@@ -38,13 +38,10 @@ public class TacticalParametersSteps {
 */
     @And("^I import tactical parameters from files:$")
     public void importTacticalParameters(Map<String, String> data) throws Throwable {
-        HomeScreen home = new HomeScreen(testHarness, webHarness);
-        home.selectMenu("System", "Tactical Parameters Maintenance");
         TacticalParametersMaintananceScreen screen = new TacticalParametersMaintananceScreen(testHarness, webHarness);
         for (Map.Entry<String, String> params : data.entrySet()) {
             screen.uploadTacticalParameter(params.getKey(), params.getValue());
         }
-        screen.closeWindow();
     }
 }
 
