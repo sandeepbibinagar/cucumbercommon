@@ -1,23 +1,23 @@
-package com.experian.automation.saas.steps.crb;
+package com.experian.automation.saas.steps.TacticalParameters;
 
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.HomeScreen;
-import com.experian.automation.saas.screens.crb.DynamicParameterMaintenanceScreen;
+import com.experian.automation.saas.screens.ParametersScreens.DynamicParameterMaintenanceScreen;
 import cucumber.api.java.en.And;
 
 import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 
-public class DynamicalParametersSteps {
+public class DynamicalParametersScreenSteps {
 
     private final Logger logger = Logger.getLogger(this.getClass());
     private final TestHarness testHarness;
     private final WebHarness webHarness;
 
-    public DynamicalParametersSteps(TestHarness testHarness, WebHarness webHarness) {
+    public DynamicalParametersScreenSteps(TestHarness testHarness, WebHarness webHarness) {
         this.testHarness = testHarness;
         this.webHarness = webHarness;
     }
