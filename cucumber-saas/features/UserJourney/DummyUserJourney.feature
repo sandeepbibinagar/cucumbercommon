@@ -4,4 +4,4 @@ Feature: A dummy UserJourney case to test filtering
 
   Scenario: Dummy UserJourney test
     # Use-Case: UserJourney
-    When I set the base webservice url to ${base.webservices.url}
+    When I set the base webservice url to ${bps.webservices.url}
