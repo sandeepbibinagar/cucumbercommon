@@ -4,10 +4,9 @@ import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.AdminPortal.PortalHomeScreen;
-import com.experian.automation.saas.screens.HomeScreen;
 import com.experian.automation.saas.steps.CommonSteps;
-import com.experian.automation.saas.steps.crb.DynamicalParametersSteps;
-import com.experian.automation.saas.steps.crb.TacticalParametersSteps;
+import com.experian.automation.saas.steps.TacticalParameters.DynamicalParametersScreenSteps;
+import com.experian.automation.saas.steps.TacticalParameters.TacticalParametersScreenSteps;
 import com.experian.automation.saas.steps.crb.UserManagementSteps;
 import cucumber.api.java.en.And;
 import org.openqa.selenium.NoSuchElementException;
@@ -26,9 +25,10 @@ public class PortalSolutionSelectionSteps {
         this.webHarness = webHarness;
     }
 
-    @And("^I select solution - (PowerCurve Originations|PoweCurve Admin Portal)$")
+    @And("^I select solution - (PowerCurve Originations|PoweCurve Admin Portal|Options)$")
     public void selectSolution(String solution) {
         PortalHomeScreen portalScreen = new PortalHomeScreen(testHarness, webHarness);
+        portalScreen.clickWithScrollToView(portalScreen.solutionsListButton);
         switch (solution) {
             case "PowerCurve Originations":
                 portalScreen.clickWithScrollToView(portalScreen.solutionsListButton);
@@ -36,6 +36,9 @@ public class PortalSolutionSelectionSteps {
                 break;
             case "PowerCurve Admin Portal":
                 portalScreen.adminPortal.click();
+                break;
+            case "Options":
+                portalScreen.clickWithScrollToView(portalScreen.options);
                 break;
             default:
                 throw new NoSuchElementException("No such element" + solution);
@@ -82,8 +85,8 @@ public class PortalSolutionSelectionSteps {
                 new UserManagementSteps(testHarness, webHarness).setAllPermissions();
                 new CommonSteps(testHarness, webHarness).solutionLogout();
                 new PortalSolutionSelectionSteps(testHarness, webHarness).selectSolution(solution);
-                new TacticalParametersSteps(testHarness, webHarness).importTacticalParameters(tacticalParams);
-                new DynamicalParametersSteps(testHarness, webHarness).importDynamicParameters(dynamicalParams);
+                new TacticalParametersScreenSteps(testHarness, webHarness).importTacticalParameters(tacticalParams);
+                new DynamicalParametersScreenSteps(testHarness, webHarness).importDynamicParameters(dynamicalParams);
 
                 break;
 
