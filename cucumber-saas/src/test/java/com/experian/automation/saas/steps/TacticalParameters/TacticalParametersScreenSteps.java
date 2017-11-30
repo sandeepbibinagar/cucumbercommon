@@ -3,8 +3,7 @@ package com.experian.automation.saas.steps.TacticalParameters;
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
-import com.experian.automation.saas.screens.HomeScreen;
-import com.experian.automation.saas.screens.ParametersScreens.TacticalParametersMaintananceScreen;
+import com.experian.automation.saas.screens.WebEngine.TacticalParametersMaintananceScreen;
 import cucumber.api.java.en.And;
 
 import java.util.Map;

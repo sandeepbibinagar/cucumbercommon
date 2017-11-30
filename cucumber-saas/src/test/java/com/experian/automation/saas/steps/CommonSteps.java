@@ -12,6 +12,7 @@ import com.experian.automation.saas.screens.LoginScreen;
 import com.experian.automation.saas.screens.AdminPortal.PortalLoginScreen;
 import com.experian.automation.saas.screens.HomeScreen;
 
+import com.experian.automation.saas.screens.WebEngine.WebEngineHome;
 import com.experian.automation.steps.FileOperationsSteps;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import cucumber.api.java.en.And;
@@ -97,6 +98,13 @@ public class CommonSteps {
             screen.goToURL();
         }
     }
+
+    @And("^I go to WebEngine home page$")
+    public void goToWebEngine() throws Throwable {
+        WebEngineHome webEngine = new WebEngineHome(testHarness,webHarness);
+        webEngine.waitForElements(webEngine.mainMenuItems);
+    }
+
 
     @And("^I login with username (.*) and password (.*)$")
     public void login(String username, String password) throws Throwable {
