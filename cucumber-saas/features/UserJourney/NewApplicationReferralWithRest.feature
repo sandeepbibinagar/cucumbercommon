@@ -7,7 +7,7 @@ Feature: New Application for Credit Card Referred through the REST api
 	  # Test-ID: 4570749
 	  # Use-Case: UserJourney
 	  # Priority: P1
-		When I set the base webservice url to ${base.webservices.url}
+		When I set the base webservice url to ${bps.webservices.url}
 		And I prepare REST request body:
         """
         {

@@ -7,7 +7,7 @@ Feature: New Application for Unsecured Personal Loans Declined through the REST 
     # Test-ID: 4097478
     # Use-Case: ACF
     # Priority: P3
-    When I set the base webservice url to ${base.webservices.url}
+    When I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
       {
