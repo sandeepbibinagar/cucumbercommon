@@ -1,4 +1,4 @@
-package com.experian.automation.saas.screens.crb;
+package com.experian.automation.saas.screens.WebEngine;
 
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
@@ -9,41 +9,50 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class UserManagementScreen extends Screen{
+public class UserManagementScreen extends Screen {
 
-    public String window = "myWindow";
+    private String window = "myWindow";
 
-    @FindBy(xpath="//a[contains(text(),'Security Profiles')]")
-    public WebElement securityProfilesButton;
+    @FindBy(xpath = "//div[@role='tablist']/h3/a")
+    public List<WebElement> tabsList;
 
-    @FindBy(xpath="//ul[@id='draggableSecuProfiles']/li/a[contains(text(),'Administrator')]")
-    public WebElement administratorProfile;
+    @FindBy(xpath = "//div[@role='tabpanel' and @aria-hidden='false']/ul/li/a")
+    public List<WebElement> tabsListItems;
 
-    @FindBy(xpath="//a[@title='Edit']")
-    public WebElement profilePermissionsEditButton;
+    @FindBy(xpath = "//thead/tr/th[@class='profileColHeader ' or not(@class)]")
+    public List<WebElement> businessRulesTableHeaderCells;
+
+    @FindBy(xpath="//td[@class='deny']")
+    public List<WebElement> listOfDeniedPermissions;
 
     @FindBy(xpath="//a[contains(text(),' Allow all')]")
     public WebElement allowAllButton;
 
-    @FindBy(xpath="//span[contains(text(),'Ok') and parent::button]")
-    public WebElement okButton;
-
-    @FindBy(xpath="//thead/tr/th[@class='profileColHeader ' or not(@class)]")
-    public List<WebElement> businessRulesTableHeaderCells;
-
-    @FindBy(xpath="//table[@id='spTable']//tbody/tr/td")
+    @FindBy(xpath = "//table[@id='spTable']//tbody/tr/td")
     public List<WebElement> businessRulesTableRowCells;
 
-    @FindBy(xpath="//td[@class='deny']")
-    public List<WebElement> listOfDeniedPermissions;
+    @FindBy(xpath = "//a[@title='Edit']")
+    public WebElement editButton;
+
+    @FindBy(xpath = " //button[child::span[contains(text(),'Ok')]]")
+    public WebElement okButton;
 
     public UserManagementScreen(TestHarness testHarness, WebHarness webHarness) {
         super(testHarness, webHarness);
         switchToWindow(window);
     }
 
-    public void selectBusinessProcessRules(String permission, String feature) {
+    public void selectTab(String tab) {
+        clickWithScrollToView(getElementByText(tabsList, tab));
+    }
 
+    public void selectTabItem(String tabItem) {
+        waitForElements(tabsListItems);
+        clickWithScrollToView(getElementByText(tabsListItems, tabItem));
+    }
+
+    public void setProcessRules(String permission, String feature) {
+        System.out.println("Feature: " + feature);
         Integer headerIndex = -1;
         Integer rowIndex = -1;
         Integer elementToClickPosition = -1;
@@ -67,7 +76,7 @@ public class UserManagementScreen extends Screen{
         } else {
             String oldClassAttribute = businessRulesTableRowCells.get(elementToClickPosition).getAttribute("class");
             businessRulesTableRowCells.get(elementToClickPosition).click();
-            waitForElementAttributeChange(businessRulesTableRowCells.get(elementToClickPosition),"class",oldClassAttribute);
+            waitForElementAttributeChange(businessRulesTableRowCells.get(elementToClickPosition), "class", oldClassAttribute);
         }
     }
 

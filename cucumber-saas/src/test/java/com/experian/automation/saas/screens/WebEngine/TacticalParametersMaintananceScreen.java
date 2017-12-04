@@ -1,4 +1,4 @@
-package com.experian.automation.saas.screens.ParametersScreens;
+package com.experian.automation.saas.screens.WebEngine;
 
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
@@ -21,6 +21,9 @@ public class TacticalParametersMaintananceScreen extends Screen {
 
     @FindBy(xpath = "//label/span[contains(text(),'Imp./Exp.')]")
     public WebElement impExpButton;
+
+    @FindBy(id = "logoutLink")
+    public WebElement logout;
 
     @FindBy(id = "importFile")
     public WebElement importFile;

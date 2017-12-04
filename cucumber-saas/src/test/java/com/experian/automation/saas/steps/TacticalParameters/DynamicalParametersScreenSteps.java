@@ -4,7 +4,7 @@ import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.HomeScreen;
-import com.experian.automation.saas.screens.ParametersScreens.DynamicParameterMaintenanceScreen;
+import com.experian.automation.saas.screens.WebEngine.DynamicParameterMaintenanceScreen;
 import cucumber.api.java.en.And;
 
 import java.util.Map;
