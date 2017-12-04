@@ -1,6 +1,7 @@
 Feature: Simple UI POC
 
-  Scenario: ACF form test
+  Scenario: ACF solution simple form test
+    # Use-Case: ACF
     Given Initial setup
 
     And I start the browser
