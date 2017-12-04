@@ -19,6 +19,9 @@ public class PortalHomeScreen extends Screen {
     @FindBy(xpath="//div[@class='destination']")
     public List<WebElement> solutions;
 
+    @FindBy(xpath="//a[@aria-expanded='true' and child::i[@class='exp-icon-apps']]")
+    public WebElement menuExpanded;
+
     @FindBy(xpath="//a[child::p[contains(text(),'Options')]]")
     public WebElement options;
 
