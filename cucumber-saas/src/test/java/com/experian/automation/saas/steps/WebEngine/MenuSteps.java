@@ -20,7 +20,7 @@ public class MenuSteps {
         this.webHarness = webHarness;
     }
 
-    @And("^I select menu (.*\\/.*)$")
+    @And("^I select menu (.*\\/.*) on WebEngine home page$")
     public void selectMenu(String menu) throws Throwable {
         WebEngineHome homePage = new WebEngineHome(testHarness, webHarness);
 

@@ -24,7 +24,7 @@ public class UserManagementSteps {
         this.webHarness = webHarness;
     }
 
-    @And("^I select tab item (.*\\/.*)$")
+    @And("^I select tab item (.*\\/.*) on Web Engine user administration panel$")
     public void selectTabItem(String tabItem){
         UserManagementScreen umScreen = new UserManagementScreen(testHarness, webHarness);
         Pattern pattern = Pattern.compile("[^\\/]+");
@@ -41,9 +41,9 @@ public class UserManagementSteps {
 
     }
     /*
-       And I allow all business process rules.
+       And I allow all business process rules
     */
-    @And("^I allow all business process rules.$")
+    @And("^I allow all business process rules$")
     public void setAllPermissions() throws Throwable {
         UserManagementScreen umScreen = new UserManagementScreen(testHarness, webHarness);
         umScreen.waitForElements(umScreen.businessRulesTableRowCells);

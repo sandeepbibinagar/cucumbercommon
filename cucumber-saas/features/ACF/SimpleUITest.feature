@@ -1,3 +1,4 @@
+@run
 Feature: Simple UI POC
 
   Scenario: ACF form test
@@ -5,20 +6,20 @@ Feature: Simple UI POC
 
     And I start the browser
     And I go to login page
-    And I login with username adm@example.com and password Password123
+    And I login on Admin Portal with username adm@example.com and password Password123
     And I go to WebEngine home page
-    And I select menu System/User Administration
-    And I select tab item Security Profiles/Administrator
+    And I select menu System/User Administration on WebEngine home page
+    And I select tab item Security Profiles/Administrator on Web Engine user administration panel
     And I set business process rules by feature:
       | Create | Screen New Application    |
       | Create | New Application           |
       | All    | Screen Update Application |
-    And I select menu System/Logout
+    And I select menu System/Logout on WebEngine home page
     And I stop the browser
 
     And I start the browser
     And I go to login page
-    And I login with username adm@example.com and password Password123
+    And I login on Admin Portal with username adm@example.com and password Password123
     And I select solution - PowerCurve Originations
     And I select menu Capture Data on page Home Page
     And I enter values for fields on page P - New Application Screen

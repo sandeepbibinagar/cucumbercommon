@@ -11,7 +11,7 @@ import java.util.List;
 public class WebEngineHome extends Screen {
 
     private String window = "Home Page";
-    private String url = testHarness.config.get("webengine.url");
+    private String url = testHarness.config.get("webengine.base.url");
 
     @FindBy(xpath = "//ul[@id='menu']/li/a")
     public List<WebElement> mainMenuItems;
@@ -21,7 +21,7 @@ public class WebEngineHome extends Screen {
 
     public WebEngineHome(TestHarness testHarness, WebHarness webHarness) {
         super(testHarness, webHarness);
-        goToURL(url+"/WebEngine");
+        goToURL(url);
     }
 
     public void selectMainMenu(String mainMenu) {

@@ -106,7 +106,7 @@ public class CommonSteps {
     }
 
 
-    @And("^I login with username (.*) and password (.*)$")
+    @And("^I login on Admin Portal with username (.*) and password (.*)$")
     public void login(String username, String password) throws Throwable {
 
         if (testHarness.config.get("portal.login").equals("true")) {
