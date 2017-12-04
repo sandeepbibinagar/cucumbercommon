@@ -1,4 +1,3 @@
-@run
 Feature: Simple UI POC
 
   Scenario: ACF form test
