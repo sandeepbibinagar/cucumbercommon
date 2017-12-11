@@ -1,3 +1,4 @@
 [submodule "cucumber-common"]
 	path = cucumber-common
-	url = https://bitbucketglobal.experian.local/scm/pow/cucumber-common-framework.git
+	url = https://bitbucketglobal.experian.local/scm/pow/cucumber-common.git
+	branch = master
