@@ -4,6 +4,18 @@ Feature: Simple UI POC
     # Use-Case: ACF
     Given Initial setup
 
+#    Populating Tactical Parameters
+
+    And I update tactical parameters from file ${features.path}/ACF/data/ACF_Tactical_Parameters_Export.xml
+
+    And I deploy tactical parameter ExpCons_TP - TP - ExpCons_TP Search version LATEST
+    And I deploy tactical parameter Product_TP - TP - Product_TP Search version LATEST
+    And I deploy tactical parameter Bureau_Enabler_TP - TP - Bureau Enabler version LATEST
+    And I deploy tactical parameter MiddleName_Mandatory - TP - Middle Name Mandatory version LATEST
+    And I deploy tactical parameter WorkflowTP - TP - Workflow Search version LATEST
+    And I deploy tactical parameter EquCons_TP - TP - EquCons_TP Search version LATEST
+
+#    Giving User Permissions to access the Originations UI
     And I start the browser
     And I go to login page
     And I login on Admin Portal with username adm@example.com and password Password123
@@ -17,6 +29,7 @@ Feature: Simple UI POC
     And I select menu System/Logout on WebEngine home page
     And I stop the browser
 
+#    Filling the new application form in the ACF Origionations UI
     And I start the browser
     And I go to login page
     And I login on Admin Portal with username adm@example.com and password Password123
