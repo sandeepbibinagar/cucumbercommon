@@ -7,6 +7,16 @@ Feature: New Application for Credit Card Referred through the REST api
 	  # Test-ID: 4570749
 	  # Use-Case: UserJourney
 	  # Priority: P1
+		And I update tactical parameters from file ${features.path}/UserJourney/data/UserJourney_Tactical_Parameters_Export.xml
+
+		And I deploy tactical parameter Bureau Parameter - Get Bureau Parameter version LATEST
+		And I deploy tactical parameter Application Parameter - Get Application Parameter version LATEST
+		And I deploy tactical parameter Product Reference Parameter - Get Product Reference Parameter version LATEST
+		And I deploy tactical parameter Policy Config Parameter - Get Policy Conf Parameter version LATEST
+		And I deploy tactical parameter Credit Card Parameters - Get Credit Card Parameters version LATEST
+		And I deploy tactical parameter Scorecard Config Parameter - Get Scorecard Conf Parameter version LATEST
+		And I deploy tactical parameter Treatment Conf Parameter - Get Treatment Config Parameter version LATEST
+
 		When I set the base webservice url to ${bps.webservices.url}
 		And I prepare REST request body:
         """

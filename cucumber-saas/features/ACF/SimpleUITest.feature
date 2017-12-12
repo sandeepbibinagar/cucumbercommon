@@ -5,7 +5,6 @@ Feature: Simple UI POC
     Given Initial setup
 
 #    Populating Tactical Parameters
-
     And I update tactical parameters from file ${features.path}/ACF/data/ACF_Tactical_Parameters_Export.xml
 
     And I deploy tactical parameter ExpCons_TP - TP - ExpCons_TP Search version LATEST
