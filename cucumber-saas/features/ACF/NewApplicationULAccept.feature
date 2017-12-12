@@ -7,6 +7,15 @@ Feature: New Application for Unsecured Personal Loans Accepted through the REST 
     # Test-ID: 4056743
     # Use-Case: ACF
     # Priority: P3
+    And I update tactical parameters from file ${features.path}/ACF/data/ACF_Tactical_Parameters_Export.xml
+
+    And I deploy tactical parameter ExpCons_TP - TP - ExpCons_TP Search version LATEST
+    And I deploy tactical parameter Product_TP - TP - Product_TP Search version LATEST
+    And I deploy tactical parameter Bureau_Enabler_TP - TP - Bureau Enabler version LATEST
+    And I deploy tactical parameter MiddleName_Mandatory - TP - Middle Name Mandatory version LATEST
+    And I deploy tactical parameter WorkflowTP - TP - Workflow Search version LATEST
+    And I deploy tactical parameter EquCons_TP - TP - EquCons_TP Search version LATEST
+
     When I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
