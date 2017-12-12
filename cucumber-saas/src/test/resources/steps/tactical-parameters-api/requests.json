@@ -5,6 +5,9 @@
   "list-single-parameter": {
     "uri": "/services/tactical/parameter_group/TENANT1/%1$s"
   },
+  "list-parameter-versions": {
+    "uri": "/services/tactical/parameter_group/TENANT1/versions/%1$s"
+  },
   "update-parameter": {
     "uri": "/services/tactical/parameter_group/TENANT1/update"
   },
