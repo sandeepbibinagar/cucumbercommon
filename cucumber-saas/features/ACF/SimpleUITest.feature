@@ -1,10 +1,9 @@
-@skip
 Feature: Simple UI POC
 
   Scenario: ACF solution simple form test
     # Use-Case: ACF
     Given Initial setup
-    
+
 #    Populating Tactical Parameters
     And I update tactical parameters from file ${features.path}/ACF/data/ACF_Tactical_Parameters_Export.xml
 
