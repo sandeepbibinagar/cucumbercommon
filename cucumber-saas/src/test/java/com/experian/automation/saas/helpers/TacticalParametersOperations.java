@@ -1,6 +1,5 @@
 package com.experian.automation.saas.helpers;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.helpers.XMLOperations;
 import com.experian.automation.logger.Logger;
 import com.google.gson.Gson;
@@ -10,17 +9,19 @@ import com.jayway.jsonpath.JsonPath;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.apache.commons.configuration2.ex.ConfigurationException;
-import org.apache.commons.io.FileUtils;
-import net.minidev.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.minidev.json.JSONArray;
+import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.io.FileUtils;
+import org.json.JSONObject;
 
 
 public class TacticalParametersOperations {
@@ -104,21 +105,89 @@ public class TacticalParametersOperations {
         return statusCode == 200;
     }
 
-    public boolean deployParameter(String name,String version) throws UnirestException {
-        if(version.equals("LATEST")) {
+    public boolean updateParameter(String name, String description, String fromDate, String toDate,
+                                   List<List<String>> data) throws UnirestException {
+        JSONArray parameterBody = getParameter(getLatestParameterVersionId(name));
+
+        LinkedHashMap<String, String> metadata = (LinkedHashMap<String, String>) parameterBody.get(0);
+
+        if (metadata.get("label") != null) {
+            metadata.replace("label", description);
+        } else {
+            metadata.put("label", description);
+        }
+
+        if (metadata.get("from") != null) {
+            metadata.replace("from", fromDate);
+        } else {
+            metadata.put("from", fromDate);
+        }
+
+        if (toDate != null) {
+            if (metadata.get("to") != null) {
+                metadata.replace("to", toDate);
+            } else {
+                metadata.put("to", toDate);
+            }
+        } else {
+            if (metadata.get("to") != null) {
+                metadata.replace("to", "");
+            }
+        }
+
+        metadata.remove("deployed");
+        metadata.remove("state");
+        metadata.remove("deployed_user");
+        metadata.remove("client_guid");
+        metadata.remove("deployed_date");
+        metadata.remove("componentId");
+
+        List<HashMap<String, String>> attributesList = new ArrayList<>();
+
+        for (Integer k = 1; k < data.size(); k++) {
+            HashMap<String, String> values = new HashMap<>();
+            for (Integer j = 0; j < data.get(k).size(); j++) {
+                values.put("param_weight", k.toString());
+                JSONArray jsonAttribute = JsonPath.read(parameterBody.get(1), "$.*[?(@.name=='" + data.get(0).get(j) + "')].field");
+                if (jsonAttribute.size() == 0) {
+                    throw new IllegalArgumentException(
+                            "Cannot find attribute with name: " + data.get(0).get(j));
+                }
+                values.put(jsonAttribute.get(0).toString(), data.get(k).get(j));
+            }
+            attributesList.add(k - 1, values);
+        }
+
+        Gson gsonObj = new Gson();
+        JsonElement attributesValues = gsonObj.toJsonTree(attributesList);
+        JsonElement metaDataValues = gsonObj.toJsonTree(metadata);
+
+        JsonObject childNodes = new JsonObject();
+        childNodes.add("meta_datas", metaDataValues);
+        childNodes.add("attributesValues", attributesValues);
+
+        JsonObject parentNode = new JsonObject();
+        parentNode.add("parameter_data", childNodes);
+
+        return updateParameter(parentNode.toString());
+    }
+
+
+    public boolean deployParameter(String name, String version) throws UnirestException {
+        if (version.equals("LATEST")) {
             version = getLatestParameterVersionId(name);
-        }else{
+        } else {
             JSONArray parameterProperties = JsonPath.read(getAllParameters(), "$.*[?(@.name=='" + name + "')]]");
             String componentId = JsonPath.read(parameterProperties.get(0), "$.componentId").toString();
             JSONArray versionProperties = JsonPath.read(getParameterVersions(componentId), "$.*[?(@.version=='" + version + "')]]");
 
-            if(JsonPath.read(versionProperties.get(0), "$.deployed").toString().equals("deployed")){
-                throw new IllegalArgumentException("Version:"+version+" is already deployed.");
+            if (JsonPath.read(versionProperties.get(0), "$.deployed").toString().equals("deployed")) {
+                throw new IllegalArgumentException("Version:" + version + " is already deployed.");
             }
             version = JsonPath.read(versionProperties.get(0), "$.id").toString();
         }
 
-        logger.info("Deploying parameter: "+name+" Version ID:"+version);
+        logger.info("Deploying parameter: " + name + " Version ID:" + version);
 
         String requestURL = String.format(getRequestURL("deploy-parameter"), version);
         int statusCode;
@@ -170,13 +239,15 @@ public class TacticalParametersOperations {
         List<HashMap<String, String>> normalizedParametersList = new ArrayList<>();
 
         /* Creating Map which holds the <K,V> pairs for the parameters attributes from the JSON object */
-        String paramFindExpresion = (paramWeightsNumber.size() > 1) ? "$.*.attributesValues.e.*" : "$.*.attributesValues.e";
+        String paramFindExpresion =
+                (paramWeightsNumber.size() > 1) ? "$.*.attributesValues.e.*" : "$.*.attributesValues.e";
         parametersList = JsonPath.read(targetParameterGroup.toString(), paramFindExpresion);
         for (int j = 0; j < parametersList.size(); j++) {
             HashMap<String, String> normalizedKeysMap = new HashMap<>();
             for (Map.Entry<String, Object> entry : parametersList.get(j).entrySet()) {
-                if (!(entry.getKey().equals("_param_id") || entry.getKey().endsWith("_id")))
+                if (!(entry.getKey().equals("_param_id") || entry.getKey().endsWith("_id"))) {
                     normalizedKeysMap.put(entry.getKey().substring(1), entry.getValue().toString());
+                }
             }
             normalizedParametersList.add(j, normalizedKeysMap);
         }
@@ -223,6 +294,5 @@ public class TacticalParametersOperations {
     private String getRequestURL(String request) {
         return apiURL + JsonPath.parse(apiRequests).read("$." + request + ".uri").toString();
     }
-
 
 }

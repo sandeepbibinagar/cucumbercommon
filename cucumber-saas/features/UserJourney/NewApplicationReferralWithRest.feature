@@ -7,7 +7,7 @@ Feature: New Application for Credit Card Referred through the REST api
 	  # Test-ID: 4570749
 	  # Use-Case: UserJourney
 	  # Priority: P1
-		And I update tactical parameters from file ${features.path}/UserJourney/data/UserJourney_Tactical_Parameters_Export.xml
+		When I update tactical parameters from file ${features.path}/UserJourney/data/UserJourney_Tactical_Parameters_Export.xml
 
 		And I deploy tactical parameter Bureau Parameter - Get Bureau Parameter version LATEST
 		And I deploy tactical parameter Application Parameter - Get Application Parameter version LATEST
@@ -17,7 +17,8 @@ Feature: New Application for Credit Card Referred through the REST api
 		And I deploy tactical parameter Scorecard Config Parameter - Get Scorecard Conf Parameter version LATEST
 		And I deploy tactical parameter Treatment Conf Parameter - Get Treatment Config Parameter version LATEST
 
-		When I set the base webservice url to ${bps.webservices.url}
+		Then I set the base webservice url to ${bps.webservices.url}
+
 		And I prepare REST request body:
         """
         {
@@ -41,5 +42,5 @@ Feature: New Application for Credit Card Referred through the REST api
 
 		And I prepare REST authentcation username admin and password Secret123!
 		And I send a REST POST request to /v1/applications/TENANT1/1 and receive status code HTTP 200
-		And I verify that the JSON response has fields:
+		Then I verify that the JSON response has fields:
 			| $.data.['Application Data View.Application Status'] | 4|
