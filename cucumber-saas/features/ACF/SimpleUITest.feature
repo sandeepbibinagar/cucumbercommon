@@ -2,12 +2,21 @@ Feature: Simple UI POC
 
   Scenario: ACF solution simple form test
     # Use-Case: ACF
+
     Given Initial setup
 
-#    Populating Tactical Parameters
-    And I update tactical parameters from file ${features.path}/ACF/data/ACF_Tactical_Parameters_Export.xml
+#   Populating Tactical Parameters
+    And I update parameter ExpCons_TP - TP - ExpCons_TP Search description: Bureau Test3 ,effective from: 03/01/2017 to 03/03/2018
+      | Runtime Environment | DBHost | EAI      | ARF Version | Op Initials | Preamble | Sub Code | Vendor Number | NCUsername            | NCPassword    | Version |
+      | PRD                 | STAR   | JYE85WXO | 07          | MM          | TEST     | 5991476  | C03           | edanetconnectconsumer | EDAConsumer07 |         |
+      | PRD                 | STAR   | JYE85WXO | 07          | MM          | TEST     | 5991476  | C03           | edanetconnectconsumer | EDAConsumer07 | N       |
+      | PRD                 | STAR   | JYE85WXO | 07          | MM          | TEST     | 5991476  | C03           | edanetconnectconsumer | EDAConsumer07 | Y       |
 
     And I deploy tactical parameter ExpCons_TP - TP - ExpCons_TP Search version LATEST
+
+    And I update tactical parameters from file ${features.path}/ACF/data/ACF_Tactical_Parameters_Export.xml
+
+     # And I deploy tactical parameter ExpCons_TP - TP - ExpCons_TP Search version LATEST
     And I deploy tactical parameter Product_TP - TP - Product_TP Search version LATEST
     And I deploy tactical parameter Bureau_Enabler_TP - TP - Bureau Enabler version LATEST
     And I deploy tactical parameter MiddleName_Mandatory - TP - Middle Name Mandatory version LATEST

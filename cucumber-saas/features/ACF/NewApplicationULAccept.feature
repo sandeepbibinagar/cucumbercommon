@@ -7,8 +7,7 @@ Feature: New Application for Unsecured Personal Loans Accepted through the REST 
     # Test-ID: 4056743
     # Use-Case: ACF
     # Priority: P3
-    And I update tactical parameters from file ${features.path}/ACF/data/ACF_Tactical_Parameters_Export.xml
-
+    When I update tactical parameters from file ${features.path}/ACF/data/ACF_Tactical_Parameters_Export.xml
     And I deploy tactical parameter ExpCons_TP - TP - ExpCons_TP Search version LATEST
     And I deploy tactical parameter Product_TP - TP - Product_TP Search version LATEST
     And I deploy tactical parameter Bureau_Enabler_TP - TP - Bureau Enabler version LATEST
@@ -16,7 +15,8 @@ Feature: New Application for Unsecured Personal Loans Accepted through the REST 
     And I deploy tactical parameter WorkflowTP - TP - Workflow Search version LATEST
     And I deploy tactical parameter EquCons_TP - TP - EquCons_TP Search version LATEST
 
-    When I set the base webservice url to ${bps.webservices.url}
+    Then I set the base webservice url to ${bps.webservices.url}
+
     And I prepare REST request body:
       """
       {
@@ -54,5 +54,5 @@ Feature: New Application for Unsecured Personal Loans Accepted through the REST 
       | Accept       | application/json |
     And I prepare REST authentcation username admin and password Secret123!
     And I send a REST POST request to /v1/applications/TENANT1/CreditEvaluation and receive status code HTTP 200
-    And I verify that the JSON response has fields:
+    Then I verify that the JSON response has fields:
       | $.data.['Results-DV.RSLT.Pst-B-Policy-Decision-Text'] | Accept |
