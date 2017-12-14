@@ -33,7 +33,7 @@ public class TacticalParamsAPISteps {
 
     @And("^I update parameter (.*) description: (.*) ,effective from: (.*?)(?: to (.*))?$")
     public void updateParameterAttributes(String name, String description, String fromDate,String toDate, List<List<String>> data) throws IOException, ConfigurationException, UnirestException {
-        TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.url"));
+        TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.webservices.url"));
         assertTrue(tpo.updateParameter(name, description, fromDate, toDate, data),
                 "Successfully updated parameter: " + name);
     }
@@ -47,7 +47,7 @@ public class TacticalParamsAPISteps {
     public void deployParameter(String name, String version)
             throws IOException, ConfigurationException, UnirestException {
         TacticalParametersOperations tpo = new TacticalParametersOperations(
-                testHarness.config.get("bps.url"));
+                testHarness.config.get("bps.webservices.url"));
         tpo.deployParameter(name, version);
     }
 
@@ -61,7 +61,7 @@ public class TacticalParamsAPISteps {
 
         String parametersFile = DataTransformer.transformSingleValue(filePath, testHarness.stepData);
         TacticalParametersOperations tpo = new TacticalParametersOperations(
-                testHarness.config.get("bps.url"));
+                testHarness.config.get("bps.webservices.url"));
         List<String> parametersList = tpo.getParametersListFromFile(parametersFile);
 
         for (int j = 0; j < parametersList.size(); j++) {
