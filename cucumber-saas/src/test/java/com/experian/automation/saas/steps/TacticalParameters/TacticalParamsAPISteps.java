@@ -9,9 +9,8 @@ import cucumber.api.java.en.And;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 public class TacticalParamsAPISteps {
     private final TestHarness testHarness;
@@ -23,26 +22,26 @@ public class TacticalParamsAPISteps {
 
     @And("^I list all tactical parameters$")
     public void listAllParameters() throws IOException, ConfigurationException, UnirestException {
-        TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.url"));
+        TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.webservices.url"));
         tpo.getAllParameters();
     }
 
     @And("^I list tactical parameter with id - (.*)$")
     public void listParameterByID(String id) throws IOException, ConfigurationException, UnirestException {
-        TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.url"));
+        TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.webservices.url"));
         System.out.println(tpo.getParameter(id));
     }
 
     @And("^I update tactical parameter:$")
     public void updateParameter(String data) throws IOException, ConfigurationException, UnirestException {
-        TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.url"));
+        TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.webservices.url"));
         tpo.updateParameter(data);
     }
 
 
     @And("^I deploy tactical parameter (.*) version (.*)$")
     public void deployParameter(String name, String version) throws IOException, ConfigurationException, UnirestException {
-        TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.url"));
+        TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.webservices.url"));
         tpo.deployParameter(name, version);
     }
 
@@ -53,7 +52,7 @@ public class TacticalParamsAPISteps {
     public void updateParameterFromFile(String filePath) throws IOException, ConfigurationException, UnirestException {
 
         String parametersFile = DataTransformer.transformSingleValue(filePath, testHarness.stepData);
-        TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.url"));
+        TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.webservices.url"));
         List<String> parametersList = tpo.getParametersListFromFile(parametersFile);
 
         for (int j = 0; j < parametersList.size(); j++) {
