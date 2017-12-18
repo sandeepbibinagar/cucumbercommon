@@ -83,12 +83,20 @@ public class TacticalParametersOperations {
 
     public String getLatestParameterVersion(String parameterName) throws UnirestException {
         JSONArray parameterProperties = JsonPath.read(getAllParameters(), "$.*[?(@.name=='" + parameterName + "')]]");
+        if (parameterProperties.size() == 0) {
+            throw new IllegalArgumentException("Cannot find parameter with name " + parameterName + " List of available parameters: " +
+                    JsonPath.read(getAllParameters(), "$.*.name"));
+        }
         String version = JsonPath.read(parameterProperties.get(0), "$.version").toString();
         return version;
     }
 
     public String getLatestParameterVersionId(String parameterName) throws UnirestException {
         JSONArray parameterProperties = JsonPath.read(getAllParameters(), "$.*[?(@.name=='" + parameterName + "')]]");
+        if (parameterProperties.size() == 0) {
+            throw new IllegalArgumentException("Cannot find parameter with name " + parameterName + " List of available parameters: " +
+                    JsonPath.read(getAllParameters(), "$.*.name"));
+        }
         String latestVersionId = JsonPath.read(parameterProperties.get(0), "$.id").toString();
         return latestVersionId;
     }
