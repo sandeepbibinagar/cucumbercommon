@@ -38,18 +38,35 @@ public class TacticalParametersOperations {
         File jsonFilePath = new File(getClass().getResource("/steps/tactical-parameters-api/requests.json").getPath());
         apiRequests = FileUtils.readFileToString(jsonFilePath, "UTF-8");
 
+        Unirest.clearDefaultHeaders();
+
         defaultHeaders = new HashMap<String, String>();
         defaultHeaders.put("Content-Type", "application/json");
         defaultHeaders.put("Accept", "application/json");
         defaultHeaders.put("Authorization", "Basic YWRtaW46U2VjcmV0MTIzIQ==");
+
         this.apiURL = apiURL;
     }
 
     /* Return type java core: List<Map<String,String>> */
     public JSONArray getAllParameters() throws UnirestException {
         String requestURL = getRequestURL("list-all-parameters");
+
+        int statusCode;
+        try {
+            statusCode = Unirest.get(requestURL).headers(defaultHeaders).asString().getStatus();
+        } catch (UnirestException e) {
+            statusCode = -1;
+        }
+
+        if (statusCode != 200) {
+            throw new IllegalArgumentException("Cannot fetch all Tactical Parameters. Status code HTTP "+statusCode);
+        }
+
         HttpResponse<String> response = Unirest.get(requestURL).headers(defaultHeaders).asString();
+
         JSONArray parameters = JsonPath.read(response.getBody(), "$.*");
+
         return parameters;
     }
 
@@ -295,7 +312,6 @@ public class TacticalParametersOperations {
         parameterBody.add("parameter_data", data);
 
         updateParameter(parameterBody.toString());
-
     }
 
 
