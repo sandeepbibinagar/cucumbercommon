@@ -10,30 +10,30 @@ import java.util.List;
 
 public class PortalHomeScreen extends Screen {
 
-    @FindBy(xpath = "//nav//span[contains(text(),'SaaS Portal')]")
-    public WebElement portalHeader;
+  @FindBy(xpath = "//nav//span[contains(text(),'SaaS Portal')]")
+  public WebElement portalHeader;
 
-    @FindBy(xpath="//i[@class='exp-icon-apps']")
-    public WebElement solutionsListButton;
+  @FindBy(xpath = "//i[@class='exp-icon-apps']")
+  public WebElement solutionsListButton;
 
-    @FindBy(xpath="//div[@class='destination']")
-    public List<WebElement> solutions;
+  @FindBy(xpath = "//div[@class='destination']")
+  public List<WebElement> solutions;
 
-    @FindBy(xpath="//a[@aria-expanded='true' and child::i[@class='exp-icon-apps']]")
-    public WebElement menuExpanded;
+  @FindBy(xpath = "//a[@aria-expanded='true' and child::i[@class='exp-icon-apps']]")
+  public WebElement menuExpanded;
 
-    @FindBy(xpath="//a[child::p[contains(text(),'Options')]]")
-    public WebElement options;
+  @FindBy(xpath = "//a[child::p[contains(text(),'Options')]]")
+  public WebElement options;
 
-    @FindBy(id = "app-switcher-originations")
-    public WebElement originationsSolution;
+  @FindBy(id = "app-switcher-originations")
+  public WebElement originationsSolution;
 
-    @FindBy(id = "admin-portal")
-    public WebElement adminPortal;
+  @FindBy(id = "admin-portal")
+  public WebElement adminPortal;
 
-    public PortalHomeScreen(TestHarness testHarness, WebHarness webHarness){
-        super(testHarness, webHarness);
-        waitForElement(solutionsListButton);
-    }
+  public PortalHomeScreen(TestHarness testHarness, WebHarness webHarness) {
+    super(testHarness, webHarness);
+    waitForElement(solutionsListButton);
+  }
 
 }

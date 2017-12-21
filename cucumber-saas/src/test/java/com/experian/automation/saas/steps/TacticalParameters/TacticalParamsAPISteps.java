@@ -16,12 +16,12 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 
 public class TacticalParamsAPISteps {
 
-    private final TestHarness testHarness;
-    private final Logger logger = Logger.getLogger(this.getClass());
+  private final TestHarness testHarness;
+  private final Logger logger = Logger.getLogger(this.getClass());
 
-    public TacticalParamsAPISteps(TestHarness testHarness) {
-        this.testHarness = testHarness;
-    }
+  public TacticalParamsAPISteps(TestHarness testHarness) {
+    this.testHarness = testHarness;
+  }
 
    /*
    * Usage example(s):
@@ -31,44 +31,45 @@ public class TacticalParamsAPISteps {
    *    | PRD                 | STAR   | JYE85WXO | 07          | MM          | TEST     | 5991476  | C03           | edanetconnectconsumer | EDAConsumer07 | N       |
    */
 
-    @And("^I update parameter (.*) description: (.*) ,effective from: (.*?)(?: to (.*))?$")
-    public void updateParameterAttributes(String name, String description, String fromDate,String toDate, List<List<String>> data) throws IOException, ConfigurationException, UnirestException {
-        TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.webservices.url"));
-        assertTrue(tpo.updateParameter(name, description, fromDate, toDate, data),
-                "Successfully updated parameter: " + name);
-    }
+  @And("^I update parameter (.*) description: (.*) ,effective from: (.*?)(?: to (.*))?$")
+  public void updateParameterAttributes(String name, String description, String fromDate, String toDate,
+      List<List<String>> data) throws IOException, ConfigurationException, UnirestException {
+    TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.webservices.url"));
+    assertTrue(tpo.updateParameter(name, description, fromDate, toDate, data),
+               "Successfully updated parameter: " + name);
+  }
 
    /*
    * Usage example(s):
    *   And I deploy tactical parameter ExpCons_TP - TP - ExpCons_TP Search version LATEST
    */
 
-    @And("^I deploy tactical parameter (.*) version (.*)$")
-    public void deployParameter(String name, String version)
-            throws IOException, ConfigurationException, UnirestException {
-        TacticalParametersOperations tpo = new TacticalParametersOperations(
-                testHarness.config.get("bps.webservices.url"));
-        tpo.deployParameter(name, version);
-    }
+  @And("^I deploy tactical parameter (.*) version (.*)$")
+  public void deployParameter(String name, String version)
+      throws IOException, ConfigurationException, UnirestException {
+    TacticalParametersOperations tpo = new TacticalParametersOperations(
+        testHarness.config.get("bps.webservices.url"));
+    tpo.deployParameter(name, version);
+  }
 
     /*
     * Usage example(s):
     *   And I update tactical parameters from file ${features.path}/ACF/data/ACF_Tactical_Parameters_Export.xml
     */
 
-    @And("^I update tactical parameters from file (.*)$")
-    public void updateParameterFromFile(String filePath) throws IOException, ConfigurationException, UnirestException {
+  @And("^I update tactical parameters from file (.*)$")
+  public void updateParameterFromFile(String filePath) throws IOException, ConfigurationException, UnirestException {
 
-        String parametersFile = DataTransformer.transformSingleValue(filePath, testHarness.stepData);
-        TacticalParametersOperations tpo = new TacticalParametersOperations(
-                testHarness.config.get("bps.webservices.url"));
-        List<String> parametersList = tpo.getParametersListFromFile(parametersFile);
+    String parametersFile = DataTransformer.transformSingleValue(filePath, testHarness.stepData);
+    TacticalParametersOperations tpo = new TacticalParametersOperations(
+        testHarness.config.get("bps.webservices.url"));
+    List<String> parametersList = tpo.getParametersListFromFile(parametersFile);
 
-        for (int j = 0; j < parametersList.size(); j++) {
-            logger.info("Updating parameter: " + parametersList.get(j));
-            tpo.updateFromFile(parametersList.get(j),
-                    tpo.getLatestParameterVersion(parametersList.get(j)),
-                    tpo.getLatestParameterVersionId(parametersList.get(j)), parametersFile);
-        }
+    for (int j = 0; j < parametersList.size(); j++) {
+      logger.info("Updating parameter: " + parametersList.get(j));
+      tpo.updateFromFile(parametersList.get(j),
+                         tpo.getLatestParameterVersion(parametersList.get(j)),
+                         tpo.getLatestParameterVersionId(parametersList.get(j)), parametersFile);
     }
+  }
 }

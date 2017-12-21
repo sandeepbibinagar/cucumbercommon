@@ -15,59 +15,60 @@ import java.util.regex.Pattern;
 
 public class UserManagementSteps {
 
-    private final Logger logger = Logger.getLogger(this.getClass());
-    private final TestHarness testHarness;
-    private final WebHarness webHarness;
+  private final Logger logger = Logger.getLogger(this.getClass());
+  private final TestHarness testHarness;
+  private final WebHarness webHarness;
 
-    public UserManagementSteps(TestHarness testHarness, WebHarness webHarness) {
-        this.testHarness = testHarness;
-        this.webHarness = webHarness;
+  public UserManagementSteps(TestHarness testHarness, WebHarness webHarness) {
+    this.testHarness = testHarness;
+    this.webHarness = webHarness;
+  }
+
+  @And("^I select tab item (.*\\/.*) on Web Engine user administration panel$")
+  public void selectTabItem(String tabItem) {
+    UserManagementScreen umScreen = new UserManagementScreen(testHarness, webHarness);
+    Pattern pattern = Pattern.compile("[^\\/]+");
+    Matcher matcher = pattern.matcher(tabItem);
+    int position = 0;
+    while (matcher.find()) {
+      if (position != 0) {
+        umScreen.selectTabItem(matcher.group().trim());
+      } else {
+        umScreen.selectTab(matcher.group().trim());
+      }
+      position++;
     }
 
-    @And("^I select tab item (.*\\/.*) on Web Engine user administration panel$")
-    public void selectTabItem(String tabItem){
-        UserManagementScreen umScreen = new UserManagementScreen(testHarness, webHarness);
-        Pattern pattern = Pattern.compile("[^\\/]+");
-        Matcher matcher = pattern.matcher(tabItem);
-        int position = 0;
-        while (matcher.find()) {
-            if (position != 0) {
-                umScreen.selectTabItem(matcher.group().trim());
-            } else {
-                umScreen.selectTab(matcher.group().trim());
-            }
-            position++;
-        }
+  }
 
+  /*
+     And I allow all business process rules
+  */
+  @And("^I allow all business process rules$")
+  public void setAllPermissions() throws Throwable {
+    UserManagementScreen umScreen = new UserManagementScreen(testHarness, webHarness);
+    umScreen.waitForElements(umScreen.businessRulesTableRowCells);
+    umScreen.clickWithScrollToView(umScreen.editButton);
+    if (umScreen.listOfDeniedPermissions.size() != 0) {
+      umScreen.allowAllButton.click();
+      umScreen.clickWithScrollToView(umScreen.okButton);
     }
-    /*
-       And I allow all business process rules
-    */
-    @And("^I allow all business process rules$")
-    public void setAllPermissions() throws Throwable {
-        UserManagementScreen umScreen = new UserManagementScreen(testHarness, webHarness);
-        umScreen.waitForElements(umScreen.businessRulesTableRowCells);
-        umScreen.clickWithScrollToView(umScreen.editButton);
-        if(umScreen.listOfDeniedPermissions.size()!=0){
-            umScreen.allowAllButton.click();
-            umScreen.clickWithScrollToView(umScreen.okButton);
-        }
-    }
+  }
 
-    /*
-       And I set business process rules by feature:
-      | Create | Screen New Application    |
-      | Create | New Application           |
-      | All    | Screen Update Application |
-    */
-    @And("^I set business process rules by feature:$")
-    public void setPermissionsForProfile(List<List<String>> dataTable) throws Throwable {
-        UserManagementScreen umScreen = new UserManagementScreen(testHarness, webHarness);
-        umScreen.waitForElements(umScreen.businessRulesTableRowCells);
-        umScreen.clickWithScrollToView(umScreen.editButton);
-        for (List<String> entry : dataTable) {
-           umScreen.setProcessRules(entry.get(0), entry.get(1));
-        }
-        umScreen.clickWithScrollToView(umScreen.okButton);
+  /*
+     And I set business process rules by feature:
+    | Create | Screen New Application    |
+    | Create | New Application           |
+    | All    | Screen Update Application |
+  */
+  @And("^I set business process rules by feature:$")
+  public void setPermissionsForProfile(List<List<String>> dataTable) throws Throwable {
+    UserManagementScreen umScreen = new UserManagementScreen(testHarness, webHarness);
+    umScreen.waitForElements(umScreen.businessRulesTableRowCells);
+    umScreen.clickWithScrollToView(umScreen.editButton);
+    for (List<String> entry : dataTable) {
+      umScreen.setProcessRules(entry.get(0), entry.get(1));
     }
+    umScreen.clickWithScrollToView(umScreen.okButton);
+  }
 }

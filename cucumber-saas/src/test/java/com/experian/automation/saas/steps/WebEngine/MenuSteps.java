@@ -11,30 +11,30 @@ import java.util.regex.Pattern;
 
 public class MenuSteps {
 
-    private final Logger logger = Logger.getLogger(this.getClass());
-    private final TestHarness testHarness;
-    private final WebHarness webHarness;
+  private final Logger logger = Logger.getLogger(this.getClass());
+  private final TestHarness testHarness;
+  private final WebHarness webHarness;
 
-    public MenuSteps(TestHarness testHarness, WebHarness webHarness) {
-        this.testHarness = testHarness;
-        this.webHarness = webHarness;
+  public MenuSteps(TestHarness testHarness, WebHarness webHarness) {
+    this.testHarness = testHarness;
+    this.webHarness = webHarness;
+  }
+
+  @And("^I select menu (.*\\/.*) on WebEngine home page$")
+  public void selectMenu(String menu) throws Throwable {
+    WebEngineHome homePage = new WebEngineHome(testHarness, webHarness);
+
+    Pattern pattern = Pattern.compile("[^\\/]+");
+    Matcher matcher = pattern.matcher(menu);
+    int position = 0;
+    while (matcher.find()) {
+      if (position != 0) {
+        homePage.selectSubMenu(matcher.group().trim());
+      } else {
+        homePage.selectMainMenu(matcher.group().trim());
+      }
+      position++;
     }
-
-    @And("^I select menu (.*\\/.*) on WebEngine home page$")
-    public void selectMenu(String menu) throws Throwable {
-        WebEngineHome homePage = new WebEngineHome(testHarness, webHarness);
-
-        Pattern pattern = Pattern.compile("[^\\/]+");
-        Matcher matcher = pattern.matcher(menu);
-        int position = 0;
-        while (matcher.find()) {
-            if (position != 0) {
-                homePage.selectSubMenu(matcher.group().trim());
-            } else {
-                homePage.selectMainMenu(matcher.group().trim());
-            }
-            position++;
-        }
-   }
+  }
 
 }
