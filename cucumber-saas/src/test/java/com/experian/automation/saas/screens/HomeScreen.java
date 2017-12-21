@@ -10,64 +10,65 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class HomeScreen extends Screen {
-    public String url = "/";
 
-    public String windowTitle = "homeStartPage";
+  public String url = "/";
 
-    @FindBy(xpath = "//a[contains(text(),'Home')]")
-    public WebElement homeButton;
+  public String windowTitle = "homeStartPage";
 
-    @FindBy(xpath = "//ul[@id='menu']/li/a")
-    public List<WebElement> mainMenuItems;
+  @FindBy(xpath = "//a[contains(text(),'Home')]")
+  public WebElement homeButton;
 
-    @FindBy(id = "image")
-    public WebElement logo;
+  @FindBy(xpath = "//ul[@id='menu']/li/a")
+  public List<WebElement> mainMenuItems;
 
-    @FindBy(xpath = "//ul[@id='menu']/li//ul//li/a")
-    public List<WebElement> subMenuItems;
+  @FindBy(id = "image")
+  public WebElement logo;
 
-    @FindBy(xpath = "//ul[@style='display: block;' and ancestor::ul[@id='menu']]")
-    public List<WebElement> subMenuList;
+  @FindBy(xpath = "//ul[@id='menu']/li//ul//li/a")
+  public List<WebElement> subMenuItems;
 
-    @FindBy(xpath = "//ul[@id='menu']/li/div[@class='sub-container mega']")
-    public WebElement subContainer;
+  @FindBy(xpath = "//ul[@style='display: block;' and ancestor::ul[@id='menu']]")
+  public List<WebElement> subMenuList;
 
-    @FindBy (xpath = "//a[ancestor::ul[preceding-sibling::a[contains(text(),'General Enquiry')]]]")
-    public List<WebElement> generalEnquiry;
+  @FindBy(xpath = "//ul[@id='menu']/li/div[@class='sub-container mega']")
+  public WebElement subContainer;
 
-    @FindBy (xpath = "//a[ancestor::ul[preceding-sibling::a[contains(text(),'Audit Trail Query')]]]")
-    public List<WebElement> auditTrailQuery;
+  @FindBy(xpath = "//a[ancestor::ul[preceding-sibling::a[contains(text(),'General Enquiry')]]]")
+  public List<WebElement> generalEnquiry;
 
-    public HomeScreen(TestHarness testHarness, WebHarness webHarness) {
-        super(testHarness, webHarness);
-        waitForWindowWithTitle(windowTitle);
+  @FindBy(xpath = "//a[ancestor::ul[preceding-sibling::a[contains(text(),'Audit Trail Query')]]]")
+  public List<WebElement> auditTrailQuery;
+
+  public HomeScreen(TestHarness testHarness, WebHarness webHarness) {
+    super(testHarness, webHarness);
+    waitForWindowWithTitle(windowTitle);
+  }
+
+  public void selectMenu(String mainMenuItemName, String subMenuItemName) throws InterruptedException {
+    if (subMenuList.size() > 0) {
+      webHarness.driver.navigate().refresh();
+      initElements();
+    }
+    clickWithScrollToView(getElementWithText(mainMenuItems, mainMenuItemName));
+    clickWithScrollToView(getElementWithText(subMenuItems, subMenuItemName));
+  }
+
+  public void selectMenu(String mainMenuItemName, String subMenuItemName, String label) throws InterruptedException {
+    List<WebElement> clickableSubMenuItem;
+
+    switch (label) {
+      case "General Enquiry":
+        clickableSubMenuItem = generalEnquiry;
+        break;
+      case "Audit Trail Enquiry":
+        clickableSubMenuItem = auditTrailQuery;
+        break;
+      default:
+        throw new NoSuchElementException("Unable to locate " + label + " label.");
     }
 
-    public void selectMenu(String mainMenuItemName, String subMenuItemName) throws InterruptedException {
-        if(subMenuList.size()>0){
-            webHarness.driver.navigate().refresh();
-            initElements();
-        }
-            clickWithScrollToView(getElementWithText(mainMenuItems, mainMenuItemName));
-            clickWithScrollToView(getElementWithText(subMenuItems, subMenuItemName));
-    }
-
-    public void selectMenu(String mainMenuItemName, String subMenuItemName, String label) throws InterruptedException {
-        List<WebElement> clickableSubMenuItem;
-
-        switch(label) {
-            case "General Enquiry":
-                clickableSubMenuItem = generalEnquiry;
-                break;
-            case "Audit Trail Enquiry":
-                clickableSubMenuItem = auditTrailQuery;
-                break;
-            default:
-                throw new NoSuchElementException("Unable to locate " + label + " label.");
-        }
-
-        clickWithScrollToView(getElementWithText(mainMenuItems, mainMenuItemName));
-        clickWithScrollToView(getElementWithText(clickableSubMenuItem, subMenuItemName));
-    }
+    clickWithScrollToView(getElementWithText(mainMenuItems, mainMenuItemName));
+    clickWithScrollToView(getElementWithText(clickableSubMenuItem, subMenuItemName));
+  }
 
 }

@@ -1,140 +1,134 @@
 {
-  "list-release":{
-    "uri":"/releases?releaseGroup=%s&size=10000"
+  "list-release": {
+    "uri": "/releases?releaseGroup=%s&size=10000"
   },
-  "list-service-group":{
-    "uri":"/service-groups?size=100000"
+  "list-service-group": {
+    "uri": "/service-groups?size=100000"
   },
-  "create-service-group":{
-    "uri":"/service-groups",
-    "body":{
-      "name":"%1$s",
-      "stack":"non-prod"
+  "create-service-group": {
+    "uri": "/service-groups",
+    "body": {
+      "name": "%1$s",
+      "stack": "non-prod"
     }
   },
-  "delete-service-group":{
-    "uri":"/service-groups/%1$d"
+  "delete-service-group": {
+    "uri": "/service-groups/%1$d"
   },
-  "list-services":{
-    "uri":"/service-groups/%1$d/services"
+  "list-services": {
+    "uri": "/service-groups/%1$d/services"
   },
-  "list-service":{
-    "uri":"/service-groups/%1$d/services/%2$d"
+  "list-service": {
+    "uri": "/service-groups/%1$d/services/%2$d"
   },
-  "delete-service":{
-    "uri":"/service-groups/%1$d/services/%2$d"
+  "delete-service": {
+    "uri": "/service-groups/%1$d/services/%2$d"
   },
-  "create-service-powercurve-simulation":{
-    "uri":"/service-groups/%1$d/services",
-    "body":{
-      "name":"powercurve-simulation-%1$s",
-      "release":{
-        "group":"powercurve-simulation",
-        "name":"%2$s"
+  "create-service-powercurve-simulation": {
+    "uri": "/service-groups/%1$d/services",
+    "body": {
+      "name": "powercurve-simulation-%1$s",
+      "release": {
+        "group": "powercurve-simulation",
+        "name": "%2$s"
       },
-      "properties":{
-
+      "properties": {
       }
     }
   },
-  "create-service-powercurve-connectivity":{
-    "uri":"/service-groups/%1$d/services",
-    "body":{
-      "name":"powercurve-connectivity-%1$s",
-      "release":{
-        "group":"powercurve-connectivity",
-        "name":"%2$s"
+  "create-service-powercurve-connectivity": {
+    "uri": "/service-groups/%1$d/services",
+    "body": {
+      "name": "powercurve-connectivity-%1$s",
+      "release": {
+        "group": "powercurve-connectivity",
+        "name": "%2$s"
       },
-      "properties":{
-        "PCE_CONS_BUREAU_HOST":"pce-cons-simulator-svc.%1$s.svc.cluster.local",
-        "PROVE_ID_BUREAU_HOST":"prove-id-simulator-svc.%1$s.svc.cluster.local",
-        "EXPERIAN_US_BUREAU_HOST":"ecalssim-experian-us-simulator-svc.%1$s.svc.cluster.local"
+      "properties": {
+        "PCE_CONS_BUREAU_HOST": "pce-cons-simulator-svc.%1$s.svc.cluster.local",
+        "PROVE_ID_BUREAU_HOST": "prove-id-simulator-svc.%1$s.svc.cluster.local",
+        "EXPERIAN_US_BUREAU_HOST": "ecalssim-experian-us-simulator-svc.%1$s.svc.cluster.local"
       }
     }
   },
-  "create-service-pc-acquirecustomersfaster-us":{
-    "uri":"/service-groups/%1$d/services",
-    "body":{
-      "name":"pc-acquirecustomersfaster-us-%1$s",
-      "allowedReleaseGroup":"pc-acquirecustomersfaster-us",
-      "release":{
-        "group":"pc-acquirecustomersfaster-us",
-        "name":"%2$s"
+  "create-service-pc-acquirecustomersfaster-us": {
+    "uri": "/service-groups/%1$d/services",
+    "body": {
+      "name": "pc-acquirecustomersfaster-us-%1$s",
+      "allowedReleaseGroup": "pc-acquirecustomersfaster-us",
+      "release": {
+        "group": "pc-acquirecustomersfaster-us",
+        "name": "%2$s"
       },
-      "properties":{
-        "BPS_CONNECTIVITY_PROVE_ID_URL":"http://prove-id-svc.%1$s.svc.cluster.local:8080/ib-service",
-        "BPS_CONNECTIVITY_PCE_CONS_URL":"http://pce-cons-svc.%1$s.svc.cluster.local:8080/ib-service",
-        "BPS_CONNECTIVITY_EXPERIAN_US_URL":"http://experian-us-svc.%1$s.svc.cluster.local:8083/ib-service"
+      "properties": {
+        "BPS_CONNECTIVITY_PROVE_ID_URL": "http://prove-id-svc.%1$s.svc.cluster.local:8080/ib-service",
+        "BPS_CONNECTIVITY_PCE_CONS_URL": "http://pce-cons-svc.%1$s.svc.cluster.local:8080/ib-service",
+        "BPS_CONNECTIVITY_EXPERIAN_US_URL": "http://experian-us-svc.%1$s.svc.cluster.local:8083/ib-service"
       }
     }
   },
-  "create-service-admin-portal-server":{
-    "uri":"/service-groups/%1$d/services",
-    "body":{
-      "name":"admin-portal-server-%1$s",
-      "allowedReleaseGroup":"admin-portal-server",
-      "release":{
-        "group":"admin-portal-server",
-        "name":"%2$s"
+  "create-service-admin-portal-server": {
+    "uri": "/service-groups/%1$d/services",
+    "body": {
+      "name": "admin-portal-server-%1$s",
+      "allowedReleaseGroup": "admin-portal-server",
+      "release": {
+        "group": "admin-portal-server",
+        "name": "%2$s"
       },
-      "properties":{
-
+      "properties": {
       }
     }
   },
-  "create-service-user-service":{
-    "uri":"/service-groups/%1$d/services",
-    "body":{
-      "name":"user-service-%1$s",
-      "allowedReleaseGroup":"user-service",
-      "release":{
-        "group":"user-service",
-        "name":"%2$s"
+  "create-service-user-service": {
+    "uri": "/service-groups/%1$d/services",
+    "body": {
+      "name": "user-service-%1$s",
+      "allowedReleaseGroup": "user-service",
+      "release": {
+        "group": "user-service",
+        "name": "%2$s"
       },
-      "properties":{
-
+      "properties": {
       }
     }
   },
-  "create-service-originations-facade":{
-    "uri":"/service-groups/%1$d/services",
-    "body":{
-      "name":"originations-facade-%1$s",
-      "allowedReleaseGroup":"originations-facade",
-      "release":{
-        "group":"originations-facade",
-        "name":"%2$s"
+  "create-service-originations-facade": {
+    "uri": "/service-groups/%1$d/services",
+    "body": {
+      "name": "originations-facade-%1$s",
+      "allowedReleaseGroup": "originations-facade",
+      "release": {
+        "group": "originations-facade",
+        "name": "%2$s"
       },
-      "properties":{
-
+      "properties": {
       }
     }
   },
-  "create-service-token-service":{
-    "uri":"/service-groups/%1$d/services",
-    "body":{
-      "name":"token-service-%1$s",
-      "allowedReleaseGroup":"token-service",
-      "release":{
-        "group":"token-service",
-        "name":"%2$s"
+  "create-service-token-service": {
+    "uri": "/service-groups/%1$d/services",
+    "body": {
+      "name": "token-service-%1$s",
+      "allowedReleaseGroup": "token-service",
+      "release": {
+        "group": "token-service",
+        "name": "%2$s"
       },
-      "properties":{
-
+      "properties": {
       }
     }
   },
-  "create-service-admin-portal-ui":{
-    "uri":"/service-groups/%1$d/services",
-    "body":{
-      "name":"admin-portal-ui-%1$s",
-      "allowedReleaseGroup":"admin-portal-ui",
-      "release":{
-        "group":"admin-portal-ui",
-        "name":"%2$s"
+  "create-service-admin-portal-ui": {
+    "uri": "/service-groups/%1$d/services",
+    "body": {
+      "name": "admin-portal-ui-%1$s",
+      "allowedReleaseGroup": "admin-portal-ui",
+      "release": {
+        "group": "admin-portal-ui",
+        "name": "%2$s"
       },
-      "properties":{
-
+      "properties": {
       }
     }
   }

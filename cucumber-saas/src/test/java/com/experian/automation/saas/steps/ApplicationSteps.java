@@ -17,23 +17,23 @@ import java.io.File;
 
 public class ApplicationSteps {
 
-    private final TestHarness testHarness;
-    private final WebHarness webHarness;
+  private final TestHarness testHarness;
+  private final WebHarness webHarness;
 
-    private final Logger logger = Logger.getLogger(this.getClass());
+  private final Logger logger = Logger.getLogger(this.getClass());
 
-    public ApplicationSteps(TestHarness testHarness, WebHarness webHarness) {
-        this.testHarness = testHarness;
-        this.webHarness = webHarness;
-    }
+  public ApplicationSteps(TestHarness testHarness, WebHarness webHarness) {
+    this.testHarness = testHarness;
+    this.webHarness = webHarness;
+  }
 
-    @Before
-    public void beforeScenario(Scenario scenario) throws Throwable {
-        new CucumberSteps(testHarness, webHarness).beforeScenario(scenario);
-    }
+  @Before
+  public void beforeScenario(Scenario scenario) throws Throwable {
+    new CucumberSteps(testHarness, webHarness).beforeScenario(scenario);
+  }
 
-    @After
-    public void afterScenario(Scenario scenario) throws Throwable {
-        new CucumberSteps(testHarness, webHarness).afterScenario(scenario);
-    }
+  @After
+  public void afterScenario(Scenario scenario) throws Throwable {
+    new CucumberSteps(testHarness, webHarness).afterScenario(scenario);
+  }
 }

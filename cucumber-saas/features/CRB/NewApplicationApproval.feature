@@ -35,7 +35,7 @@ Feature: New Application Approval
     And I enter value Driving Licence for dropdown with id DocumentTypeDDL
     And I enter value A455 for textfield with id DocumentIdNumberTxt
     And I enter values for fields on page Applicant and Address Details Page
-      | Expiry Date         | 2019-06-06      |
+      | Expiry Date | 2019-06-06 |
     And I click on button with text Next on page Applicant and Address Details Page
     And I enter values for fields on page Applicant and Address Details Page
       | Number / Name | 1             |

@@ -13,43 +13,43 @@ import static org.testng.Assert.assertEquals;
 
 public class DynamicalParametersScreenSteps {
 
-    private final Logger logger = Logger.getLogger(this.getClass());
-    private final TestHarness testHarness;
-    private final WebHarness webHarness;
+  private final Logger logger = Logger.getLogger(this.getClass());
+  private final TestHarness testHarness;
+  private final WebHarness webHarness;
 
-    public DynamicalParametersScreenSteps(TestHarness testHarness, WebHarness webHarness) {
-        this.testHarness = testHarness;
-        this.webHarness = webHarness;
-    }
+  public DynamicalParametersScreenSteps(TestHarness testHarness, WebHarness webHarness) {
+    this.testHarness = testHarness;
+    this.webHarness = webHarness;
+  }
 
-/*
-    And I import dynamic parameters from files:
-       | Purpose of Purchase                         | Purpose of Purchase.csv                             |
-       | Education                                   | Education.csv                                       |
-       | Occupation                                  | Occupation.csv                                      |
-       | Document Type                               | Document Type.csv                                   |
-       | Override Reason                             | Override Reason.csv                                 |
-       | Contact method                              | Contact method.csv                                  |
-       | Gender                                      | Gender.csv                                          |
-       | Country                                     | Country.csv                                         |
-       | Marital Status                              | Marital Status.csv                                  |
-       | Purpose of Loan                             | Purpose of Loan.csv                                 |
-       | Residential Status                          | Residential Status.csv                              |
-       | Title                                       | Title.csv                                           |
-       | Employment Status                           | Employment Status.csv                               |
-       | Current Lender                              | Current Lender.csv                                  |
-       | Relationship to applicant                   | Relationship to applicant.csv                       |
-       | Master Product-Second Product-Third Product | ALL-Master Product-Second Product-Third Product.csv |
-*/
-    @And("^I import dynamic parameters from files:$")
-    public void importDynamicParameters(Map<String, String> parameters) throws Throwable {
-        HomeScreen home = new HomeScreen(testHarness, webHarness);
-        home.selectMenu("System", "Dynamic Parameter Maintenance");
-        DynamicParameterMaintenanceScreen screen = new DynamicParameterMaintenanceScreen(testHarness, webHarness);
-        screen.waitForElements(screen.dynamicParameters);
-        for (Map.Entry<String, String> entry : parameters.entrySet()) {
-            screen.uploadDynamicalParameter(entry.getKey(), entry.getValue());
-        }
-        screen.closeWindow();
+  /*
+      And I import dynamic parameters from files:
+         | Purpose of Purchase                         | Purpose of Purchase.csv                             |
+         | Education                                   | Education.csv                                       |
+         | Occupation                                  | Occupation.csv                                      |
+         | Document Type                               | Document Type.csv                                   |
+         | Override Reason                             | Override Reason.csv                                 |
+         | Contact method                              | Contact method.csv                                  |
+         | Gender                                      | Gender.csv                                          |
+         | Country                                     | Country.csv                                         |
+         | Marital Status                              | Marital Status.csv                                  |
+         | Purpose of Loan                             | Purpose of Loan.csv                                 |
+         | Residential Status                          | Residential Status.csv                              |
+         | Title                                       | Title.csv                                           |
+         | Employment Status                           | Employment Status.csv                               |
+         | Current Lender                              | Current Lender.csv                                  |
+         | Relationship to applicant                   | Relationship to applicant.csv                       |
+         | Master Product-Second Product-Third Product | ALL-Master Product-Second Product-Third Product.csv |
+  */
+  @And("^I import dynamic parameters from files:$")
+  public void importDynamicParameters(Map<String, String> parameters) throws Throwable {
+    HomeScreen home = new HomeScreen(testHarness, webHarness);
+    home.selectMenu("System", "Dynamic Parameter Maintenance");
+    DynamicParameterMaintenanceScreen screen = new DynamicParameterMaintenanceScreen(testHarness, webHarness);
+    screen.waitForElements(screen.dynamicParameters);
+    for (Map.Entry<String, String> entry : parameters.entrySet()) {
+      screen.uploadDynamicalParameter(entry.getKey(), entry.getValue());
     }
+    screen.closeWindow();
+  }
 }

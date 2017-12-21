@@ -6,26 +6,25 @@ import com.experian.automation.screens.Screen;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class LoginScreen extends Screen
-{
-    public String url = "${base.url}/";
+public class LoginScreen extends Screen {
 
-    @FindBy(id = "IDToken1")
-    public WebElement usernameText;
+  public String url = "${base.url}/";
 
-    @FindBy(id = "IDToken2")
-    public WebElement passwordText;
+  @FindBy(id = "IDToken1")
+  public WebElement usernameText;
 
-    @FindBy(xpath = "//div[@class='logBtn']")
-    public WebElement loginBtn;
+  @FindBy(id = "IDToken2")
+  public WebElement passwordText;
 
-    public LoginScreen(TestHarness testHarness, WebHarness webHarness)
-    {
-        super(testHarness, webHarness);
-    }
+  @FindBy(xpath = "//div[@class='logBtn']")
+  public WebElement loginBtn;
 
-    public void goToURL() {
-        goToURL(this.url);
-        waitForScreen(this.loginBtn);
-    }
+  public LoginScreen(TestHarness testHarness, WebHarness webHarness) {
+    super(testHarness, webHarness);
+  }
+
+  public void goToURL() {
+    goToURL(this.url);
+    waitForScreen(this.loginBtn);
+  }
 }
