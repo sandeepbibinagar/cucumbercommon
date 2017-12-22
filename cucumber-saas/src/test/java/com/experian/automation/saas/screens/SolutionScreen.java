@@ -4,6 +4,7 @@ package com.experian.automation.saas.screens;
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.helpers.ImagesOperations;
+import com.experian.automation.logger.Logger;
 import com.experian.automation.screens.Screen;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
@@ -36,8 +37,7 @@ import static org.testng.Assert.assertTrue;
 
 public class SolutionScreen extends Screen {
 
-  @FindBy(xpath = "//div[contains(@class,'ajax_loader')]")
-  WebElement ajaxLoader;
+  private final Logger logger = Logger.getLogger(this.getClass());
 
   String pageObjectModel;
 
@@ -47,9 +47,6 @@ public class SolutionScreen extends Screen {
     this.pageObjectModel = pageObjectModel;
   }
 
-  public WebElement getScreenLoader() {
-    return ajaxLoader;
-  }
 
   /**
    * The method is used to find objects in the PageObjectModel by their label and to return them as web elements
@@ -355,7 +352,7 @@ public class SolutionScreen extends Screen {
    * @param page The title of the page where the element resides
    */
   public void setDropdownValueByLabel(String label, String value, String page) throws IOException {
-    waitForElementToDisappear(ajaxLoader);
+
     assertTrue(getWindowTitle().equals(page), "Page loaded: " + page);
 
     String elementType = getPageObjectTypeByLabel(label, page);
@@ -395,7 +392,7 @@ public class SolutionScreen extends Screen {
    * @param page The title of the page where the element resides
    */
   public void setTextfieldValueByLabel(String label, String value, String page) throws IOException {
-    waitForElementToDisappear(ajaxLoader);
+
     List<WebElement> textfieldItems = getPageObjects(page, "textfield", label);
     if (textfieldItems.size() > 1) {
       throw new IllegalArgumentException("There is more than one field with label: " + label);
@@ -429,7 +426,6 @@ public class SolutionScreen extends Screen {
    */
   public void selectTabWithTitle(String title, String page) throws IOException {
 
-    waitForElementToDisappear(ajaxLoader);
     assertTrue(getWindowTitle().equals(page), "Page loaded: " + page);
 
     JSONArray textfieldItems = JsonPath.read(pageObjectModel, "$.pages.*[?(@.title=='" + page
@@ -509,6 +505,53 @@ public class SolutionScreen extends Screen {
     ImagesOperations imageOps = new ImagesOperations();
     assertTrue(imageOps.compareImages(webImage, localImage));
   }
+
+  /**
+   * The method is used to verify whether the expected relative position of some field is equal to the actual one
+   *
+   * @param expectedPosition The relative position where the field is expected on the screen
+   * @param fieldLabel The label of the field which position is checked
+   * @param page The name of the page where the checked filed resides
+   */
+  public Boolean checkElementPositionInViewPort(String expectedPosition, String fieldLabel, String page) {
+    String type = getPageObjectTypeByLabel(fieldLabel, page);
+    WebElement element = getPageObjects(page, type, fieldLabel).get(0);
+    Map<String, String> viewPortPosition = getElementPositionInViewPort(element);
+
+    String xPos = "";
+    String yPos = "";
+    for (Map.Entry<String, String> entry : viewPortPosition.entrySet()) {
+      xPos = entry.getKey();
+      yPos = entry.getValue();
+    }
+
+    boolean isCorrectPosition = false;
+
+    if (expectedPosition.equals("CENTER")) {
+      isCorrectPosition = expectedPosition.equals(yPos);
+    } else {
+      Pattern pattern = Pattern.compile("[^-]+");
+      Matcher matcher = pattern.matcher(expectedPosition);
+      int matcherPosition = 0;
+
+      while (matcher.find()) {
+        if (matcherPosition != 0) {
+          isCorrectPosition = matcher.group().trim().equals(xPos);
+        } else {
+          isCorrectPosition = matcher.group().trim().equals(yPos);
+          if (!isCorrectPosition) {
+            break;
+          }
+        }
+        matcherPosition++;
+      }
+    }
+    if (!isCorrectPosition) {
+      logger.error("Element position found " + yPos + " - " + xPos);
+    }
+    return isCorrectPosition;
+  }
+
 
   /**
    * The method is used to find and click on element with some text in one of the table columns

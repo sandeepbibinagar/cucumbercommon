@@ -288,6 +288,26 @@ public class SolutionWebSteps {
   }
 
   /*
+  * Usage example(s):
+  *
+  *  And I verify that field Capture Data is located in the TOP-LEFT part of the Home Page screen
+  *
+  *  And I verify that field Application Number is located in the TOP-MIDDLE part of the P - New Application Screen screen
+  *
+  *  And I verify that field Last Name is located in the CENTER part of the P - New Application Screen screen
+  *
+  *  And I verify that field Payment Protection is located in the BOTTOM-MIDDLE part of the P - New Application Screen screen
+  */
+  @And("^I verify that field (.*) is located in the (.*-.*|CENTER) part of the (.*) screen$")
+  public void verifyFieldPosition(String field, String position, String page) throws Throwable {
+    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    assertTrue(screen.checkElementPositionInViewPort(position, field, page),
+               "Field is located on " + position + " position of the screen.");
+
+  }
+
+
+  /*
  * Usage example(s):
  *
  *  I compare web image with label to local image:

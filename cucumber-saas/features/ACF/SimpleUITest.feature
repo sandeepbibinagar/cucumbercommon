@@ -16,7 +16,7 @@ Feature: Simple UI POC
 
     And I update tactical parameters from file ${features.path}/ACF/data/ACF_Tactical_Parameters_Export.xml
 
-     # And I deploy tactical parameter ExpCons_TP - TP - ExpCons_TP Search version LATEST
+#   And I deploy tactical parameter ExpCons_TP - TP - ExpCons_TP Search version LATEST
     And I deploy tactical parameter Product_TP - TP - Product_TP Search version LATEST
     And I deploy tactical parameter Bureau_Enabler_TP - TP - Bureau Enabler version LATEST
     And I deploy tactical parameter MiddleName_Mandatory - TP - Middle Name Mandatory version LATEST
@@ -42,6 +42,9 @@ Feature: Simple UI POC
     And I go to login page
     And I login on Admin Portal with username adm@example.com and password Password123
     And I select solution - PowerCurve Originations
+
+    And I verify that field Capture Data is located in the TOP-LEFT part of the Home Page screen
+
     And I select menu Capture Data on page Home Page
     And I enter values for fields on page P - New Application Screen
       | First Name            | Petar         |
