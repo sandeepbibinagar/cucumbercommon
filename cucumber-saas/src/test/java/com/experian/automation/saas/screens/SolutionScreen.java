@@ -18,14 +18,11 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -516,7 +513,7 @@ public class SolutionScreen extends Screen {
   public Boolean checkElementPositionInViewPort(String expectedPosition, String fieldLabel, String page) {
     String type = getPageObjectTypeByLabel(fieldLabel, page);
     WebElement element = getPageObjects(page, type, fieldLabel).get(0);
-    Map<String, String> viewPortPosition = getElementPositionInViewPort(element);
+    Map<String, String> viewPortPosition = getElementRelativeViewPortPosition(element);
 
     String xPos = "";
     String yPos = "";

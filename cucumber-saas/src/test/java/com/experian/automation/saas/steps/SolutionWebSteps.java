@@ -8,6 +8,7 @@ import cucumber.api.java.en.And;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.support.ui.Select;
 
 import static org.testng.Assert.*;
@@ -298,9 +299,10 @@ public class SolutionWebSteps {
   *
   *  And I verify that field Payment Protection is located in the BOTTOM-MIDDLE part of the P - New Application Screen screen
   */
-  @And("^I verify that field (.*) is located in the (.*-.*|CENTER) part of the (.*) screen$")
-  public void verifyFieldPosition(String field, String position, String page) throws Throwable {
+  @And("^I verify that element (.*) is located in the (CENTER|(TOP|CENTER|BOTTOM)-(LEFT|MIDDLE|RIGHT)) part of the (.*) screen$")
+  public void verifyFieldPosition(String field, String isCenter,String firstPosition,String secondPosition, String page) throws Throwable {
     SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    String position = StringUtils.isNotEmpty(isCenter)?isCenter:firstPosition+"-"+secondPosition;
     assertTrue(screen.checkElementPositionInViewPort(position, field, page),
                "Field is located on " + position + " position of the screen.");
 
