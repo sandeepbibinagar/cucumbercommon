@@ -300,15 +300,15 @@ public class SolutionWebSteps {
   *  And I verify that field Payment Protection is located in the BOTTOM-MIDDLE part of the P - New Application Screen screen
   */
   @And("^I verify that element (.*) is located in the (CENTER|(TOP|CENTER|BOTTOM)-(LEFT|MIDDLE|RIGHT)) part of the (.*) screen$")
-  public void verifyFieldPosition(String field, String isCenter,String firstPosition,String secondPosition, String page) throws Throwable {
+  public void verifyFieldPosition(String field, String isCenter, String firstPosition, String secondPosition,
+      String page) throws Throwable {
     SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
-    String position = StringUtils.isNotEmpty(isCenter)?isCenter:firstPosition+"-"+secondPosition;
+    String position = StringUtils.isNotEmpty(isCenter) ? isCenter : firstPosition + "-" + secondPosition;
     assertTrue(screen.checkElementPositionInViewPort(position, field, page),
                "Field is located on " + position + " position of the screen.");
 
   }
-
-
+  
   /*
  * Usage example(s):
  *
