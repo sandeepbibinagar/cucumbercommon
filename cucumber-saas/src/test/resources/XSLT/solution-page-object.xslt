@@ -40,7 +40,8 @@
       <xsl:attribute name="display-text">
         <xsl:value-of select="@id"/>
       </xsl:attribute>
-      <xsl:attribute name="xpath">//a[contains(text(),'<xsl:value-of select="@id"/>')]
+      <xsl:attribute name="xpath">
+        <xsl:text>//a[contains(text(),'</xsl:text><xsl:value-of select="@id"/><xsl:text>')]</xsl:text>
       </xsl:attribute>
     </component>
   </xsl:template>
@@ -51,7 +52,8 @@
       <xsl:attribute name="display-text">
         <xsl:value-of select="@id"/>
       </xsl:attribute>
-      <xsl:attribute name="xpath">//a[contains(text(),'<xsl:value-of select="@id"/>')]
+      <xsl:attribute name="xpath">
+        <xsl:text>//a[contains(text(),'</xsl:text><xsl:value-of select="@id"/><xsl:text>')]</xsl:text>
       </xsl:attribute>
     </component>
   </xsl:template>
@@ -62,7 +64,8 @@
       <xsl:attribute name="text">
         <xsl:value-of select="./text/text()"/>
       </xsl:attribute>
-      <xsl:attribute name="xpath">//label[contains(text(),'<xsl:value-of select="./text/text()"/>')]
+      <xsl:attribute name="xpath">
+        <xsl:text>//label[contains(text(),'</xsl:text><xsl:value-of select="./text/text()"/><xsl:text>')]</xsl:text>
       </xsl:attribute>
     </component>
   </xsl:template>
@@ -74,17 +77,19 @@
         <xsl:attribute name="display-text">
           <xsl:value-of select="preceding-sibling::*[1]/text/text()"/>
         </xsl:attribute>
-        <xsl:attribute name="display-xpath">//label[contains(text(),'<xsl:value-of
-          select="preceding-sibling::*[1]/text/text()"/>')]
+        <xsl:attribute name="display-xpath"><xsl:text>//label[contains(text(),'</xsl:text>
+          <xsl:value-of select="preceding-sibling::*[1]/text/text()"/><xsl:text>')]</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="xpath">//select[@data-origin-id='<xsl:value-of select="@id"/>']
+        <xsl:attribute name="xpath"><xsl:text>//select[@data-origin-id='</xsl:text>
+          <xsl:value-of select="@id"/><xsl:text>']</xsl:text>
         </xsl:attribute>
       </xsl:if>
       <xsl:if test="./next-combo-id">
         <xsl:attribute name="display-text">
           <xsl:value-of select="./parameter/text()"/>
         </xsl:attribute>
-        <xsl:attribute name="xpath">//select[@data-origin-id='<xsl:value-of select="@id"/>']
+        <xsl:attribute name="xpath"><xsl:text>//select[@data-origin-id='</xsl:text>
+          <xsl:value-of select="@id"/><xsl:text>']</xsl:text>
         </xsl:attribute>
       </xsl:if>
 
@@ -97,11 +102,12 @@
         <xsl:attribute name="display-text">
           <xsl:value-of select="preceding-sibling::*[1]/text/text()"/>
         </xsl:attribute>
-        <xsl:attribute name="display-xpath">//label[contains(text(),'<xsl:value-of
-          select="preceding-sibling::*[1]/text/text()"/>')]
+        <xsl:attribute name="display-xpath"><xsl:text>//label[contains(text(),'</xsl:text>
+          <xsl:value-of select="preceding-sibling::*[1]/text/text()"/><xsl:text>')]</xsl:text>
         </xsl:attribute>
       </xsl:if>
-      <xsl:attribute name="xpath">//select[@data-origin-id='<xsl:value-of select="@id"/>']
+      <xsl:attribute name="xpath"><xsl:text>//select[@data-origin-id='</xsl:text>
+        <xsl:value-of select="@id"/><xsl:text>']</xsl:text>
       </xsl:attribute>
     </component>
   </xsl:template>
@@ -111,7 +117,8 @@
       <xsl:attribute name="type">
         <xsl:value-of select="local-name()"/>
       </xsl:attribute>
-      <xsl:attribute name="xpath">//button[@data-origin-id='<xsl:value-of select="@id"/>']
+      <xsl:attribute name="xpath"><xsl:text>//button[@data-origin-id='</xsl:text>
+        <xsl:value-of select="@id"/><xsl:text>']</xsl:text>
       </xsl:attribute>
       <xsl:attribute name="text">
         <xsl:value-of select="@id"/>
@@ -124,7 +131,8 @@
       <xsl:attribute name="type">
         <xsl:value-of select="local-name()"/>
       </xsl:attribute>
-      <xsl:attribute name="xpath">//*[contains(text(),'<xsl:value-of select="text()"/>')]
+      <xsl:attribute name="xpath"><xsl:text>//*[contains(text(),'</xsl:text>
+        <xsl:value-of select="text()"/><xsl:text>')]</xsl:text>
       </xsl:attribute>
       <xsl:attribute name="text">
         <xsl:value-of select="text()"/>
@@ -137,14 +145,15 @@
       <xsl:attribute name="type">
         <xsl:value-of select="local-name()"/>
       </xsl:attribute>
-      <xsl:attribute name="xpath">//input[@data-origin-id='<xsl:value-of select="@id"/>']
+      <xsl:attribute name="xpath"><xsl:text>//input[@data-origin-id='</xsl:text>
+        <xsl:value-of select="@id"/><xsl:text>']</xsl:text>
       </xsl:attribute>
       <xsl:if test="preceding-sibling::*[1]/local-name()='label'">
         <xsl:attribute name="display-text">
           <xsl:value-of select="preceding-sibling::*[1]/text/text()"/>
         </xsl:attribute>
-        <xsl:attribute name="display-xpath">//label[contains(text(),'<xsl:value-of
-          select="preceding-sibling::*[1]/text/text()"/>')]
+        <xsl:attribute name="display-xpath"><xsl:text>//label[contains(text(),'</xsl:text>
+          <xsl:value-of select="preceding-sibling::*[1]/text/text()"/><xsl:text>')]</xsl:text>
         </xsl:attribute>
       </xsl:if>
     </component>
@@ -153,7 +162,8 @@
   <xsl:template match="jquerydatepicker">
     <component>
       <xsl:attribute name="type">datepicker</xsl:attribute>
-      <xsl:attribute name="xpath">//input[@data-origin-id='<xsl:value-of select="@id"/>']
+      <xsl:attribute name="xpath"><xsl:text>//input[@data-origin-id='</xsl:text>
+        <xsl:value-of select="@id"/><xsl:text>']</xsl:text>
       </xsl:attribute>
       <xsl:if test="preceding-sibling::*[1]/local-name()='label'">
         <xsl:attribute name="display-text">
