@@ -13,6 +13,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.Map;
 import net.minidev.json.JSONArray;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.io.FileUtils;
+import org.apache.wink.json4j.JSON;
 import org.json.JSONObject;
 
 
@@ -105,7 +107,10 @@ public class TacticalParametersOperations {
           "Cannot find parameter with name " + parameterName + " List of available parameters: " +
               JsonPath.read(getAllParameters(), "$.*.name"));
     }
-    String version = JsonPath.read(parameterProperties.get(0), "$.version").toString();
+    String componentId = JsonPath.read(parameterProperties.get(0), "$.componentId");
+    JSONArray paramVersions = getParameterVersions(componentId);
+    JSONArray versionArray = JsonPath.read(paramVersions, "$.*[?(@.deployed==false)].version");
+    String version = versionArray.get(0).toString();
     return version;
   }
 
@@ -116,7 +121,13 @@ public class TacticalParametersOperations {
           "Cannot find parameter with name " + parameterName + " List of available parameters: " +
               JsonPath.read(getAllParameters(), "$.*.name"));
     }
-    String latestVersionId = JsonPath.read(parameterProperties.get(0), "$.id").toString();
+
+    String componentId = JsonPath.read(parameterProperties.get(0), "$.componentId");
+    JSONArray paramVersions = getParameterVersions(componentId);
+    ArrayList versionArray = JsonPath.read(paramVersions, "$.*[?(@.deployed==false)].version");
+    Integer maxUndeployedVersion = (Integer) Collections.max(versionArray);
+    versionArray = JsonPath.read(paramVersions, "$.*[?(@.version=='" + maxUndeployedVersion.toString() + "')].id");
+    String latestVersionId = versionArray.get(0).toString();
     return latestVersionId;
   }
 
@@ -200,7 +211,6 @@ public class TacticalParametersOperations {
     return updateParameter(parentNode.toString());
   }
 
-
   public boolean deployParameter(String name, String version) throws UnirestException {
     if (version.equals("LATEST")) {
       version = getLatestParameterVersionId(name);
@@ -240,8 +250,7 @@ public class TacticalParametersOperations {
       throws IOException, UnirestException {
 
         /* Fetching the selected parameter object and checking whether the version is already deployed */
-    JSONArray solutionParameters = JsonPath.read(getAllParameters(), "$.*.[?(@.name=='" + parameterName + "')]]");
-    String nonDeployedParameterVersion = JsonPath.read(solutionParameters.get(0), "$.version").toString();
+    String nonDeployedParameterVersion = getLatestParameterVersion(parameterName);
 
     if (!nonDeployedParameterVersion.equals(parameterVersion)) {
       throw new IllegalArgumentException(
@@ -324,7 +333,6 @@ public class TacticalParametersOperations {
 
     updateParameter(parameterBody.toString());
   }
-
 
   private String getRequestURL(String request) {
     return apiURL + JsonPath.parse(apiRequests).read("$." + request + ".uri").toString();

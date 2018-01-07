@@ -56,7 +56,7 @@ public class CommonSteps {
   public void createPageObject(String deployablePath) throws Throwable {
 
     if (testHarness.config.get("portal.login").equals("true")) {
-      getSolutionDeployables("pc-acquirecustomersfaster-us");
+      getSolutionDeployables(testHarness.config.get("powercurve.release.group"));
     }
 
     File deployableFile = new File(deployablePath);
