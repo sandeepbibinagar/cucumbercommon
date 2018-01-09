@@ -355,7 +355,7 @@ public class ProvisionAPISteps {
     ProvisionAPIOperations apiOps = new ProvisionAPIOperations();
 
     int serviceGroupID = apiOps.getServiceGroupID(testHarness.config.get("openshift.service.group.name"));
-    int serviceID = apiOps.getServiceID(service, testHarness.config.get("openshift.service.group.name"));
+    int serviceID = apiOps.getServiceIDbyTemplateID(service, testHarness.config.get("openshift.service.group.name"));
 
     Map<String, String> properties = apiOps.getServiceProperties(serviceGroupID, serviceID);
     Object propertyValue = properties.get(property);

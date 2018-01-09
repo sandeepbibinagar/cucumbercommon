@@ -57,12 +57,31 @@ public class ProvisionAPIOperations {
     return serviceGroupID;
   }
 
+  public int getServiceIDbyTemplateID(String serviceTemplateId, String serviceGroupName) throws UnirestException {
+
+    int serviceGroupID = getServiceGroupID(serviceGroupName);
+
+    String requestURL = String.format(getRequestURL("list-services"), serviceGroupID);
+    HttpResponse<String> response = Unirest.get(requestURL).headers(defaultHeaders).asString();
+
+    Filter filter = filter(where("serviceTemplateId").eq(serviceTemplateId));
+    List<Integer> serviceIDs = JsonPath.read(response.getBody(), "$.services[?].id", filter);
+
+    int serviceID = 0;
+
+    if (serviceIDs.size() == 1) {
+      serviceID = serviceIDs.get(0);
+    }
+
+    return serviceID;
+  }
+
   public int getServiceID(String serviceName, int serviceGroupID) throws UnirestException {
 
     String requestURL = String.format(getRequestURL("list-services"), serviceGroupID);
     HttpResponse<String> response = Unirest.get(requestURL).headers(defaultHeaders).asString();
 
-    Filter filter = filter(where("serviceTemplateId").eq(serviceName));
+    Filter filter = filter(where("release.group").eq(serviceName));
     List<Integer> serviceIDs = JsonPath.read(response.getBody(), "$.services[?].id", filter);
 
     int serviceID = 0;
