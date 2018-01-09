@@ -62,7 +62,7 @@ public class ProvisionAPIOperations {
     String requestURL = String.format(getRequestURL("list-services"), serviceGroupID);
     HttpResponse<String> response = Unirest.get(requestURL).headers(defaultHeaders).asString();
 
-    Filter filter = filter(where("release.group").eq(serviceName));
+    Filter filter = filter(where("serviceTemplateId").eq(serviceName));
     List<Integer> serviceIDs = JsonPath.read(response.getBody(), "$.services[?].id", filter);
 
     int serviceID = 0;
@@ -80,6 +80,8 @@ public class ProvisionAPIOperations {
 
     return getServiceID(serviceName, serviceGroupID);
   }
+
+
 
   public List<String> getServices(String serviceGroupName) throws UnirestException {
 
