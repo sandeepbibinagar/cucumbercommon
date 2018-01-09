@@ -81,8 +81,6 @@ public class ProvisionAPIOperations {
     return getServiceID(serviceName, serviceGroupID);
   }
 
-
-
   public List<String> getServices(String serviceGroupName) throws UnirestException {
 
     int serviceGroupID = getServiceGroupID(serviceGroupName);
