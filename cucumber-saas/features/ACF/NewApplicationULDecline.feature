@@ -5,7 +5,7 @@ Feature: New Application for Unsecured Personal Loans Declined through the REST 
   I want to send a POST request with the applicant information to the application and receive a response
 
   Scenario: NA006 As a User I want to CREATE an application through CLIENT SYSTEM to get final decision Decline when Pre bureau decision is Decline
-    # Test-ID: 4097478
+    # Section-ID: 351992
     # Use-Case: ACF
     # Priority: P3
     When I update tactical parameters from file ${features.path}/ACF/data/ACF_Tactical_Parameters_Export.xml
