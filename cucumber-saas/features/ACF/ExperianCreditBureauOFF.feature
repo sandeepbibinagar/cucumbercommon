@@ -1,42 +1,48 @@
-@skip
 Feature: Experian Credit Bureau OFF through the REST api
   In order to verify that Experian Credit Bureau won't be called for an application,
   As an ACF user,
   I want to send a POST request with information for one applicant and receive a response with message for the bureau being swiched off.
 
   Scenario: ID:EXCB03 As a User I want to CREATE an application through CLIENT SYSTEM to get message for experian credit bureau being swiched off.
-
-    Given I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 21/12/2017
+    # Test-ID: C4817941
+    # Use-Case: ACF
+    # Priority: P3
+    # The date format should be mm/dd/yyyy
+    Given I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | N                 | N                 | N                 | N                      | N                         |
 
     And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
 
-    And I update parameter Product_TP - TP - Product_TP Search description: Test ,effective from: 21/12/2017
-      | Interest Rate | Min Age | Max Age | Min Credit Limit| Max Credit Limit | Min Amount Requested | Max Amount Requested | Min Term Reqested | Max term Requested |
+    # The date format should be mm/dd/yyyy
+    And I update parameter Product_TP - TP - Product_TP Search description: Test ,effective from: 01/01/2018
+      | Interest Rate | Min Age | Max Age | Min Credit Limit| Max Credit Limit | Min Amount Requested | Max Amount Requested | Min Term Requested | Max Term Requested |
       |               | 16      | 60      | 100             | 100000           | 100                  | 100000               | 2                 | 4                  |
 
     And I deploy tactical parameter Product_TP - TP - Product_TP Search version LATEST
 
-    And I update parameter OtherCalls_TP - TP - OtherCalls Search description: Test ,effective from: 21/12/2017
+    # The date format should be mm/dd/yyyy
+    And I update parameter OtherCalls_TP - TP - OtherCalls Search description: Test ,effective from: 01/01/2018
       | Kelly Blue Book | Black Book | Auto Check | Experian Motor Vehicle| EDQ Address Parser | ATB | Carleton Smartcalcs | Search Client Data | SearchBasedPrepopulation |
       | N               | N          | N          | N                     | N                  | N   | N                   | N                  | Y                        |
 
     And I deploy tactical parameter OtherCalls_TP - TP - OtherCalls Search version LATEST
 
-    And I update parameter TPID - TP - Master Search description: Test ,effective from: 21/12/2017
+    # The date format should be mm/dd/yyyy
+    And I update parameter TPID - TP - Master Search description: Test ,effective from: 01/01/2018
       | PreBurID | PostBurID | FraudID | FinalID | ExperianID | EquifaxID | TransUnionID | OtherCallsID |
       | 1        | 1	     | 1       | 1       | PRD        | 1         | 1            | 1            |
 
     And I deploy tactical parameter TPID - TP - Master Search version LATEST
 
-    And I update parameter External Call Priority - TP - External Call Priority description: Test ,effective from: 21/12/2017
+    # The date format should be mm/dd/yyyy
+    And I update parameter External Call Priority - TP - External Call Priority description: Test ,effective from: 01/01/2018
       | Priority 1   | Priority 2 | Priority 3                 | Priority 4  | Priority 5 |
       | Credit Bureau| FraudNet   | Other External Data Source | PreciseID   | PreciseID  |
 
     And I deploy tactical parameter External Call Priority - TP - External Call Priority version LATEST
 
-    When I set the base webservice url to ${bps.webservices.url}
+    And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
           {
@@ -106,12 +112,11 @@ Feature: Experian Credit Bureau OFF through the REST api
             "DV-Product.PRODUCT[1].AmountRequested " : 10000,
             "DV-Product.PRODUCT[1].TermRequested " : 3
           }
-
       """
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
     And I prepare REST authentcation username admin and password Secret123!
-    And I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
-    And I verify that the JSON response has fields:
+    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
+    Then I verify that the JSON response has fields:
       | $.data.['TP-EA.BureauEnabler.Bureau En Out EXP']    | N               |

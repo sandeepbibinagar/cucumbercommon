@@ -1,3 +1,4 @@
+@skip
 Feature: Simple UI POC
 
   Scenario: ACF solution simple form test
