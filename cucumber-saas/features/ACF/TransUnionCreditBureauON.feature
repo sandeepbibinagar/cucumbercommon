@@ -4,7 +4,7 @@ Feature: TransUnion Credit Bureau ON through the REST api
   I want to send a POST request with  information for one applicant and receive a valid response with the risk model score for the application.
 
   Scenario: ID:TUCB01 As a User I want to CREATE an application through CLIENT SYSTEM to get transunion credit bureau score for the application
-    # Test-ID: C5010786
+    # Test-ID: 5010786
     # Use-Case: ACF
     # Priority: P3
     # The date format should be mm/dd/yyyy

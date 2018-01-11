@@ -4,7 +4,7 @@ Feature: Experian Credit Bureau ON through the REST api
   I want to send a POST request with  information for one applicant and receive a valid response with the risk model score for the application.
 
   Scenario: ID:EXCB01 As a User I want to CREATE an application through CLIENT SYSTEM to get experian credit bureau score for the application
-    # Test-ID: C4817940
+    # Test-ID: 4817940
     # Use-Case: ACF
     # Priority: P3
     # The date format should be mm/dd/yyyy
