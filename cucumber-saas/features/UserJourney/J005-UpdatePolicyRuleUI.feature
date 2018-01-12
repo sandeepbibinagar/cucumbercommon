@@ -1,6 +1,6 @@
 Feature: Update Policy Rule Tactical Parameters
 
-#  Background:
+  Background:
 #    # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
   Scenario: As a User I want to turn off Policy Rule execution, to get empty System Decision
