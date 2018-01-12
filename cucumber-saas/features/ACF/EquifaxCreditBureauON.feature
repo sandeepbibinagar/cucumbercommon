@@ -4,7 +4,7 @@ Feature: Equifax Credit Bureau ON through the REST api
   I want to send a POST request with  information for one applicant and receive a valid response with the risk model score for the application.
 
   Scenario: ID:EQCB01 As a User I want to CREATE an application through CLIENT SYSTEM to get equifax credit bureau score for the application
-    # Test-ID: C5010784
+    # Test-ID: 5010784
     # Use-Case: ACF
     # Priority: P3
     # The date format should be mm/dd/yyyy

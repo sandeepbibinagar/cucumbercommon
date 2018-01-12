@@ -4,7 +4,7 @@ Feature: Experian Credit Bureau OFF through the REST api
   I want to send a POST request with information for one applicant and receive a response with message for the bureau being swiched off.
 
   Scenario: ID:TUCB02 As a User I want to CREATE an application through CLIENT SYSTEM to get message for experian credit bureau being swiched off.
-    # Test-ID: C5010787
+    # Test-ID: 5010787
     # Use-Case: ACF
     # Priority: P3
     # The date format should be mm/dd/yyyy
