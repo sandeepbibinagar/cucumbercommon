@@ -1,4 +1,3 @@
-@run
 Feature: Post Bureau Decision Decline through the REST api
   In order to obtain Decline post-bureau decision for an application,
   As an ACF user,
@@ -8,37 +7,37 @@ Feature: Post Bureau Decision Decline through the REST api
     # Test-ID: 5015367
     # Use-Case: ACF
     # Priority: P3
-    Given I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/218
+    Given I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | Y                 | N                 | N                 | N                      | N                         |
 
     And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
 
-    And I update parameter Product_TP - TP - Product_TP Search description: Test ,effective from: 01/01/218
+    And I update parameter Product_TP - TP - Product_TP Search description: Test ,effective from: 01/01/2018
       | Interest Rate | Min Age | Max Age | Min Credit Limit | Max Credit Limit | Min Amount Requested | Max Amount Requested | Min Term Requested | Max Term Requested |
       |               | 16      | 60      | 100              | 100000           | 100                  | 100000               | 2                  | 4                  |
 
     And I deploy tactical parameter Product_TP - TP - Product_TP Search version LATEST
 
-    And I update parameter OtherCalls_TP - TP - OtherCalls Search description: Test ,effective from: 01/01/218
+    And I update parameter OtherCalls_TP - TP - OtherCalls Search description: Test ,effective from: 01/01/2018
       | OtherCallsID | Kelly Blue Book | Black Book | Auto Check | Experian Motor Vehicle | EDQ Address Parser | ATB | Carleton Smartcalcs | Search Client Data | SearchBasedPrepopulation |
       | 1            | N               | N          | N          | N                      | N                  | N   | N                   | N                  | Y                        |
 
     And I deploy tactical parameter OtherCalls_TP - TP - OtherCalls Search version LATEST
 
-    And I update parameter TPID - TP - Master Search description: Test ,effective from: 01/01/218
+    And I update parameter TPID - TP - Master Search description: Test ,effective from: 01/01/2018
       | PreBurID | PostBurID | FraudID | FinalID | ExperianID | EquifaxID | TransUnionID | OtherCallsID | ExternalCallsPriorityID | PostCrossCoreID |
       | 1        | 1         | 1       | 1       | PRD        | 1         | 1            | 1            | 1                       | 1               |
 
     And I deploy tactical parameter TPID - TP - Master Search version LATEST
 
-    And I update parameter External Call Priority - TP - External Call Priority description: Test ,effective from: 01/01/218
+    And I update parameter External Call Priority - TP - External Call Priority description: Test ,effective from: 01/01/2018
       | Priority ID | Priority 1    | Priority 2 | Priority 3                 | Priority 4 | Priority 5 |
       | 1           | Credit Bureau | FraudNet   | Other External Data Source | PreciseID  | PreciseID  |
 
     And I deploy tactical parameter External Call Priority - TP - External Call Priority version LATEST
 
-    And I update parameter DA Post CrossCore TP - TP - DA Post CrossCore description: Test ,effective from: 01/01/218
+    And I update parameter DA Post CrossCore TP - TP - DA Post CrossCore description: Test ,effective from: 01/01/2018
       | DA Post CrossCore ID | MinimumPreciseIDScore | MinimumFraudnetScore |
       | 1                    | 500                   | 500                  |
     And I deploy tactical parameter DA Post CrossCore TP - TP - DA Post CrossCore version LATEST
