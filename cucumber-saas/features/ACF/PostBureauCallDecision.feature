@@ -4,7 +4,7 @@ Feature: Post Bureau Decision APPROVE through the REST api
   I want to send a POST request with  information for one applicant and receive a valid response with post-bureau decision for the application.
 
  Background:
-    Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameter_exported_data_v0.4.xml
+    Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameter_exported_data_v0.7.xml
     And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
     And I deploy tactical parameter Product_TP - TP - Product_TP Search version LATEST
     And I deploy tactical parameter OtherCalls_TP - TP - OtherCalls Search version LATEST
@@ -13,6 +13,7 @@ Feature: Post Bureau Decision APPROVE through the REST api
     And I deploy tactical parameter DA Post CrossCore TP - TP - DA Post CrossCore version LATEST
     And I deploy tactical parameter DA Pre Bureau TP - TP - DA Pre Bureau version LATEST
     And I deploy tactical parameter DA Post Bureau TP - TP - DA Post Bureau version LATEST
+    And I deploy tactical parameter FraudandIDProducts_TP - TP - FraudandIDProducts version LATEST
 
   Scenario: ID:PSBD01 As a User I want to CREATE an application through CLIENT SYSTEM to get post-bureau decision DECLINE for the application
  # Test-ID: 5015367

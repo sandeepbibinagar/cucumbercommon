@@ -3,18 +3,18 @@ Feature: Post Fraud Decision  through the REST api
   As an ACF user,
   I want to send a POST request with  information for one applicant and receive a valid response with Post Fraud scores and decision for the application
 
- Background:
-    Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameter_exported_data_v0.4.xml
+  Background:
+    Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameter_exported_data_v0.7.xml
     And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
     And I deploy tactical parameter Product_TP - TP - Product_TP Search version LATEST
     And I deploy tactical parameter OtherCalls_TP - TP - OtherCalls Search version LATEST
     And I deploy tactical parameter TPID - TP - Master Search version LATEST
     And I deploy tactical parameter External Call Priority - TP - External Call Priority version LATEST
-    And I deploy tactical parameter DA Post CrossCore TP - TP - DA Post CrossCore version LATEST
     And I deploy tactical parameter DA Pre Bureau TP - TP - DA Pre Bureau version LATEST
     And I deploy tactical parameter DA Post Bureau TP - TP - DA Post Bureau version LATEST
+    And I deploy tactical parameter FraudandIDProducts_TP - TP - FraudandIDProducts version LATEST
 
-  Scenario: ID:PCCD01 As a User I want to CREATE an application through CLIENT SYSTEM to get PreciseID score and decision APPROVE for the application
+  Scenario: ID:PCCD01 As a User I want to CREATE an application through CLIENT SYSTEM to get Post Fraud decision APPROVE for the application
     # Test-ID: 5020112
     # Use-Case: ACF
     # Priority: P3
@@ -144,15 +144,13 @@ Feature: Post Fraud Decision  through the REST api
     And I prepare REST authentcation username admin and password Secret123!
     When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
-      | $.data.['DV-Results.Result Calls.C4 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE   |
-      | $.data.['DV-CrossCore.Applicant[1].FraudNet.ServiceName']                                           | FraudNet  |
-      | $.data.['DV-CrossCore.Applicant[1].FraudNet.Score']                                                 | 1400      |
+      | $.data.['DV-Results.Result Calls.Call Merged Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
 
   Scenario: ID:PCCD02 As a User I want to CREATE an application through CLIENT SYSTEM to get Post Fraud decision is DECLINE for the application when the  PreciseID score lower than the minimum
  # Test-ID: 5020113
  # Use-Case: ACF
  # Priority: P3
-    And I update parameter DA Post CrossCore TP - TP - DA Post CrossCore description: Test ,effective from: 01/01/218
+    And I update parameter DA Post CrossCore TP - TP - DA Post CrossCore description: Test ,effective from: 01/01/2018
       | DA Post CrossCore ID | MinimumPreciseIDScore | MinimumFraudnetScore |
       | 1                    | 2000                  | 500                  |
     And I deploy tactical parameter DA Post CrossCore TP - TP - DA Post CrossCore version LATEST
@@ -211,7 +209,7 @@ Feature: Post Fraud Decision  through the REST api
     And I prepare REST authentcation username admin and password Secret123!
     When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
-      | $.data.['DV-Results.Result Calls.C4 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE   |
-      | $.data.['DV-CrossCore.Applicant[1].PreciseID.ServiceName']                                          | PreciseId |
-      | $.data.['DV-CrossCore.Applicant[1].PreciseID.Score']                                                | 675       |
+      | $.data.['DV-Results.Result Calls.Call Merged Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
 
+
+#
