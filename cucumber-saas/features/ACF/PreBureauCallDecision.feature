@@ -17,9 +17,10 @@ Feature: Pre Bureau Call Decision through the REST api
     And I deploy tactical parameter FraudandIDProducts_TP - TP - FraudandIDProducts version LATEST
 
   Scenario: ID:PRBD01 As a User I want to CREATE an application through CLIENT SYSTEM to get pre-bureau decision APPROVE for the application
-# Test-ID: 5015358
-# Use-Case: ACF
-# Priority: P3
+  # Test-ID: 5015358
+  # Type: Functional
+  # Use-Case: ACF
+  # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
@@ -79,7 +80,8 @@ Feature: Pre Bureau Call Decision through the REST api
       | $.data.['DV-Results.Result Calls.C1 Scorecard 1-Scorecard Minimum Results.Score']                   | 950.000000 |
 
   Scenario: ID:PRBD02 As a User I want to CREATE an application through CLIENT SYSTEM to get pre-bureau decision INCOMPLETE for the application
-     # Test-ID: 5015359
+    # Test-ID: 5015359
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     And I update parameter DA Pre Bureau TP - TP - DA Pre Bureau description: Test ,effective from: 01/01/2018
@@ -147,6 +149,7 @@ Feature: Pre Bureau Call Decision through the REST api
 
   Scenario: ID:PRD03 As a User I want to CREATE an application through CLIENT SYSTEM to get pre-bureau decision DECLINE for the application when the applicant's age is lower than the minimum.
     # Test-ID: 5015360
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}
@@ -208,6 +211,7 @@ Feature: Pre Bureau Call Decision through the REST api
 
   Scenario: ID:PRD04 As a User I want to CREATE an application through CLIENT SYSTEM to get pre-bureau decision DECLINE for the application when pre-bureau score is lower than the minimum
     # Test-ID: 5015361
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}
@@ -270,6 +274,7 @@ Feature: Pre Bureau Call Decision through the REST api
 
   Scenario: ID:PRD05 As a User I want to CREATE an application through CLIENT SYSTEM to get pre-bureau decision DECLINE for the application when the applicant's age is higher than the maximum
     # Test-ID: 5015362
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}
@@ -331,6 +336,7 @@ Feature: Pre Bureau Call Decision through the REST api
 
   Scenario: ID:PRD06 As a User I want to CREATE an application through CLIENT SYSTEM to get pre-bureau decision DECLINE for the application when the requested term is lower than the minimum.
     # Test-ID: 5015363
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}
@@ -392,6 +398,7 @@ Feature: Pre Bureau Call Decision through the REST api
 
   Scenario: ID:PRD07 As a User I want to CREATE an application through CLIENT SYSTEM to get pre-bureau decision DECLINE for the application when the requested term is higher than the maximum.
     # Test-ID: 5015364
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}
@@ -453,6 +460,7 @@ Feature: Pre Bureau Call Decision through the REST api
 
   Scenario: ID:PRD08 As a User I want to CREATE an application through CLIENT SYSTEM to get pre-bureau decision DECLINE for the application when the requested amount is lower than the minimum
     # Test-ID: 5015365
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}
@@ -514,6 +522,7 @@ Feature: Pre Bureau Call Decision through the REST api
 
   Scenario: ID:PRD09 As a User I want to CREATE an application through CLIENT SYSTEM to get pre-bureau decision DECLINE for the application when the requested amount higher than the maximum.
     # Test-ID: 5015366
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}

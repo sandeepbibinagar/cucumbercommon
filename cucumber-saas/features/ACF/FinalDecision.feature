@@ -18,6 +18,7 @@ Feature: Final Decision through the REST api
 
   Scenario: ID:FDSL01 As a User I want to CREATE an application through CLIENT SYSTEM to get final decision APPROVE for the application.
     # Test-ID: 5020115
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}
@@ -79,6 +80,7 @@ Feature: Final Decision through the REST api
 
   Scenario: ID:FDSL02 As a User I want to CREATE an application through CLIENT SYSTEM to get final decision REFER for the application as a result of POST- BUREAU decision call.
     # Test-ID: 5020116
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}
@@ -140,6 +142,7 @@ Feature: Final Decision through the REST api
 
   Scenario: ID:FDSL03 As a User I want to CREATE an application through CLIENT SYSTEM to get final decision DECLINE for the application as a result of POST - Fraud decision call.
     # Test-ID: 5020117
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     And I update parameter DA Post CrossCore TP - TP - DA Post CrossCore description: Test ,effective from: 01/01/2018
@@ -205,6 +208,7 @@ Feature: Final Decision through the REST api
 
   Scenario: ID:FDSL04 As a User I want to CREATE an application through CLIENT SYSTEM to get final decision DECLINE for the application as a result of POST- BUREAU decision call.
     # Test-ID: 5020118
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}

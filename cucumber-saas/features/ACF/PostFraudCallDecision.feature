@@ -16,6 +16,7 @@ Feature: Post Fraud Decision  through the REST api
 
   Scenario: ID:PCCD01 As a User I want to CREATE an application through CLIENT SYSTEM to get Post Fraud decision APPROVE for the application
     # Test-ID: 5020112
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}
@@ -83,6 +84,7 @@ Feature: Post Fraud Decision  through the REST api
 
   Scenario: ID:PCCD03 As a User I want to CREATE an application through CLIENT SYSTEM to get Post Fraud decision is DECLINE for the application when the  FraudNet score lower than the minimum
   # Test-ID: 5020114
+  # TestType: Functional
   # Use-Case: ACF
   # Priority: P3
     And I update parameter DA Post CrossCore TP - TP - DA Post CrossCore description: Test ,effective from: 01/01/2018
@@ -147,9 +149,10 @@ Feature: Post Fraud Decision  through the REST api
       | $.data.['DV-Results.Result Calls.Call Merged Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
 
   Scenario: ID:PCCD02 As a User I want to CREATE an application through CLIENT SYSTEM to get Post Fraud decision is DECLINE for the application when the  PreciseID score lower than the minimum
- # Test-ID: 5020113
- # Use-Case: ACF
- # Priority: P3
+  # Test-ID: 5020113
+  # TestType: Functional
+  # Use-Case: ACF
+  # Priority: P3
     And I update parameter DA Post CrossCore TP - TP - DA Post CrossCore description: Test ,effective from: 01/01/2018
       | DA Post CrossCore ID | MinimumPreciseIDScore | MinimumFraudnetScore |
       | 1                    | 2000                  | 500                  |
@@ -210,6 +213,3 @@ Feature: Post Fraud Decision  through the REST api
     When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.Call Merged Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
-
-
-#

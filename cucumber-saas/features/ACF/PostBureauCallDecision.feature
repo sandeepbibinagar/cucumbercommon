@@ -15,8 +15,9 @@ Feature: Post Bureau Decision APPROVE through the REST api
     And I deploy tactical parameter DA Post Bureau TP - TP - DA Post Bureau version LATEST
     And I deploy tactical parameter FraudandIDProducts_TP - TP - FraudandIDProducts version LATEST
 
-  Scenario: ID:PSBD01 As a User I want to CREATE an application through CLIENT SYSTEM to get post-bureau decision DECLINE for the application
+ Scenario: ID:PSBD01 As a User I want to CREATE an application through CLIENT SYSTEM to get post-bureau decision DECLINE for the application
  # Test-ID: 5015367
+ # Type: Functional
  # Use-Case: ACF
  # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}
@@ -77,10 +78,11 @@ Feature: Post Bureau Decision APPROVE through the REST api
       | $.data.['DV-Results.Result Calls.C2 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
       | $.data.['DV-Results.Result Calls.C2 Scorecard 1-Scorecard Minimum Results.Score']                   | 800.000000 |
 
-  Scenario: ID:PSBD02 As a User I want to CREATE an application through CLIENT SYSTEM to get post-bureau decision REFER for the application
-# Test-ID: 5015368
-# Use-Case: ACF
-# Priority: P3
+ Scenario: ID:PSBD02 As a User I want to CREATE an application through CLIENT SYSTEM to get post-bureau decision REFER for the application
+ # Test-ID: 5015368
+ # Type: Functional
+ # Use-Case: ACF
+ # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
@@ -139,8 +141,9 @@ Feature: Post Bureau Decision APPROVE through the REST api
       | $.data.['DV-Results.Result Calls.C2 Policy Rules-Decision Setter Typical Result.Decision Category'] | REFER      |
       | $.data.['DV-Results.Result Calls.C2 Scorecard 1-Scorecard Minimum Results.Score']                   | 920.000000 |
 
-  Scenario: ID:PSBD03 As a User I want to CREATE an application through CLIENT SYSTEM to get post-bureau decision APPROVE for the application
+ Scenario: ID:PSBD03 As a User I want to CREATE an application through CLIENT SYSTEM to get post-bureau decision APPROVE for the application
   # Test-ID: 5015369
+  # Type: Functional
   # Use-Case: ACF
   # Priority: P3
     And I set the base webservice url to ${bps.webservices.url}
