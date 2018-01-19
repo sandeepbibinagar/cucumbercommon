@@ -15,6 +15,7 @@ Feature: Credit Bureau Calls through the REST api
 
   Scenario: ID:EXCB01 As a User I want to CREATE an application through CLIENT SYSTEM to get experian credit bureau score for the application
     # Test-ID: 4817940
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
       And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
@@ -110,6 +111,7 @@ Feature: Credit Bureau Calls through the REST api
 
   Scenario: ID:EXCB03 As a User I want to CREATE an application through CLIENT SYSTEM to get message for experian credit bureau being swiched off.
   # Test-ID: 4817941
+  # Type: Functional
   # Use-Case: ACF
   # Priority: P3
   # The date format should be mm/dd/yyyy
@@ -200,6 +202,7 @@ Feature: Credit Bureau Calls through the REST api
 
   Scenario: ID:EQCB01 As a User I want to CREATE an application through CLIENT SYSTEM to get equifax credit bureau score for the application
     # Test-ID: 5010784
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
         And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
@@ -284,6 +287,7 @@ Feature: Credit Bureau Calls through the REST api
 
   Scenario: ID:EQCB02 As a User I want to CREATE an application through CLIENT SYSTEM to get message for equifax credit bureau being swiched off.
    # Test-ID: 5010785
+   # Type: Functional
    # Use-Case: ACF
    # Priority: P3
    # The date format should be mm/dd/yyyy
@@ -366,6 +370,7 @@ Feature: Credit Bureau Calls through the REST api
 
   Scenario: ID:TUCB01 As a User I want to CREATE an application through CLIENT SYSTEM to get transunion credit bureau score for the application
     # Test-ID: 5010786
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
        Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameter_exported_data_v0.7.xml
@@ -462,6 +467,7 @@ Feature: Credit Bureau Calls through the REST api
 
   Scenario: ID:TUCB02 As a User I want to CREATE an application through CLIENT SYSTEM to get message for experian credit bureau being swiched off.
     # Test-ID: 5010787
+    # Type: Functional
     # Use-Case: ACF
     # Priority: P3
     # The date format should be mm/dd/yyyy
