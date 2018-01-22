@@ -11,4 +11,3 @@ Feature: Burp Suite Enterprise Application Scan
     And I create Burp Suite Site with username "adm@example.com" and password "Password123"
     When I run scan
     Then I check for vulnerabilities
-    And I delete the site
