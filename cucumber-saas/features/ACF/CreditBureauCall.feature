@@ -433,10 +433,6 @@ Feature: Credit Bureau Calls through the REST api
     When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['TP-EA.BureauEnabler.Bureau En Out TUC']           | Y   |
-      | $.data.['DV-CreditReport.APP[1].CBR[2].RiskModelScore[1]'] | 354 |
-      | $.data.['DV-CreditReport.APP[1].CBR[2].RiskModelScore[2]'] | 657 |
-      | $.data.['DV-CreditReport.APP[1].CBR[2].RiskModelScore[3]'] | 767 |
-      | $.data.['DV-CreditReport.APP[1].CBR[2].RiskModelScore[4]'] | 798 |
 
   Scenario: ID:TUCB02 As a User I want to CREATE an application through CLIENT SYSTEM to get message for experian credit bureau being swiched off.
     # Test-ID: 5010787
