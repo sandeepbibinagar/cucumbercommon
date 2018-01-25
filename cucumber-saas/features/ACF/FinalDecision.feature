@@ -267,4 +267,3 @@ Feature: Final Decision through the REST api
     When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.C3 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
-
