@@ -3,6 +3,7 @@ package com.experian.automation.saas.steps;
 
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
+import com.experian.automation.helpers.Config;
 import com.experian.automation.saas.screens.SolutionScreen;
 import cucumber.api.java.en.And;
 import org.apache.commons.configuration2.ex.ConfigurationException;
@@ -29,9 +30,9 @@ public class SolutionWebSteps {
   }
 
   String pageObjectFileName = "page-object-" + FilenameUtils.removeExtension(
-      new File(new TestHarness().config.get("deployable.file")).getName()) + ".json";
-  File pageObjecFile = new File(new TestHarness().config.get("temp.dir") + pageObjectFileName);
-  String pageObjectModel = FileUtils.readFileToString(pageObjecFile);
+      new File(Config.get("deployable.file")).getName()) + ".json";
+  File pageObjecFile = new File(Config.get("temp.dir") + pageObjectFileName);
+  String pageObjectModel = FileUtils.readFileToString(pageObjecFile, "UTF-8");
 
   /*
   * Usage example(s):

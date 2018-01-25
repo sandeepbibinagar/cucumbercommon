@@ -2,16 +2,16 @@ package com.experian.automation.saas.screens.WebEngine;
 
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
+import com.experian.automation.helpers.Config;
 import com.experian.automation.screens.Screen;
+import java.util.List;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 public class WebEngineHome extends Screen {
 
   private String window = "Home Page";
-  private String url = testHarness.config.get("webengine.base.url");
+  private String url = Config.get("webengine.base.url");
 
   @FindBy(xpath = "//ul[@id='menu']/li/a")
   public List<WebElement> mainMenuItems;

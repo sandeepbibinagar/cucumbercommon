@@ -3,17 +3,18 @@
  */
 package com.experian.automation.saas.steps.security;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
+import com.experian.automation.helpers.Config;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.steps.security.helpers.BurpSuiteRestClient;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Created by c01266a on 8/31/2017.
@@ -35,16 +36,16 @@ public class BurpSuiteScanSteps {
 
   @Given("^I log into Burp Suite Enterprise with valid credentials")
   public void iLogIntoBurpSuiteEnterpriseOnURLWithUsernameAndPassword() {
-    String burpUrl = testHarness.config.get("burp.url");
-    String burpUsername = testHarness.config.get("burp.username");
-    String burpPassword = testHarness.config.get("burp.password");
+    String burpUrl = Config.get("burp.url");
+    String burpUsername = Config.get("burp.username");
+    String burpPassword = Config.get("burp.password");
     client = new BurpSuiteRestClient(burpUrl, burpUsername, burpPassword.toCharArray());
   }
 
   @Given("^I create Burp Suite Site with username \"([^\"]*)\" and password \"([^\"]*)\"$")
   public void iCreateBurpSuiteSiteWithUsernameAndPassword(String username, String password) {
-    String baseURL = testHarness.config.get("base.url");
-    String appName = testHarness.config.get("app.name");
+    String baseURL = Config.get("base.url");
+    String appName = Config.get("app.name");
     siteId = client.burpScannerCreateSite(baseURL, appName, username, password.toCharArray());
   }
 

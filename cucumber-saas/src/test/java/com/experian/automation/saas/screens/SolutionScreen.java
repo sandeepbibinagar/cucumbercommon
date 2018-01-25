@@ -1,12 +1,23 @@
 package com.experian.automation.saas.screens;
 
 
+import static org.testng.Assert.assertTrue;
+
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
+import com.experian.automation.helpers.Config;
 import com.experian.automation.helpers.ImagesOperations;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.screens.Screen;
 import com.jayway.jsonpath.JsonPath;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.minidev.json.JSONArray;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.io.FileUtils;
@@ -17,19 +28,12 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.testng.Assert.assertTrue;
 
 
 public class SolutionScreen extends Screen {
@@ -495,9 +499,9 @@ public class SolutionScreen extends Screen {
     context.setCookieStore(cookieStore);
     HttpResponse response = client.execute(request, context);
 
-    File webImage = new File(testHarness.config.get("temp.dir") + java.lang.System.currentTimeMillis() + ".png");
+    File webImage = new File(Config.get("temp.dir") + java.lang.System.currentTimeMillis() + ".png");
     FileUtils.copyToFile(response.getEntity().getContent(), webImage);
-    File localImage = new File(testHarness.config.get("temp.dir") + File.separator + localImageSrc);
+    File localImage = new File(Config.get("temp.dir") + File.separator + localImageSrc);
 
     ImagesOperations imageOps = new ImagesOperations();
     assertTrue(imageOps.compareImages(webImage, localImage));
