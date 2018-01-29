@@ -2,13 +2,12 @@ package com.experian.automation.saas.screens.WebEngine;
 
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
-import com.experian.automation.helpers.Variables;
+import com.experian.automation.helpers.Config;
 import com.experian.automation.screens.Screen;
+import java.util.List;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-
-import java.util.List;
 
 public class TacticalParametersMaintananceScreen extends Screen {
 
@@ -80,7 +79,7 @@ public class TacticalParametersMaintananceScreen extends Screen {
       importFile.click();
       waitForElement(parameterSelect);
       new Select(parameterSelect).selectByVisibleText(parameter);
-      fileUploadInput.sendKeys(Variables.get("solution.parameters.dir") + file);
+      fileUploadInput.sendKeys(Config.get("solution.parameters.dir") + file);
       overwriteVersionInput.click();
       okButton.click();
       importMessageOkButton.click();
