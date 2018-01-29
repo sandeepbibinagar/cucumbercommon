@@ -3,15 +3,14 @@ package com.experian.automation.saas.steps.TacticalParameters;
 import static org.testng.Assert.assertTrue;
 
 import com.experian.automation.harnesses.TestHarness;
+import com.experian.automation.helpers.Config;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.helpers.TacticalParametersOperations;
-import com.experian.automation.transformers.DataTransformer;
+import com.experian.automation.transformers.VariablesTransformer;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import cucumber.api.java.en.And;
-
 import java.io.IOException;
 import java.util.List;
-
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
 public class TacticalParamsAPISteps {
@@ -34,7 +33,7 @@ public class TacticalParamsAPISteps {
   @And("^I update parameter (.*) description: (.*) ,effective from: (.*?)(?: to (.*))?$")
   public void updateParameterAttributes(String name, String description, String fromDate, String toDate,
       List<List<String>> data) throws IOException, ConfigurationException, UnirestException {
-    TacticalParametersOperations tpo = new TacticalParametersOperations(testHarness.config.get("bps.webservices.url"));
+    TacticalParametersOperations tpo = new TacticalParametersOperations(Config.get("bps.webservices.url"));
     assertTrue(tpo.updateParameter(name, description, fromDate, toDate, data),
                "Successfully updated parameter: " + name);
   }
@@ -48,7 +47,7 @@ public class TacticalParamsAPISteps {
   public void deployParameter(String name, String version)
       throws IOException, ConfigurationException, UnirestException {
     TacticalParametersOperations tpo = new TacticalParametersOperations(
-        testHarness.config.get("bps.webservices.url"));
+        Config.get("bps.webservices.url"));
     tpo.deployParameter(name, version);
   }
 
@@ -60,9 +59,9 @@ public class TacticalParamsAPISteps {
   @And("^I update tactical parameters from file (.*)$")
   public void updateParameterFromFile(String filePath) throws IOException, ConfigurationException, UnirestException {
 
-    String parametersFile = DataTransformer.transformSingleValue(filePath, testHarness.stepData);
+    String parametersFile = VariablesTransformer.transformSingleValue(filePath);
     TacticalParametersOperations tpo = new TacticalParametersOperations(
-        testHarness.config.get("bps.webservices.url"));
+        Config.get("bps.webservices.url"));
     List<String> parametersList = tpo.getParametersListFromFile(parametersFile);
 
     for (int j = 0; j < parametersList.size(); j++) {

@@ -1,32 +1,28 @@
 package com.experian.automation.saas.steps;
 
 import com.experian.automation.harnesses.TestHarness;
-import com.experian.automation.helpers.NetworkOperations;
+import com.experian.automation.helpers.Config;
+import com.experian.automation.helpers.ContextResourceManager;
+import com.experian.automation.helpers.Variables;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.helpers.ProvisionAPIOperations;
-import com.jayway.jsonpath.Filter;
 import com.jayway.jsonpath.JsonPath;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
-import net.minidev.json.JSONArray;
-import org.apache.commons.io.FileUtils;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ForkJoinPool;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ForkJoinPool;
-import java.util.stream.IntStream;
-
-import static com.jayway.jsonpath.Criteria.where;
-import static com.jayway.jsonpath.Filter.filter;
 
 public class ProvisionAPISteps {
 
@@ -40,11 +36,11 @@ public class ProvisionAPISteps {
   @Given("^The (.*) environment is provisioned$")
   public void initResources(String environmentType) throws Throwable {
 
-    String serviceGroupNameTemplate = testHarness.config.get("openshift.service.group.name");
+    String serviceGroupNameTemplate = Config.get("openshift.service.group.name");
     // Create stand-by resources
-    Boolean enableStandByEnvironments = testHarness.config.get("openshift.service.group.standby").equals("true");
+    Boolean enableStandByEnvironments = Config.get("openshift.service.group.standby").equals("true");
     // Get number of service groups
-    Integer serviceGroupCount = Integer.valueOf(testHarness.config.get("openshift.service.group.count"));
+    Integer serviceGroupCount = Integer.valueOf(Config.get("openshift.service.group.count"));
     serviceGroupCount = enableStandByEnvironments ? serviceGroupCount * 3 : serviceGroupCount;
 
     // Add resources to context
@@ -54,10 +50,10 @@ public class ProvisionAPISteps {
                                               StringUtils.leftPad(Integer.toString(i + 1), 2, '0'));
       serviceGroupNames.add(serviceGroupName);
     }
-    testHarness.contextResources.add("openshift-environment", serviceGroupNames);
+    ContextResourceManager.add("openshift-environment", serviceGroupNames);
 
     // Set environment type
-    testHarness.setStepData("openshift.servicegroup.type", environmentType);
+    Variables.set("openshift.servicegroup.type", environmentType);
 
     // Get action per service group
     HashMap<String, String> serviceGroupActions = new HashMap<>();
@@ -65,22 +61,22 @@ public class ProvisionAPISteps {
     // Skip stand-by service groups actions
     if (enableStandByEnvironments) {
 
-      String serviceGroupToDelete = testHarness.contextResources.allocate("openshift-environment");
-      String serviceGroupToCreate = testHarness.contextResources.allocate("openshift-environment-deleted");
+      String serviceGroupToDelete = ContextResourceManager.allocate("openshift-environment");
+      String serviceGroupToCreate = ContextResourceManager.allocate("openshift-environment-deleted");
 
       serviceGroupActions.put("delete", serviceGroupToDelete);
 
       if (serviceGroupToCreate == null) {
-        serviceGroupActions.put("create", testHarness.contextResources.allocate("openshift-environment"));
+        serviceGroupActions.put("create", ContextResourceManager.allocate("openshift-environment"));
       } else {
         serviceGroupActions.put("create", serviceGroupToCreate);
       }
     }
 
-    String serviceGroupToVerify = testHarness.contextResources.allocate("openshift-environment-created");
+    String serviceGroupToVerify = ContextResourceManager.allocate("openshift-environment-created");
 
     if (serviceGroupToVerify == null) {
-      serviceGroupActions.put("initial", testHarness.contextResources.allocate("openshift-environment"));
+      serviceGroupActions.put("initial", ContextResourceManager.allocate("openshift-environment"));
     } else {
       serviceGroupActions.put("verify", serviceGroupToVerify);
     }
@@ -99,10 +95,10 @@ public class ProvisionAPISteps {
                           if (action.equals("delete")) {
                             try {
                               deleteServiceGroupIfExists(serviceGroupName, "TRUE");
-                              testHarness.contextResources.add("openshift-environment-deleted", serviceGroupName);
+                              ContextResourceManager.add("openshift-environment-deleted", serviceGroupName);
                             } catch (Throwable throwable) {
                               throwable.printStackTrace();
-                              testHarness.contextResources.release("openshift-environment", serviceGroupName);
+                              ContextResourceManager.release("openshift-environment", serviceGroupName);
                             }
                           }
 
@@ -110,21 +106,21 @@ public class ProvisionAPISteps {
                             try {
                               deleteServiceGroupIfExists(serviceGroupName, "TRUE");
                               createEnvironment(environmentType, serviceGroupName);
-                              testHarness.contextResources.add("openshift-environment-created", serviceGroupName);
+                              ContextResourceManager.add("openshift-environment-created", serviceGroupName);
                             } catch (Throwable throwable) {
                               throwable.printStackTrace();
                               action = "failed";
-                              testHarness.contextResources.release("openshift-environment", serviceGroupName);
+                              ContextResourceManager.release("openshift-environment", serviceGroupName);
                             }
-                            testHarness.contextResources.delete("openshift-environment-deleted", serviceGroupName);
+                            ContextResourceManager.delete("openshift-environment-deleted", serviceGroupName);
 
                           }
 
                           if (action.equals("verify") || action.equals("initial")) {
                             try {
                               waitForEnvironment(environmentType, serviceGroupName);
-                              testHarness.setStepData("openshift.servicegroup", serviceGroupName);
-                              testHarness.contextResources.delete("openshift-environment-created", serviceGroupName);
+                              Variables.set("openshift.servicegroup", serviceGroupName);
+                              ContextResourceManager.delete("openshift-environment-created", serviceGroupName);
                             } catch (Throwable throwable) {
                               throwable.printStackTrace();
                             }
@@ -133,13 +129,13 @@ public class ProvisionAPISteps {
                         })
     ).get();
 
-    Assert.assertTrue(testHarness.getStepData("openshift.servicegroup") != null, "Cannot create environment");
+    Assert.assertTrue(Variables.get("openshift.servicegroup") != null, "Cannot create environment");
   }
 
   @And("^Destroy provisioned environment$")
   public void destroyEnvironment() throws Throwable {
 
-    String serviceGroupName = testHarness.getStepData("openshift.servicegroup");
+    String serviceGroupName = Variables.get("openshift.servicegroup");
 
     if (serviceGroupName != null) {
       // Delete service group
@@ -156,7 +152,7 @@ public class ProvisionAPISteps {
     createServiceGroupIfDoesntExists(serviceGroupName, "TRUE");
 
     for (String serviceName : serviceNames) {
-      createService(serviceName, serviceGroupName, testHarness.config.get("openshift.release." + serviceName));
+      createService(serviceName, serviceGroupName, Config.get("openshift.release." + serviceName));
     }
   }
 
@@ -354,23 +350,23 @@ public class ProvisionAPISteps {
 
     ProvisionAPIOperations apiOps = new ProvisionAPIOperations();
 
-    int serviceGroupID = apiOps.getServiceGroupID(testHarness.config.get("openshift.service.group.name"));
-    int serviceID = apiOps.getServiceIDbyTemplateID(service, testHarness.config.get("openshift.service.group.name"));
+    int serviceGroupID = apiOps.getServiceGroupID(Config.get("openshift.service.group.name"));
+    int serviceID = apiOps.getServiceIDbyTemplateID(service, Config.get("openshift.service.group.name"));
 
     Map<String, String> properties = apiOps.getServiceProperties(serviceGroupID, serviceID);
     Object propertyValue = properties.get(property);
 
-    testHarness.setStepData(variable, propertyValue.toString());
+    Variables.set(variable, propertyValue.toString());
   }
 
   @After
   public void afterScenario(Scenario scenario) throws Throwable {
 
     // Release resource
-    String serviceGroupName = testHarness.getStepData("openshift.servicegroup");
+    String serviceGroupName = Variables.get("openshift.servicegroup");
 
     if (serviceGroupName != null) {
-      testHarness.contextResources.release("openshift-environment", serviceGroupName);
+      ContextResourceManager.release("openshift-environment", serviceGroupName);
     }
 
   }
