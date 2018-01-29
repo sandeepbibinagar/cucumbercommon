@@ -1,5 +1,7 @@
 package com.experian.automation.saas.steps;
 
+import static org.testng.Assert.assertTrue;
+
 import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.helpers.ArchiversOperations;
@@ -46,7 +48,11 @@ public class CommonSteps {
     apiSteps.getServiceProperty("WEB_ENGINE_SOLUTION_FILES", solutionName, "SOLUTION_FILES_PATH_VAR");
 
     File solutionFilesZip = new File(Config.get("temp.dir") + File.separator + solutionName + ".zip");
+
     FileUtils.copyURLToFile(new URL(Variables.get("SOLUTION_FILES_PATH_VAR")), solutionFilesZip);
+
+    logger.info("Downloading: " + Variables.get("SOLUTION_FILES_PATH_VAR"));
+    assertTrue(solutionFilesZip.exists(), "File " + solutionFilesZip + "is successfully created.");
 
     new ArchiversOperations().unzip(solutionFilesZip.getAbsolutePath(), Config.get("temp.dir"));
 
@@ -70,6 +76,8 @@ public class CommonSteps {
 
     String filepathRegex = "(?<=file:\\/\\/\\/)(.*)(?=',)";
     String dataFileContent = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><pages></pages>";
+
+    assertTrue(deployableFile.exists(), "File " + deployablePath + " exists");
 
     new ArchiversOperations().unzip(deployableFile.getAbsolutePath(), tempDeployablesFolder);
 
