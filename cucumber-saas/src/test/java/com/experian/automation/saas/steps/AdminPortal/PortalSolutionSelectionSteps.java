@@ -1,6 +1,5 @@
 package com.experian.automation.saas.steps.AdminPortal;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.AdminPortal.PortalHomeScreen;
@@ -17,17 +16,15 @@ import java.util.Map;
 public class PortalSolutionSelectionSteps {
 
   private final Logger logger = Logger.getLogger(this.getClass());
-  private final TestHarness testHarness;
   private final WebHarness webHarness;
 
-  public PortalSolutionSelectionSteps(TestHarness testHarness, WebHarness webHarness) {
-    this.testHarness = testHarness;
+  public PortalSolutionSelectionSteps(WebHarness webHarness) {
     this.webHarness = webHarness;
   }
 
   @And("^I select solution - (PowerCurve Originations|PoweCurve Admin Portal|Options)$")
   public void selectSolution(String solution) {
-    PortalHomeScreen portalScreen = new PortalHomeScreen(testHarness, webHarness);
+    PortalHomeScreen portalScreen = new PortalHomeScreen(webHarness);
     portalScreen.clickWithScrollToView(portalScreen.solutionsListButton);
     portalScreen.waitForElement(portalScreen.menuExpanded);
     switch (solution) {

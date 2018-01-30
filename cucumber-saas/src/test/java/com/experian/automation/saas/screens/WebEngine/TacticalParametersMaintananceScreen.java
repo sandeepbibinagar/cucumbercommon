@@ -1,6 +1,5 @@
 package com.experian.automation.saas.screens.WebEngine;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.helpers.Config;
 import com.experian.automation.screens.Screen;
@@ -55,8 +54,8 @@ public class TacticalParametersMaintananceScreen extends Screen {
   @FindBy(xpath = "//button[child::span[contains(text(),'OK')] and not(@id)]")
   public WebElement importMessageOkButton;
 
-  public TacticalParametersMaintananceScreen(TestHarness testHarness, WebHarness webHarness) {
-    super(testHarness, webHarness);
+  public TacticalParametersMaintananceScreen(WebHarness webHarness) {
+    super(webHarness);
     switchWindowByTitle(window);
     waitForElement(header);
   }

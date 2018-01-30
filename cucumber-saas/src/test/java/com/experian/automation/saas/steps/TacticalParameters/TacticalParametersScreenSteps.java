@@ -1,6 +1,5 @@
 package com.experian.automation.saas.steps.TacticalParameters;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.WebEngine.TacticalParametersMaintananceScreen;
@@ -11,11 +10,9 @@ import java.util.Map;
 public class TacticalParametersScreenSteps {
 
   private final Logger logger = Logger.getLogger(this.getClass());
-  private final TestHarness testHarness;
   private final WebHarness webHarness;
 
-  public TacticalParametersScreenSteps(TestHarness testHarness, WebHarness webHarness) {
-    this.testHarness = testHarness;
+  public TacticalParametersScreenSteps(WebHarness webHarness) {
     this.webHarness = webHarness;
   }
 
@@ -37,7 +34,7 @@ public class TacticalParametersScreenSteps {
   */
   @And("^I import tactical parameters from files:$")
   public void importTacticalParameters(Map<String, String> data) throws Throwable {
-    TacticalParametersMaintananceScreen screen = new TacticalParametersMaintananceScreen(testHarness, webHarness);
+    TacticalParametersMaintananceScreen screen = new TacticalParametersMaintananceScreen(webHarness);
     for (Map.Entry<String, String> params : data.entrySet()) {
       screen.uploadTacticalParameter(params.getKey(), params.getValue());
     }

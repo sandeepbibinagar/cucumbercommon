@@ -1,6 +1,5 @@
 package com.experian.automation.saas.screens;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.screens.Screen;
 import org.openqa.selenium.WebElement;
@@ -19,8 +18,8 @@ public class LoginScreen extends Screen {
   @FindBy(xpath = "//div[@class='logBtn']")
   public WebElement loginBtn;
 
-  public LoginScreen(TestHarness testHarness, WebHarness webHarness) {
-    super(testHarness, webHarness);
+  public LoginScreen(WebHarness webHarness) {
+    super(webHarness);
   }
 
   public void goToURL() {

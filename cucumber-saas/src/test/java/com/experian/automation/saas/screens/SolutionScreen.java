@@ -3,7 +3,6 @@ package com.experian.automation.saas.screens;
 
 import static org.testng.Assert.assertTrue;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.helpers.Config;
 import com.experian.automation.helpers.ImagesOperations;
@@ -42,9 +41,9 @@ public class SolutionScreen extends Screen {
 
   String pageObjectModel;
 
-  public SolutionScreen(TestHarness testHarness, WebHarness webHarness, String pageObjectModel)
+  public SolutionScreen(WebHarness webHarness, String pageObjectModel)
       throws IOException, ConfigurationException {
-    super(testHarness, webHarness);
+    super(webHarness);
     this.pageObjectModel = pageObjectModel;
   }
 

@@ -1,6 +1,5 @@
 package com.experian.automation.saas.screens.WebEngine;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.helpers.Config;
 import com.experian.automation.screens.Screen;
@@ -42,8 +41,8 @@ public class DynamicParameterMaintenanceScreen extends Screen {
   @FindBy(xpath = "//li[@title and ancestor::div[@class='param_list param_level_1']]")
   public List<WebElement> parameterValuesList;
 
-  public DynamicParameterMaintenanceScreen(TestHarness testHarness, WebHarness webHarness) {
-    super(testHarness, webHarness);
+  public DynamicParameterMaintenanceScreen(WebHarness webHarness) {
+    super(webHarness);
     switchToWindow(window);
     waitForElement(header);
   }

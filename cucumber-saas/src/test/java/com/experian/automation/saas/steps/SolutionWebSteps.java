@@ -1,7 +1,6 @@
 package com.experian.automation.saas.steps;
 
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.helpers.Config;
 import com.experian.automation.saas.screens.SolutionScreen;
@@ -22,11 +21,9 @@ import java.util.Map;
 public class SolutionWebSteps {
 
   private final WebHarness webHarness;
-  private final TestHarness testHarness;
 
-  public SolutionWebSteps(WebHarness webHarness, TestHarness testHarness) throws IOException, ConfigurationException {
+  public SolutionWebSteps(WebHarness webHarness) throws IOException, ConfigurationException {
     this.webHarness = webHarness;
-    this.testHarness = testHarness;
   }
 
   String pageObjectFileName = "page-object-" + FilenameUtils.removeExtension(
@@ -42,7 +39,7 @@ public class SolutionWebSteps {
   */
   @And("^I select menu (.*) on page (.*)$")
   public void selectMenu(String menu, String page) throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     screen.selectMenu(menu, page);
   }
 
@@ -56,7 +53,7 @@ public class SolutionWebSteps {
   @And("^I select item (.*) in section (.*) in menu (.*) on page (.*)$")
   public void selectMenuWithSection(String subMenu, String sectionItemText, String menu, String pageTitle)
       throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     screen.selectMenu(menu, pageTitle);
     screen.selectSubMenuSectionItem(sectionItemText, subMenu, pageTitle);
   }
@@ -72,7 +69,7 @@ public class SolutionWebSteps {
   */
   @And("I enter values for fields on page (.*)")
   public void enterValuesForFields(String page, Map<String, String> fields) throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     for (Map.Entry<String, String> entry : fields.entrySet()) {
       String elementType = screen.getPageObjectTypeByLabel(entry.getKey(), page);
       switch (elementType) {
@@ -100,7 +97,7 @@ public class SolutionWebSteps {
   @And("^I enter value (.*) for textfield with (id|class|name|value) (.*)$")
   public void enterTextFieldValBySelector(String fieldValue, String selector, String selectorValue)
       throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     switch (selector) {
       case ("id"):
         screen.typeWithClear(screen.getElementById(selectorValue), fieldValue);
@@ -128,7 +125,7 @@ public class SolutionWebSteps {
   @And("^I enter value (.*) for dropdown with (id|class|name) (.*)$")
   public void enterDropdownValBySelector(String fieldValue, String selector, String selectorValue)
       throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     switch (selector) {
       case ("id"):
         new Select(screen.getElementById(selectorValue)).selectByVisibleText(fieldValue);
@@ -153,7 +150,7 @@ public class SolutionWebSteps {
  */
   @And("^I fill multiple inputs with label (.*) on page (.*):$")
   public void fillInputs(String label, String page, List<String> data) throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     screen.fillMultipleInputs(label, data, page);
   }
 
@@ -166,7 +163,7 @@ public class SolutionWebSteps {
   @And("^I select value (.*) from dropdown field (.*) on page (.*)$")
   public void selectValueForDropdown(String value, String dropdownLabelTitle, String pageTitle)
       throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     screen.setDropdownValueByLabel(dropdownLabelTitle, value, pageTitle);
   }
 
@@ -179,7 +176,7 @@ public class SolutionWebSteps {
   @And("^I enter value (.*) for datepicker (.*) on page (.*)$")
   public void enterDatepickerValue(String value, String fieldLabel, String pageTitle)
       throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     screen.setDatepickerValueByLabel(fieldLabel, value, pageTitle);
   }
 
@@ -191,7 +188,7 @@ public class SolutionWebSteps {
  */
   @And("^I select tab with text (.*) on page (.*)$")
   public void selectTab(String tabText, String pageTitle) throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     screen.selectTabWithTitle(tabText, pageTitle);
   }
 
@@ -203,7 +200,7 @@ public class SolutionWebSteps {
   */
   @And("^I click on link with text (.*)$")
   public void clickOnElementWithText(String text) throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     screen.clickOnLinkWithText(text);
   }
 
@@ -217,7 +214,7 @@ public class SolutionWebSteps {
   @And("^I click on button with (text|id|value) (.*) on page (.*)$")
   public void buttonClick(String identifier, String value, String pageTitle)
       throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     if (identifier.equals("text")) {
       screen.clickButton(value, pageTitle);
     } else if (identifier.equals("value")) {
@@ -236,7 +233,7 @@ public class SolutionWebSteps {
   @And("^I click on table cell link with text (.*) in column (.*) on row identified by cell text (.*) in column (.*) on table with (id|class|name) (.*)$")
   public void selectLinkInTable(String elementText, String columnText, String searchColumnRowValue, String searchColumn,
       String tableLocator, String locatorValue) throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     screen.clickOnElementWithTitleInTable(elementText, columnText, searchColumn, searchColumnRowValue, tableLocator,
                                           locatorValue);
   }
@@ -250,7 +247,7 @@ public class SolutionWebSteps {
   @And("^I click on table cell with text (.*) in column (.*) on table with (id|class|name) (.*)$")
   public void clickOnCellInColumn(String elementText, String columnText, String locator, String locatorValue)
       throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     screen.clickOnCellWithText(elementText, columnText, locator, locatorValue);
   }
 
@@ -267,7 +264,7 @@ public class SolutionWebSteps {
  */
   @And("^I verify values for fields on page (.*):$")
   public void verifyFieldsValues(String page, Map<String, String> data) throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     for (Map.Entry<String, String> entry : data.entrySet()) {
       String elementType = screen.getPageObjectTypeByLabel(entry.getKey(), page);
       assertTrue(screen.verifyFieldValue(page, elementType, entry.getKey(), entry.getValue()),
@@ -285,7 +282,7 @@ public class SolutionWebSteps {
   @And("^I verify data in table with (id|class) (.*):$")
   public void verifyDataInTableWithId(String selector, String selectorValue, List<List<String>> data)
       throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     screen.verifyDataInTable(selector, selectorValue, data);
   }
 
@@ -303,7 +300,7 @@ public class SolutionWebSteps {
   @And("^I verify that element (.*) is located in the (CENTER|(TOP|CENTER|BOTTOM)-(LEFT|MIDDLE|RIGHT)) part of the (.*) screen$")
   public void verifyFieldPosition(String field, String isCenter, String firstPosition, String secondPosition,
       String page) throws Throwable {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     String position = StringUtils.isNotEmpty(isCenter) ? isCenter : firstPosition + "-" + secondPosition;
     assertTrue(screen.checkElementPositionInViewPort(position, field, page),
                "Field is located on " + position + " position of the screen.");
@@ -320,7 +317,7 @@ public class SolutionWebSteps {
   @And("^I compare web image with label to local image:$")
   public void verifyImageWithLabel(Map<String, String> data)
       throws IOException, ConfigurationException, InterruptedException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     for (Map.Entry<String, String> entry : data.entrySet()) {
       screen.verifyImageWithLabel(entry.getKey(), entry.getValue());
     }
@@ -335,7 +332,7 @@ public class SolutionWebSteps {
 
   @And("^I switch to page with title: (.*)$")
   public void switchToPageWithTitle(String title) throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(testHarness, webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
     screen.waitForWindowWithTitle(title);
   }
 

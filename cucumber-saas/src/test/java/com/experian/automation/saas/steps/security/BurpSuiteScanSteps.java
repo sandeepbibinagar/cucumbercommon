@@ -6,7 +6,6 @@ package com.experian.automation.saas.steps.security;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.helpers.Config;
 import com.experian.automation.logger.Logger;
@@ -21,7 +20,6 @@ import cucumber.api.java.en.When;
  */
 public class BurpSuiteScanSteps {
 
-  private final TestHarness testHarness;
   private final WebHarness webHarness;
   private final Logger logger = Logger.getLogger(this.getClass());
 
@@ -29,8 +27,7 @@ public class BurpSuiteScanSteps {
   private String siteId;
   private String scanId;
 
-  public BurpSuiteScanSteps(TestHarness testHarness, WebHarness webHarness) {
-    this.testHarness = testHarness;
+  public BurpSuiteScanSteps(WebHarness webHarness) {
     this.webHarness = webHarness;
   }
 

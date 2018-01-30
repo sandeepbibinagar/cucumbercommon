@@ -1,8 +1,6 @@
 package com.experian.automation.saas.steps;
 
 import static org.testng.Assert.assertTrue;
-
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.helpers.ArchiversOperations;
 import com.experian.automation.helpers.Config;
@@ -31,12 +29,10 @@ import org.apache.commons.io.FilenameUtils;
  */
 public class CommonSteps {
 
-  private final TestHarness testHarness;
   private final WebHarness webHarness;
   private final Logger logger = Logger.getLogger(this.getClass());
 
-  public CommonSteps(TestHarness testHarness, WebHarness webHarness) {
-    this.testHarness = testHarness;
+  public CommonSteps(WebHarness webHarness) {
     this.webHarness = webHarness;
   }
 
@@ -44,7 +40,7 @@ public class CommonSteps {
   public void getSolutionDeployables(String solutionName) throws IOException, UnirestException {
 
         /* Have to check where EPP solutions deployables will be taken from */
-    ProvisionAPISteps apiSteps = new ProvisionAPISteps(testHarness);
+    ProvisionAPISteps apiSteps = new ProvisionAPISteps();
     apiSteps.getServiceProperty("WEB_ENGINE_SOLUTION_FILES", solutionName, "SOLUTION_FILES_PATH_VAR");
 
     File solutionFilesZip = new File(Config.get("temp.dir") + File.separator + solutionName + ".zip");
@@ -84,7 +80,7 @@ public class CommonSteps {
     new TextFileOperations().replaceStringInFile(solutionPageObjectFile, filepathRegex,
                                                  Config.get("temp.dir") + "/deployables/bundles");
 
-    new FileOperationsSteps(testHarness).createFile(dataFile, dataFileContent);
+    new FileOperationsSteps().createFile(dataFile, dataFileContent);
 
     new XMLOperations().XSLtransform(transformedXMLfile, dataFile, solutionPageObjectFile);
 
@@ -101,17 +97,17 @@ public class CommonSteps {
   @And("^I go to login page?$")
   public void goToLogin() throws Throwable {
     if (Config.get("portal.login").equals("true")) {
-      PortalLoginScreen portalScreen = new PortalLoginScreen(testHarness, webHarness);
+      PortalLoginScreen portalScreen = new PortalLoginScreen(webHarness);
       portalScreen.goToURL();
     } else {
-      LoginScreen screen = new LoginScreen(testHarness, webHarness);
+      LoginScreen screen = new LoginScreen(webHarness);
       screen.goToURL();
     }
   }
 
   @And("^I go to WebEngine home page$")
   public void goToWebEngine() throws Throwable {
-    WebEngineHome webEngine = new WebEngineHome(testHarness, webHarness);
+    WebEngineHome webEngine = new WebEngineHome(webHarness);
     webEngine.waitForElements(webEngine.mainMenuItems);
   }
 
@@ -120,27 +116,27 @@ public class CommonSteps {
   public void login(String username, String password) throws Throwable {
 
     if (Config.get("portal.login").equals("true")) {
-      PortalLoginScreen portalScreen = new PortalLoginScreen(testHarness, webHarness);
+      PortalLoginScreen portalScreen = new PortalLoginScreen(webHarness);
       portalScreen.type(portalScreen.usernameInput, username);
       portalScreen.type(portalScreen.passwordInput, password);
       portalScreen.loginButton.click();
-      PortalHomeScreen ps = new PortalHomeScreen(testHarness, webHarness);
+      PortalHomeScreen ps = new PortalHomeScreen(webHarness);
 
     } else {
-      LoginScreen screen = new LoginScreen(testHarness, webHarness);
+      LoginScreen screen = new LoginScreen(webHarness);
       screen.waitForElement(screen.loginBtn);
       screen.type(screen.usernameText, username);
       screen.type(screen.passwordText, password);
       screen.loginBtn.click();
 
-      HomeScreen homeScreen = new HomeScreen(testHarness, webHarness);
+      HomeScreen homeScreen = new HomeScreen(webHarness);
     }
 
   }
 
   @And("^I logout from the solution$")
   public void solutionLogout() throws Throwable {
-    HomeScreen home = new HomeScreen(testHarness, webHarness);
+    HomeScreen home = new HomeScreen(webHarness);
     home.selectMenu("System", "Logout");
   }
 }

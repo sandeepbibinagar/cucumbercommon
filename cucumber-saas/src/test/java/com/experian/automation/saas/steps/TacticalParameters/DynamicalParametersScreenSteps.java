@@ -1,6 +1,5 @@
 package com.experian.automation.saas.steps.TacticalParameters;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.HomeScreen;
@@ -14,11 +13,9 @@ import static org.testng.Assert.assertEquals;
 public class DynamicalParametersScreenSteps {
 
   private final Logger logger = Logger.getLogger(this.getClass());
-  private final TestHarness testHarness;
   private final WebHarness webHarness;
 
-  public DynamicalParametersScreenSteps(TestHarness testHarness, WebHarness webHarness) {
-    this.testHarness = testHarness;
+  public DynamicalParametersScreenSteps(WebHarness webHarness) {
     this.webHarness = webHarness;
   }
 
@@ -43,9 +40,9 @@ public class DynamicalParametersScreenSteps {
   */
   @And("^I import dynamic parameters from files:$")
   public void importDynamicParameters(Map<String, String> parameters) throws Throwable {
-    HomeScreen home = new HomeScreen(testHarness, webHarness);
+    HomeScreen home = new HomeScreen(webHarness);
     home.selectMenu("System", "Dynamic Parameter Maintenance");
-    DynamicParameterMaintenanceScreen screen = new DynamicParameterMaintenanceScreen(testHarness, webHarness);
+    DynamicParameterMaintenanceScreen screen = new DynamicParameterMaintenanceScreen(webHarness);
     screen.waitForElements(screen.dynamicParameters);
     for (Map.Entry<String, String> entry : parameters.entrySet()) {
       screen.uploadDynamicalParameter(entry.getKey(), entry.getValue());
