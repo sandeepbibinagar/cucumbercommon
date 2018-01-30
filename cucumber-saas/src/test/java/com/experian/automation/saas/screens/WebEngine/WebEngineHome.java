@@ -1,6 +1,5 @@
 package com.experian.automation.saas.screens.WebEngine;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.helpers.Config;
 import com.experian.automation.screens.Screen;
@@ -19,8 +18,8 @@ public class WebEngineHome extends Screen {
   @FindBy(xpath = "//ul[@id='menu']/li//ul//li/a")
   public List<WebElement> subMenuItems;
 
-  public WebEngineHome(TestHarness testHarness, WebHarness webHarness) {
-    super(testHarness, webHarness);
+  public WebEngineHome(WebHarness webHarness) {
+    super(webHarness);
     goToURL(url);
   }
 

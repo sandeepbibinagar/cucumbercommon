@@ -1,6 +1,5 @@
 package com.experian.automation.saas.steps;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.helpers.Config;
 import com.experian.automation.helpers.ContextResourceManager;
 import com.experian.automation.helpers.Variables;
@@ -26,11 +25,9 @@ import org.testng.Assert;
 
 public class ProvisionAPISteps {
 
-  private final TestHarness testHarness;
   private final Logger logger = Logger.getLogger(this.getClass());
 
-  public ProvisionAPISteps(TestHarness testHarness) {
-    this.testHarness = testHarness;
+  public ProvisionAPISteps() {
   }
 
   @Given("^The (.*) environment is provisioned$")

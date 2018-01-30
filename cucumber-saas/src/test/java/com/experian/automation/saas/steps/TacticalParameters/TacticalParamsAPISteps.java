@@ -2,7 +2,6 @@ package com.experian.automation.saas.steps.TacticalParameters;
 
 import static org.testng.Assert.assertTrue;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.helpers.Config;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.helpers.TacticalParametersOperations;
@@ -15,11 +14,9 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 
 public class TacticalParamsAPISteps {
 
-  private final TestHarness testHarness;
   private final Logger logger = Logger.getLogger(this.getClass());
 
-  public TacticalParamsAPISteps(TestHarness testHarness) {
-    this.testHarness = testHarness;
+  public TacticalParamsAPISteps() {
   }
 
    /*

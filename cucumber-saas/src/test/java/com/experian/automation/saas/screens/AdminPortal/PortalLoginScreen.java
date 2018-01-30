@@ -1,6 +1,5 @@
 package com.experian.automation.saas.screens.AdminPortal;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.screens.Screen;
 import org.openqa.selenium.WebElement;
@@ -19,8 +18,8 @@ public class PortalLoginScreen extends Screen {
   @FindBy(id = "login-button")
   public WebElement loginButton;
 
-  public PortalLoginScreen(TestHarness testHarness, WebHarness webHarness) {
-    super(testHarness, webHarness);
+  public PortalLoginScreen(WebHarness webHarness) {
+    super(webHarness);
   }
 
   public void goToURL() {

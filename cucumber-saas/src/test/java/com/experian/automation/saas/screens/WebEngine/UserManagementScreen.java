@@ -1,6 +1,5 @@
 package com.experian.automation.saas.screens.WebEngine;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.screens.Screen;
 import org.openqa.selenium.NoSuchElementException;
@@ -37,8 +36,8 @@ public class UserManagementScreen extends Screen {
   @FindBy(xpath = " //button[child::span[contains(text(),'Ok')]]")
   public WebElement okButton;
 
-  public UserManagementScreen(TestHarness testHarness, WebHarness webHarness) {
-    super(testHarness, webHarness);
+  public UserManagementScreen(WebHarness webHarness) {
+    super(webHarness);
     switchToWindow(window);
   }
 

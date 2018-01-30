@@ -1,6 +1,5 @@
 package com.experian.automation.saas.steps.WebEngine;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.WebEngine.WebEngineHome;
@@ -12,17 +11,15 @@ import java.util.regex.Pattern;
 public class MenuSteps {
 
   private final Logger logger = Logger.getLogger(this.getClass());
-  private final TestHarness testHarness;
   private final WebHarness webHarness;
 
-  public MenuSteps(TestHarness testHarness, WebHarness webHarness) {
-    this.testHarness = testHarness;
+  public MenuSteps(WebHarness webHarness) {
     this.webHarness = webHarness;
   }
 
   @And("^I select menu (.*\\/.*) on WebEngine home page$")
   public void selectMenu(String menu) throws Throwable {
-    WebEngineHome homePage = new WebEngineHome(testHarness, webHarness);
+    WebEngineHome homePage = new WebEngineHome(webHarness);
 
     Pattern pattern = Pattern.compile("[^\\/]+");
     Matcher matcher = pattern.matcher(menu);

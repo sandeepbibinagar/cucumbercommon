@@ -1,13 +1,11 @@
 package com.experian.automation.saas.screens;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.screens.Screen;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-
 import java.util.List;
 import java.util.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class HomeScreen extends Screen {
 
@@ -39,8 +37,8 @@ public class HomeScreen extends Screen {
   @FindBy(xpath = "//a[ancestor::ul[preceding-sibling::a[contains(text(),'Audit Trail Query')]]]")
   public List<WebElement> auditTrailQuery;
 
-  public HomeScreen(TestHarness testHarness, WebHarness webHarness) {
-    super(testHarness, webHarness);
+  public HomeScreen(WebHarness webHarness) {
+    super(webHarness);
     waitForWindowWithTitle(windowTitle);
   }
 

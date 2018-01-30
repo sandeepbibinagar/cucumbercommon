@@ -1,6 +1,5 @@
 package com.experian.automation.saas.steps.WebEngine;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.HomeScreen;
@@ -16,17 +15,15 @@ import java.util.regex.Pattern;
 public class UserManagementSteps {
 
   private final Logger logger = Logger.getLogger(this.getClass());
-  private final TestHarness testHarness;
   private final WebHarness webHarness;
 
-  public UserManagementSteps(TestHarness testHarness, WebHarness webHarness) {
-    this.testHarness = testHarness;
+  public UserManagementSteps(WebHarness webHarness) {
     this.webHarness = webHarness;
   }
 
   @And("^I select tab item (.*\\/.*) on Web Engine user administration panel$")
   public void selectTabItem(String tabItem) {
-    UserManagementScreen umScreen = new UserManagementScreen(testHarness, webHarness);
+    UserManagementScreen umScreen = new UserManagementScreen(webHarness);
     Pattern pattern = Pattern.compile("[^\\/]+");
     Matcher matcher = pattern.matcher(tabItem);
     int position = 0;
@@ -46,7 +43,7 @@ public class UserManagementSteps {
   */
   @And("^I allow all business process rules$")
   public void setAllPermissions() throws Throwable {
-    UserManagementScreen umScreen = new UserManagementScreen(testHarness, webHarness);
+    UserManagementScreen umScreen = new UserManagementScreen(webHarness);
     umScreen.waitForElements(umScreen.businessRulesTableRowCells);
     umScreen.clickWithScrollToView(umScreen.editButton);
     if (umScreen.listOfDeniedPermissions.size() != 0) {
@@ -63,7 +60,7 @@ public class UserManagementSteps {
   */
   @And("^I set business process rules by feature:$")
   public void setPermissionsForProfile(List<List<String>> dataTable) throws Throwable {
-    UserManagementScreen umScreen = new UserManagementScreen(testHarness, webHarness);
+    UserManagementScreen umScreen = new UserManagementScreen(webHarness);
     umScreen.waitForElements(umScreen.businessRulesTableRowCells);
     umScreen.clickWithScrollToView(umScreen.editButton);
     for (List<String> entry : dataTable) {

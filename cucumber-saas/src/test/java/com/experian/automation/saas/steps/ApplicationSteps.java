@@ -1,6 +1,5 @@
 package com.experian.automation.saas.steps;
 
-import com.experian.automation.harnesses.TestHarness;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.steps.CucumberSteps;
@@ -17,23 +16,21 @@ import java.io.File;
 
 public class ApplicationSteps {
 
-  private final TestHarness testHarness;
   private final WebHarness webHarness;
 
   private final Logger logger = Logger.getLogger(this.getClass());
 
-  public ApplicationSteps(TestHarness testHarness, WebHarness webHarness) {
-    this.testHarness = testHarness;
+  public ApplicationSteps(WebHarness webHarness) {
     this.webHarness = webHarness;
   }
 
   @Before
   public void beforeScenario(Scenario scenario) throws Throwable {
-    new CucumberSteps(testHarness, webHarness).beforeScenario(scenario);
+    new CucumberSteps(webHarness).beforeScenario(scenario);
   }
 
   @After
   public void afterScenario(Scenario scenario) throws Throwable {
-    new CucumberSteps(testHarness, webHarness).afterScenario(scenario);
+    new CucumberSteps(webHarness).afterScenario(scenario);
   }
 }
