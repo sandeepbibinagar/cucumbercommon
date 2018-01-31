@@ -6,6 +6,7 @@ Feature: Burp Suite Enterprise Application Scan
 
   Scenario: Burp Suite Enterprise scan
     # Test-ID: 3702047
+    # Type: Security
     # Use-Case: ACF
     # Priority: P2
     Given I log into Burp Suite Enterprise with valid credentials
