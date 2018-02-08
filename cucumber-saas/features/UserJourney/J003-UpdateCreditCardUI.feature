@@ -6,7 +6,7 @@ Feature: Update Credit Card Tactical Parameters
   Scenario: As a User I want to update credit card, to get updated interest rate
    # Test-ID: 4039611
    # Use-Case: UserJourney
-   # Priority: P1
+   # Priority: P1 - Critical
     Given Initial setup
     And I start the browser
     And I go to login page

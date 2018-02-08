@@ -6,7 +6,7 @@ Feature: Create New Application
   Scenario: Create New Application, to get System Decision Accept
    # Test-ID: 4883227
    # Use-Case: UserJourney
-   # Priority: P1
+   # Priority: P1 - Critical
     Given Initial setup
     And I start the browser
     And I go to login page

@@ -6,7 +6,7 @@ Feature: Update Scorecard Tactical Parameters
   Scenario: As a User I want to update the "Age gt 36 Score" of Scorecard_Generic_UL  from 50 to 100, to get System Decision Accept
    # Test-ID: 4039617
    # Use-Case: UserJourney
-   # Priority: P1
+   # Priority: P1 - Critical
     Given Initial setup
     And I start the browser
     And I go to login page

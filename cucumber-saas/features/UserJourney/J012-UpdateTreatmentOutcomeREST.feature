@@ -6,7 +6,7 @@ Feature: UpdateTreatment Tree Tactical Parameters
   Scenario: As a User I want to update the outcome of TreatmentTree_CreditLimit_Offer, to get System Decision Accept
     # Test-ID: 3933872
     # Use-Case: UserJourney
-    # Priority: P2
+    # Priority: P2 - High
     When I update parameter TreatmentTree_CreditLimit_Offer_TP - TP - TreatmentTree_CreditLimit Search description: TreatmentTree CreditLimit ,effective from: 12/01/2017 to
       | Input | CreditLimit Offer |
       |       | 1                 |

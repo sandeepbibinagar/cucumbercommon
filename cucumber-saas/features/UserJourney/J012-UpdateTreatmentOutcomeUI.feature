@@ -6,7 +6,7 @@ Feature: Update Treatment Tree Tactical Parameters
   Scenario: Update the outcome of CreditLimit Treatment Tree
    # Test-ID: 4039620
    # Use-Case: UserJourney
-   # Priority: P1
+   # Priority: P1 - Critical
     Given Initial setup
     And I start the browser
     And I go to login page

@@ -18,7 +18,7 @@ Feature: Credit Bureau Calls through the REST api
     # Test-ID: 4817940
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | Y                 |  N                | N                 | N                      | N                         |

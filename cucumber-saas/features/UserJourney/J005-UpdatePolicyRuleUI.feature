@@ -6,7 +6,7 @@ Feature: Update Policy Rule Tactical Parameters
   Scenario: As a User I want to turn off Policy Rule execution, to get empty System Decision
    # Test-ID: 4039613
    # Use-Case: UserJourney
-   # Priority: P1
+   # Priority: P1 - Critical
     Given Initial setup
     And I start the browser
     And I go to login page

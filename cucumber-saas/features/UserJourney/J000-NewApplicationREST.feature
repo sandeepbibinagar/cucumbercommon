@@ -6,7 +6,7 @@ Feature: Create New Application
   Scenario: Create New Application, to get System Decision Accept
     # Test-ID: 4570749
     # Use-Case: UserJourney
-    # Priority: P1
+    # Priority: P1 - Critical
     When I update tactical parameters from file ${features.path}/UserJourney/data/UserJourney_ACF_TP_Export.xml
 
     And I deploy tactical parameter TreatmentTree_CreditLimit_Offer_TP - TP - TreatmentTree_CreditLimit Search version LATEST
