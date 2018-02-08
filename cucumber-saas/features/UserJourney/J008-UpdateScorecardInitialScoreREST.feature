@@ -6,7 +6,7 @@ Feature: Update Scorecard Tactical Parameters
   Scenario: As a User I want to update the initial score of Scorecard_Generic_UL, to get System Decision Accept
     # Test-ID: 3887933
     # Use-Case: UserJourney
-    # Priority: P2
+    # Priority: P2 - High
     When I update parameter Scorecard_Generic_UL_TP - TP_Scorecard_Generic_UL Search description: Scorecard Generic UL ,effective from: 12/01/2017 to
       | Input | Age lt 20 Score | Age gt 21 lt 25 Score | Age gt 26 lt 30 Score | Age gt 31 lt 35 Score | Age gt 36 Score | Initial Score | Transformation Score |
       |       | -115            | -20                   | 0                     | 30                    | 50              | 900           | 1                    |

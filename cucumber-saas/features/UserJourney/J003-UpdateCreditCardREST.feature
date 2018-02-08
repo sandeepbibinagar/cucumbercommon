@@ -6,7 +6,7 @@ Feature: Update Credit Card Tactical Parameters
   Scenario: As a User I want to update credit card, to get updated interest rate
     # Test-ID: 3933890
     # Use-Case: UserJourney
-    # Priority: P2
+    # Priority: P2 - High
     When I update parameter Product_TP - TP - Product_TP Search description: Product Type ,effective from: 12/01/2017 to
       | Product Type | Interest Rate | Min Age | Max Age | Min Credit Limit | Max Credit Limit |
       |              | 4.12          | 18      | 60      | 100              | 10000            |

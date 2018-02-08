@@ -6,7 +6,7 @@ Feature: Update Policy Rule Tactical Parameters
   Scenario: As a User I want to turn off Policy Rule execution, to get empty System Decision
     # Test-ID: 3933869
     # Use-Case: UserJourney
-    # Priority: P2
+    # Priority: P2 - High
     When I update parameter PolicyRules_TP - TP - PolicyRules Search description: PolicyRules ,effective from: 12/01/2017 to
       | Input | Execute Policy Rules |
       |       | N                    |
