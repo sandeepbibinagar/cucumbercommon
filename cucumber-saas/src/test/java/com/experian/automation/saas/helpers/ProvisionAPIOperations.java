@@ -142,11 +142,14 @@ public class ProvisionAPIOperations {
     String requestURL = String.format(getRequestURL("list-release"), serviceName);
     HttpResponse<String> response = Unirest.get(requestURL).headers(defaultHeaders).asString();
 
-    Filter filtereleaseApproved = filter(where("releaseGroup").eq(serviceName)).and(where("tags.release-approved").eq("true"));
-    JSONArray releases = JsonPath.read(response.getBody(), "$.releases[?].name", filtereleaseApproved);
+    Filter filter = filter(where("releaseGroup").eq(serviceName));
+    JSONArray releases = JsonPath.read(response.getBody(), "$.releases[?].name", filter);
 
-    Filter filterLatestMaster = filter(where("releaseGroup").eq(serviceName)).and(where("tags.latest-master").eq("true"));
-    releases.addAll(JsonPath.read(response.getBody(), "$.releases[?].name", filterLatestMaster));
+    filter = filter(where("releaseGroup").eq(serviceName)).and(where("tags.release-approved").eq("true"));
+    releases.addAll(JsonPath.read(response.getBody(), "$.releases[?].name", filter));
+
+    filter = filter(where("releaseGroup").eq(serviceName)).and(where("tags.latest-master").eq("true"));
+    releases.addAll(JsonPath.read(response.getBody(), "$.releases[?].name", filter));
 
     String releaseName = "";
 

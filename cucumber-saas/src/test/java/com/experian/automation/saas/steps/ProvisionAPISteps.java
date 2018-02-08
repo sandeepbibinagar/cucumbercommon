@@ -381,9 +381,22 @@ public class ProvisionAPISteps {
     if (type.equals("ACF")) {
 
       serviceNames = Arrays.asList(
+          "pc-acquirecustomersfaster-us",
           "powercurve-simulation",
           "powercurve-connectivity",
-          "pc-acquirecustomersfaster-us",
+          "admin-portal-server",
+          "user-service",
+          "originations-facade",
+          "token-service",
+          "admin-portal-ui");
+    }
+
+    if (type.equals("UserJourney")) {
+
+      serviceNames = Arrays.asList(
+          "pc-userjourney",
+          "powercurve-simulation",
+          "powercurve-connectivity",
           "admin-portal-server",
           "user-service",
           "originations-facade",

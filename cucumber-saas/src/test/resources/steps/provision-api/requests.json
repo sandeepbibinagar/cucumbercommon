@@ -66,6 +66,21 @@
       }
     }
   },
+  "create-service-pc-userjourney": {
+    "uri": "/service-groups/%1$d/services",
+    "body": {
+      "name": "pc-userjourney-%1$s",
+      "release": {
+        "group": "pc-userjourney",
+        "name": "%2$s"
+      },
+      "properties": {
+        "BPS_CONNECTIVITY_PROVE_ID_URL": "http://prove-id-svc.%1$s.svc.cluster.local:8080/ib-service",
+        "BPS_CONNECTIVITY_PCE_CONS_URL": "http://pce-cons-svc.%1$s.svc.cluster.local:8080/ib-service",
+        "BPS_CONNECTIVITY_EXPERIAN_US_URL": "http://experian-us-svc.%1$s.svc.cluster.local:8083/ib-service"
+      }
+    }
+  },
   "create-service-admin-portal-server": {
     "uri": "/service-groups/%1$d/services",
     "body": {
