@@ -55,7 +55,6 @@
     "uri": "/service-groups/%1$d/services",
     "body": {
       "name": "pc-acquirecustomersfaster-us-%1$s",
-      "allowedReleaseGroup": "pc-acquirecustomersfaster-us",
       "release": {
         "group": "pc-acquirecustomersfaster-us",
         "name": "%2$s"
@@ -71,7 +70,6 @@
     "uri": "/service-groups/%1$d/services",
     "body": {
       "name": "admin-portal-server-%1$s",
-      "allowedReleaseGroup": "admin-portal-server",
       "release": {
         "group": "admin-portal-server",
         "name": "%2$s"
@@ -84,7 +82,6 @@
     "uri": "/service-groups/%1$d/services",
     "body": {
       "name": "user-service-%1$s",
-      "allowedReleaseGroup": "user-service",
       "release": {
         "group": "user-service",
         "name": "%2$s"
@@ -97,7 +94,6 @@
     "uri": "/service-groups/%1$d/services",
     "body": {
       "name": "originations-facade-%1$s",
-      "allowedReleaseGroup": "originations-facade",
       "release": {
         "group": "originations-facade",
         "name": "%2$s"
@@ -110,7 +106,6 @@
     "uri": "/service-groups/%1$d/services",
     "body": {
       "name": "token-service-%1$s",
-      "allowedReleaseGroup": "token-service",
       "release": {
         "group": "token-service",
         "name": "%2$s"
@@ -123,7 +118,6 @@
     "uri": "/service-groups/%1$d/services",
     "body": {
       "name": "admin-portal-ui-%1$s",
-      "allowedReleaseGroup": "admin-portal-ui",
       "release": {
         "group": "admin-portal-ui",
         "name": "%2$s"
