@@ -116,7 +116,7 @@ public class ProvisionAPISteps {
                           if (action.equals("verify") || action.equals("initial")) {
                             try {
                               waitForEnvironment(environmentType, serviceGroupName);
-                              Variables.set("openshift.servicegroup", serviceGroupName);
+                              ContextResourceManager.add("openshift-environment-verified", serviceGroupName);
                               ContextResourceManager.delete("openshift-environment-created", serviceGroupName);
                             } catch (Throwable throwable) {
                               throwable.printStackTrace();
@@ -126,7 +126,13 @@ public class ProvisionAPISteps {
                         })
     ).get();
 
-    Assert.assertTrue(Variables.get("openshift.servicegroup") != null, "Cannot create environment");
+    String verifiedServiceGroup = ContextResourceManager.allocate("openshift-environment-verified");
+    ContextResourceManager.delete("openshift-environment-verified", verifiedServiceGroup);
+
+    Assert.assertTrue(verifiedServiceGroup != null, "Cannot create environment");
+
+    Variables.set("openshift.servicegroup", verifiedServiceGroup);
+
   }
 
   @And("^Destroy provisioned environment$")
@@ -223,7 +229,7 @@ public class ProvisionAPISteps {
       Assert.assertTrue(status, String.format("Cannot delete service group %s", serviceGroupName));
 
       // Wait until service group is not presented in the list with groups
-      long timeoutTime = System.currentTimeMillis() + 5 * 60 * 1000;
+      long timeoutTime = System.currentTimeMillis() + 10 * 60 * 1000;
       do {
         serviceGroupID = apiOps.getServiceGroupID(serviceGroupName);
         Thread.sleep(5 * 1000);
@@ -312,7 +318,7 @@ public class ProvisionAPISteps {
     if (serviceName.equals("pc-acquirecustomersfaster-us")) {
 
       // Wait for WebEngine service health check
-      String webEngineHost = "web-engine." + serviceGroupName + ".dyn.dl-non-prod.genesaas.io";
+      String webEngineHost = "web-engine." + serviceGroupName + ".apps.appcanvas.net";
       logger.info("WebEngine OpenShift environment service health check: " + serviceGroupName);
       String webEngineHealthCheckURL = "http://" + webEngineHost + "/WebEngine/health";
 
@@ -375,9 +381,22 @@ public class ProvisionAPISteps {
     if (type.equals("ACF")) {
 
       serviceNames = Arrays.asList(
+          "pc-acquirecustomersfaster-us",
           "powercurve-simulation",
           "powercurve-connectivity",
-          "pc-acquirecustomersfaster-us",
+          "admin-portal-server",
+          "user-service",
+          "originations-facade",
+          "token-service",
+          "admin-portal-ui");
+    }
+
+    if (type.equals("UserJourney")) {
+
+      serviceNames = Arrays.asList(
+          "pc-userjourney",
+          "powercurve-simulation",
+          "powercurve-connectivity",
           "admin-portal-server",
           "user-service",
           "originations-facade",

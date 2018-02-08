@@ -1,5 +1,6 @@
 package com.experian.automation.saas.helpers;
 
+import com.experian.automation.helpers.Config;
 import com.experian.automation.logger.Logger;
 import com.jayway.jsonpath.Filter;
 import com.jayway.jsonpath.JsonPath;
@@ -26,7 +27,7 @@ public class ProvisionAPIOperations {
   private final Logger logger = Logger.getLogger(this.getClass());
 
   private String apiRequests;
-  private final String apiURL = "http://provisioning-service-non-prod.dyn.dl-non-prod.genesaas.io/api/v1";
+  private final String apiURL = Config.get("openshift.provision.api");
 
   HashMap<String, String> defaultHeaders;
 
@@ -141,8 +142,14 @@ public class ProvisionAPIOperations {
     String requestURL = String.format(getRequestURL("list-release"), serviceName);
     HttpResponse<String> response = Unirest.get(requestURL).headers(defaultHeaders).asString();
 
-    Filter filter = filter(where("releaseGroup").eq(serviceName)).and(where("tags.release-approved").eq("true"));
+    Filter filter = filter(where("releaseGroup").eq(serviceName));
     JSONArray releases = JsonPath.read(response.getBody(), "$.releases[?].name", filter);
+
+    filter = filter(where("releaseGroup").eq(serviceName)).and(where("tags.release-approved").eq("true"));
+    releases.addAll(JsonPath.read(response.getBody(), "$.releases[?].name", filter));
+
+    filter = filter(where("releaseGroup").eq(serviceName)).and(where("tags.latest-master").eq("true"));
+    releases.addAll(JsonPath.read(response.getBody(), "$.releases[?].name", filter));
 
     String releaseName = "";
 
