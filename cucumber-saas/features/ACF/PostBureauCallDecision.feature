@@ -82,7 +82,7 @@ Feature: Post Bureau Decision APPROVE through the REST api
   # Test-ID: 5015368
   # Type: Functional
   # Use-Case: ACF
-  # Priority: P3
+  # Priority: P3 - Medium
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
@@ -145,7 +145,7 @@ Feature: Post Bureau Decision APPROVE through the REST api
    # Test-ID: 5015369
    # Type: Functional
    # Use-Case: ACF
-   # Priority: P3
+   # Priority: P3 - Medium
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
             """

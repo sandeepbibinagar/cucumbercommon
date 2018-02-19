@@ -83,7 +83,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015359
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I update parameter DA Pre Bureau TP - TP - DA Pre Bureau description: Test ,effective from: 01/01/2018
       | DA Pre Bureau ID | MinimumAcceptScore |
       | 1                | 700                |
@@ -151,7 +151,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015360
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
@@ -213,7 +213,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015361
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
@@ -276,7 +276,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015362
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
@@ -338,7 +338,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015363
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
@@ -400,7 +400,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015364
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
@@ -462,7 +462,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015365
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
@@ -524,7 +524,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015366
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
