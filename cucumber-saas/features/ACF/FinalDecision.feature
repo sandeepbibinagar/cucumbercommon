@@ -82,7 +82,7 @@ Feature: Final Decision through the REST api
     # Test-ID: 5020116
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
@@ -144,7 +144,7 @@ Feature: Final Decision through the REST api
     # Test-ID: 5020117
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I update parameter DA Post CrossCore TP - TP - DA Post CrossCore description: Test ,effective from: 01/01/2018
       | DA Post CrossCore ID | MinimumPreciseIDScore | MinimumFraudnetScore |
       | 1                    | 500                   | 2000                 |
@@ -210,7 +210,7 @@ Feature: Final Decision through the REST api
     # Test-ID: 5020118
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
     """

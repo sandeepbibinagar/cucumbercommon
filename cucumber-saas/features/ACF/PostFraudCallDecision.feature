@@ -86,7 +86,7 @@ Feature: Post Fraud Decision  through the REST api
   # Test-ID: 5020114
   # TestType: Functional
   # Use-Case: ACF
-  # Priority: P3
+  # Priority: P3 - Medium
     And I update parameter DA Post CrossCore TP - TP - DA Post CrossCore description: Test ,effective from: 01/01/2018
       | DA Post CrossCore ID | MinimumPreciseIDScore | MinimumFraudnetScore |
       | 1                    | 500                   | 2000                 |
@@ -152,7 +152,7 @@ Feature: Post Fraud Decision  through the REST api
   # Test-ID: 5020113
   # TestType: Functional
   # Use-Case: ACF
-  # Priority: P3
+  # Priority: P3 - Medium
     And I update parameter DA Post CrossCore TP - TP - DA Post CrossCore description: Test ,effective from: 01/01/2018
       | DA Post CrossCore ID | MinimumPreciseIDScore | MinimumFraudnetScore |
       | 1                    | 2000                  | 500                  |

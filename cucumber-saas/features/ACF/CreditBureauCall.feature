@@ -102,7 +102,7 @@ Feature: Credit Bureau Calls through the REST api
   # Test-ID: 4817941
   # Type: Functional
   # Use-Case: ACF
-  # Priority: P3
+  # Priority: P3 - Medium
   # The date format should be mm/dd/yyyy
     Given I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
@@ -192,7 +192,7 @@ Feature: Credit Bureau Calls through the REST api
     # Test-ID: 5010784
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | N                 |  Y                | N                 | N                      | N                         |
@@ -276,7 +276,7 @@ Feature: Credit Bureau Calls through the REST api
    # Test-ID: 5010785
    # Type: Functional
    # Use-Case: ACF
-   # Priority: P3
+   # Priority: P3 - Medium
    # The date format should be mm/dd/yyyy
     Given I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
@@ -358,7 +358,7 @@ Feature: Credit Bureau Calls through the REST api
     # Test-ID: 5010786
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | N                 |  N                | Y                 | N                      | N                         |
@@ -438,7 +438,7 @@ Feature: Credit Bureau Calls through the REST api
     # Test-ID: 5010787
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     # The date format should be mm/dd/yyyy
     Given I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
