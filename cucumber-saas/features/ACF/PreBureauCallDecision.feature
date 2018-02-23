@@ -29,7 +29,7 @@ Feature: Pre Bureau Call Decision through the REST api
   # Test-ID: 5015358
   # Type: Functional
   # Use-Case: ACF
-  # Priority: P3
+  # Priority: P3 - Medium
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | N                 | Y                 | N                 | N                      | N                         |
@@ -98,7 +98,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015359
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | N                 | Y                 | N                 | N                      | N                         |
@@ -171,7 +171,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015360
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | N                 | Y                 | N                 | N                      | N                         |
@@ -238,7 +238,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015361
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | N                 | Y                 | N                 | N                      | N                         |
@@ -306,7 +306,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015362
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | N                 | Y                 | N                 | N                      | N                         |
@@ -373,7 +373,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015363
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | N                 | Y                 | N                 | N                      | N                         |
@@ -440,7 +440,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015364
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | N                 | Y                 | N                 | N                      | N                         |
@@ -507,7 +507,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015365
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | N                 | Y                 | N                 | N                      | N                         |
@@ -574,7 +574,7 @@ Feature: Pre Bureau Call Decision through the REST api
     # Test-ID: 5015366
     # Type: Functional
     # Use-Case: ACF
-    # Priority: P3
+    # Priority: P3 - Medium
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
       | N                 | Y                 | N                 | N                      | N                         |
