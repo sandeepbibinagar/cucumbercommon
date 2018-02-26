@@ -3,7 +3,7 @@ Feature: Update Policy Rule Tactical Parameters
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: As a User I want to turn off Policy Rule execution, to get empty System Decision
+  Scenario: UserJourney_TurnOffPolicyRuleExecutionREST_EmptySystemDecision
     # Test-ID: 3933869
     # Use-Case: UserJourney
     # Priority: P2 - High

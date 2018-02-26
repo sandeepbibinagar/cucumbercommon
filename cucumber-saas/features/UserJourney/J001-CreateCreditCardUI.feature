@@ -3,7 +3,7 @@ Feature: Update Credit Card Tactical Parameters
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: As a User I want to create a new credit card, to get new interest rate
+  Scenario: UserJourney_CreateCreditCardUI_NewInterestRate
    # Test-ID: 4039609
    # Use-Case: UserJourney
    # Priority: P1 - Critical

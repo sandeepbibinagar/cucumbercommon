@@ -3,7 +3,7 @@ Feature: Update Scorecard Tactical Parameters
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: As a User I want to update the "Age gt 36 Score" of Scorecard_Generic_UL  from 50 to 100, to get System Decision Accept
+  Scenario: UserJourney_UpdateScorecardAgeGT36Score50To100REST_AcceptSystemDecision
     # Test-ID: 3887940
     # Use-Case: UserJourney
     # Priority: P2 - High

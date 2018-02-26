@@ -3,7 +3,7 @@ Feature: Create New Application
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: Create New Application, to get System Decision Accept
+  Scenario: UserJourney_NewApplicationREST_Accept
     # Test-ID: 4570749
     # Use-Case: UserJourney
     # Priority: P1 - Critical

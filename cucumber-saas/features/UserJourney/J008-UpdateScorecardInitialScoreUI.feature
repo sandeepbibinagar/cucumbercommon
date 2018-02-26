@@ -3,7 +3,7 @@ Feature: Update Scorecard Tactical Parameters
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: Update the initial score of Scorecard_Generic_UL from 600 to 900
+  Scenario: UserJourney_UpdateScorecardInitialScoreUI_AcceptSystemDecision
    # Test-ID: 4039616
    # Use-Case: UserJourney
    # Priority: P1 - Critical

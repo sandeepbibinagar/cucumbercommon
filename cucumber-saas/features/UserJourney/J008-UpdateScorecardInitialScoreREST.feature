@@ -3,7 +3,7 @@ Feature: Update Scorecard Tactical Parameters
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: As a User I want to update the initial score of Scorecard_Generic_UL, to get System Decision Accept
+  Scenario: UserJourney_UpdateScorecardInitialScoreREST_AcceptSystemDecision
     # Test-ID: 3887933
     # Use-Case: UserJourney
     # Priority: P2 - High
