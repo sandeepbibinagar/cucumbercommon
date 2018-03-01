@@ -1,9 +1,9 @@
-Feature: Create New Application
+Feature: User Journey - New Application via UI
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: UserJourney_NewApplicationUI_Accept
+  Scenario: Create Application via UI to get system decision Accept
    # Test-ID: 4883227
    # Use-Case: UserJourney
    # Priority: P1 - Critical

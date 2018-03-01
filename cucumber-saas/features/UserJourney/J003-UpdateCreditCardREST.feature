@@ -1,9 +1,9 @@
-Feature: Update Credit Card Tactical Parameters
+Feature: User Journey - Update Credit Card TP via REST
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: UserJourney_UpdateCreditCardREST_UpdateInterestRate
+  Scenario: Update Credit Card TP via REST to get system decision Accept
     # Test-ID: 3933890
     # Use-Case: UserJourney
     # Priority: P2 - High

@@ -1,9 +1,9 @@
-Feature: Update Scorecard Tactical Parameters
+Feature: User Journey - Update Scorecard TP via UI
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: UserJourney_UpdateScorecardInitialScoreUI_AcceptSystemDecision
+  Scenario: Update Initial Score of Scorecard Generic UL TP via UI to get system decision Accept
    # Test-ID: 4039616
    # Use-Case: UserJourney
    # Priority: P1 - Critical

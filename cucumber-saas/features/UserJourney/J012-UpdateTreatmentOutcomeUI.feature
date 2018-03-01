@@ -1,9 +1,9 @@
-Feature: Update Treatment Tree Tactical Parameters
+Feature: User Journey - Update Treatment Tree TP via UI
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: UserJourney_UpdateTreatmentTreeCreditLimitOfferTo1UI_AcceptSystemDecision
+  Scenario: Update Treatment Tree Credit Limit Offer TP via UI to get system decision Accept
    # Test-ID: 4039620
    # Use-Case: UserJourney
    # Priority: P1 - Critical
