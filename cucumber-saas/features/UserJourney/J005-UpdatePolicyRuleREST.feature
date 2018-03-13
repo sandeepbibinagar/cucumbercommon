@@ -1,9 +1,9 @@
-Feature: Update Policy Rule Tactical Parameters
+Feature: User Journey - Update Policy Rule TP via REST
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: As a User I want to turn off Policy Rule execution, to get empty System Decision
+  Scenario: Turn off Policy Rules TP via REST to get System Decision Empty
     # Test-ID: 3933869
     # Use-Case: UserJourney
     # Priority: P2 - High

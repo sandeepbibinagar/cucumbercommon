@@ -1,9 +1,9 @@
-Feature: Update Scorecard Tactical Parameters
+Feature: User Journey - Update Scorecard TP via REST
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: As a User I want to update the "Age gt 36 Score" of Scorecard_Generic_UL  from 50 to 100, to get System Decision Accept
+  Scenario: Update Age gt 36 Score of Scorecard Generic UL TP via REST to get system decision Accept
     # Test-ID: 3887940
     # Use-Case: UserJourney
     # Priority: P2 - High
