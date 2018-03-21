@@ -1,9 +1,9 @@
-Feature: Update Credit Card Tactical Parameters
+Feature: User Journey - Create Credit Card TP via UI
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: As a User I want to create a new credit card, to get new interest rate
+  Scenario: Create Credit Card TP via UI to get system decision Accept
    # Test-ID: 4039609
    # Use-Case: UserJourney
    # Priority: P1 - Critical

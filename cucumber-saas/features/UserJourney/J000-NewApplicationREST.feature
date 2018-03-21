@@ -1,9 +1,9 @@
-Feature: Create New Application
+Feature: User Journey - New Application via REST
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
 
-  Scenario: Create New Application, to get System Decision Accept
+  Scenario: Create Application via REST to get system decision Accept
     # Test-ID: 4570749
     # Use-Case: UserJourney
     # Priority: P1 - Critical
