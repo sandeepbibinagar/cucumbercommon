@@ -16,7 +16,7 @@ public class TestEnvSelectionStep {
     this.webHarness = webHarness;
   }
 
-  @And("^I select test environment \"([^\"]*)\"$")
+  @And("^I select test environment (.*)$")
   public void selectTestEnvironment(String testEnv) {
     BiHomeScreen screen = new BiHomeScreen(webHarness);
     screen.waitForElementToDisappear(screen.loaders);

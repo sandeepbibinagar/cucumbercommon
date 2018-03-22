@@ -36,7 +36,6 @@ public class PortalHomeScreen extends Screen {
 
   public PortalHomeScreen(WebHarness webHarness) {
     super(webHarness);
-//    waitForElement(solutionsListButton);
     waitForScreen(solutionsListButton);
   }
 

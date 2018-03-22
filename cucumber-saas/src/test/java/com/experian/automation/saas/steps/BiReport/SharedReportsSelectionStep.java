@@ -15,7 +15,7 @@ public class SharedReportsSelectionStep {
     this.webHarness = webHarness;
   }
 
-  @And("^I select report \"(Applications Received|Automated Decision Trend)\"$")
+  @And("^I select report (Applications Received|Automated Decision Trend)$")
   public void selectSolution(String report) throws NoSuchElementException {
     SharedReportingScreen reportsScreen = new SharedReportingScreen(webHarness);
     switch (report) {
@@ -26,7 +26,7 @@ public class SharedReportsSelectionStep {
         reportsScreen.jsClick(reportsScreen.autoDecisionTrendReport);
         break;
       default:
-        throw new NoSuchElementException("No such element" + report);
+        throw new IllegalArgumentException("No such element" + report);
     }
   }
 }
