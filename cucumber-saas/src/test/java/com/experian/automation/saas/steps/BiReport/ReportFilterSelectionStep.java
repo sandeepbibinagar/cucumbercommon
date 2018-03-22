@@ -42,7 +42,7 @@ public class ReportFilterSelectionStep {
       tableCells.add(reportScreen.allCellsExceptHeader.get(i));
     }
 
-    reportScreen.findDataInTable(data, tableHeaders, tableCells, true, false, false);
+    reportScreen.assertDataInTable(data, tableHeaders, tableCells);
   }
 
   @And("^I filter group data by (.*)$")

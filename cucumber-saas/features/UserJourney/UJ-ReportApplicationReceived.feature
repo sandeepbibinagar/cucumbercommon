@@ -33,6 +33,6 @@ Feature: Application Received Report
     And I set To date to ${filterDate}
     And I change the format of date ${appCreationDate} from yyyyMMdd to dd-MMM-yy and save it to variable tableDate
     Then I verify that the following data is displayed in the table:
-      | Date      | ERROR | Total |
-      | 16-Mar-18 | 4     | 25    |
+      | Date      | ERROR | INCOMPLETE | Total |
+      | 16-Mar-18 | 4     | 21         |25     |
     And I stop the browser
