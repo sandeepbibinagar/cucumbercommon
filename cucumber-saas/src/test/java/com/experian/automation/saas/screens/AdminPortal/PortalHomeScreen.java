@@ -12,13 +12,14 @@ public class PortalHomeScreen extends Screen {
   @FindBy(xpath = "//nav//span[contains(text(),'SaaS Portal')]")
   public WebElement portalHeader;
 
-  @FindBy(xpath = "//i[@class='exp-icon-apps']")
+  @FindBy(xpath = "//saas-app-manager/div/a")
   public WebElement solutionsListButton;
 
-  @FindBy(xpath = "//div[@class='destination']")
+  @FindBy(xpath = "//div[@class='dropdown-item style-scope saas-app-manager']")
   public List<WebElement> solutions;
 
-  @FindBy(xpath = "//a[@aria-expanded='true' and child::i[@class='exp-icon-apps']]")
+//  @FindBy(xpath = "//a[@aria-expanded='true' and child::i[@class='exp-icon-apps style-scope saas-app-manager']]")
+  @FindBy(xpath = "//div[@class='dropdown d-inline-block show style-scope saas-app-manager']")
   public WebElement menuExpanded;
 
   @FindBy(xpath = "//a[child::p[contains(text(),'Options')]]")
@@ -27,12 +28,15 @@ public class PortalHomeScreen extends Screen {
   @FindBy(id = "app-switcher-originations")
   public WebElement originationsSolution;
 
-  @FindBy(id = "admin-portal")
+  @FindBy(xpath = "//a[child::p[contains(text(),'BI Reporting')]]")
+  public WebElement biSolution;
+
+  @FindBy(xpath = "//a[child::p[contains(text(),'Administration')]]")
   public WebElement adminPortal;
 
   public PortalHomeScreen(WebHarness webHarness) {
     super(webHarness);
-    waitForElement(solutionsListButton);
+    waitForScreen(solutionsListButton);
   }
 
 }

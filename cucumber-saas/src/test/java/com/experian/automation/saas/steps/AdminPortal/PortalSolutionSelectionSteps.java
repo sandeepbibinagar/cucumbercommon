@@ -3,15 +3,8 @@ package com.experian.automation.saas.steps.AdminPortal;
 import com.experian.automation.harnesses.WebHarness;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.screens.AdminPortal.PortalHomeScreen;
-import com.experian.automation.saas.steps.CommonSteps;
-import com.experian.automation.saas.steps.TacticalParameters.DynamicalParametersScreenSteps;
-import com.experian.automation.saas.steps.TacticalParameters.TacticalParametersScreenSteps;
-import com.experian.automation.saas.steps.WebEngine.UserManagementSteps;
 import cucumber.api.java.en.And;
 import org.openqa.selenium.NoSuchElementException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class PortalSolutionSelectionSteps {
 
@@ -22,10 +15,12 @@ public class PortalSolutionSelectionSteps {
     this.webHarness = webHarness;
   }
 
-  @And("^I select solution - (PowerCurve Originations|PoweCurve Admin Portal|Options)$")
+  @And("^I select solution - (PowerCurve Originations|PoweCurve Admin Portal|Options|BI)$")
   public void selectSolution(String solution) {
     PortalHomeScreen portalScreen = new PortalHomeScreen(webHarness);
-    portalScreen.clickWithScrollToView(portalScreen.solutionsListButton);
+
+    portalScreen.waitForElement(portalScreen.solutionsListButton);
+    portalScreen.jsClick(portalScreen.solutionsListButton);
     portalScreen.waitForElement(portalScreen.menuExpanded);
     switch (solution) {
       case "PowerCurve Originations":
@@ -36,6 +31,10 @@ public class PortalSolutionSelectionSteps {
         break;
       case "Options":
         portalScreen.clickWithScrollToView(portalScreen.options);
+        break;
+      case "BI":
+        portalScreen.waitForElement(portalScreen.biSolution);
+        portalScreen.jsClick(portalScreen.biSolution);
         break;
       default:
         throw new NoSuchElementException("No such element" + solution);
