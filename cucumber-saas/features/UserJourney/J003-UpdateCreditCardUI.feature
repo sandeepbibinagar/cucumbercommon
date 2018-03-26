@@ -28,7 +28,7 @@ Feature: User Journey - Update Credit Card TP via UI
     And I start the browser
     And I go to login page
     And I login on Admin Portal with username adm@example.com and password Password123
-    And I select solution - PowerCurve Originations
+    And I select solution - Acquire Customers Faster
     And I select menu Capture Data on page Home Page
     And I enter values for fields on page P - New Application Screen
       | Suffix                              | Mrs                |
