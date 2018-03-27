@@ -1,3 +1,4 @@
+@skip
 Feature: Application Received Report
 
   Scenario: UJ-Report-Application Received Report
