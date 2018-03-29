@@ -1,3 +1,4 @@
+@run
 Feature: Credit Bureau Calls through the REST api
   In order to obtain a credit bureau score for an application from one of the Credit Bureaus available ,
   As an ACF user,
@@ -83,8 +84,8 @@ Feature: Credit Bureau Calls through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
+    And I prepare JWT token with user adm@example.com and password Password123 from service ${token.service.url}/v1/tokens/create
+    When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['TP-EA.BureauEnabler.Bureau En Out EQX']           | Y   |
 
@@ -152,8 +153,8 @@ Feature: Credit Bureau Calls through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
+    And I prepare JWT token with user adm@example.com and password Password123 from service ${token.service.url}/v1/tokens/create
+    When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['TP-EA.BureauEnabler.Bureau En Out EQX'] | N |
 
@@ -218,8 +219,8 @@ Feature: Credit Bureau Calls through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
+    And I prepare JWT token with user adm@example.com and password Password123 from service ${token.service.url}/v1/tokens/create
+    When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['TP-EA.BureauEnabler.Bureau En Out TUC']           | Y   |
 
@@ -286,7 +287,7 @@ Feature: Credit Bureau Calls through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
+    And I prepare JWT token with user adm@example.com and password Password123 from service ${token.service.url}/v1/tokens/create
+    When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['TP-EA.BureauEnabler.Bureau En Out TUC']    | N               |

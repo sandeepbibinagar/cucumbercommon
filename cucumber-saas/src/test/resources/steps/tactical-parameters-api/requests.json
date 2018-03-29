@@ -1,17 +1,17 @@
 {
   "list-all-parameters": {
-    "uri": "/tactical/parameter_group/TENANT1/all"
+    "uri": "/v0/tactical/parameter_group/all"
   },
   "list-single-parameter": {
-    "uri": "/tactical/parameter_group/TENANT1/%1$s"
+    "uri": "/v0/tactical/parameter_group/%1$s"
   },
   "list-parameter-versions": {
-    "uri": "/tactical/parameter_group/TENANT1/versions/%1$s"
+    "uri": "/v0/tactical/parameter_group/versions/%1$s"
   },
   "update-parameter": {
-    "uri": "/tactical/parameter_group/TENANT1/update"
+    "uri": "/v0/tactical/parameter_group/update"
   },
   "deploy-parameter": {
-    "uri": "/tactical/parameter_group/TENANT1/deploy/%1$s"
+    "uri": "/v0/tactical/parameter_group/deploy/%1$s"
   }
 }

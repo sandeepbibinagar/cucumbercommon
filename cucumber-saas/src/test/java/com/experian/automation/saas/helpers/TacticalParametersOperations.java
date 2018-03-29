@@ -1,7 +1,10 @@
 package com.experian.automation.saas.helpers;
 
+import com.experian.automation.helpers.Config;
+import com.experian.automation.helpers.Variables;
 import com.experian.automation.helpers.XMLOperations;
 import com.experian.automation.logger.Logger;
+import com.experian.automation.steps.APISteps;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -35,17 +38,20 @@ public class TacticalParametersOperations {
 
   HashMap<String, String> defaultHeaders;
 
-  public TacticalParametersOperations(String apiURL) throws IOException, ConfigurationException {
+  public TacticalParametersOperations(String apiURL) throws Exception {
 
     File jsonFilePath = new File(getClass().getResource("/steps/tactical-parameters-api/requests.json").getPath());
     apiRequests = FileUtils.readFileToString(jsonFilePath, "UTF-8");
+
+    APISteps apiStep = new APISteps();
+    apiStep.getJWTtoken("adm@example.com", "Password123", Config.get("token.service.url")+"/v1/tokens/create");
 
     Unirest.clearDefaultHeaders();
 
     defaultHeaders = new HashMap<String, String>();
     defaultHeaders.put("Content-Type", "application/json");
     defaultHeaders.put("Accept", "application/json");
-    defaultHeaders.put("Authorization", "Basic YWRtaW46U2VjcmV0MTIzIQ==");
+    defaultHeaders.put("Authorization", "Bearer " + Variables.get("JWT_TOKEN"));
 
     this.apiURL = apiURL;
   }
