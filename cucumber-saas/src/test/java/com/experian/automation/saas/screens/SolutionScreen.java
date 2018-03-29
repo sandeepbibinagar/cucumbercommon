@@ -353,8 +353,6 @@ public class SolutionScreen extends Screen {
    */
   public void setDropdownValueByLabel(String label, String value, String page) throws IOException {
 
-    assertTrue(getWindowTitle().equals(page), "Page loaded: " + page);
-
     String elementType = getPageObjectTypeByLabel(label, page);
     List<WebElement> pageObjects = getPageObjects(page, elementType, label);
     if (pageObjects.size() == 0) {
