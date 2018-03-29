@@ -11,7 +11,7 @@ public class HomeScreen extends Screen {
 
   public String url = "/";
 
-  public String windowTitle = "homeStartPage";
+  public String windowTitle = "Home Page";
 
   @FindBy(xpath = "//a[contains(text(),'Home')]")
   public WebElement homeButton;

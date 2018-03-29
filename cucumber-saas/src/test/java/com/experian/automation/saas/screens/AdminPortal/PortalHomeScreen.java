@@ -25,7 +25,7 @@ public class PortalHomeScreen extends Screen {
   @FindBy(xpath = "//a[child::p[contains(text(),'Options')]]")
   public WebElement options;
 
-  @FindBy(id = "app-switcher-originations")
+  @FindBy(xpath = "//a[child::p[contains(text(),'Acquire Customers Faster')]]")
   public WebElement originationsSolution;
 
   @FindBy(xpath = "//a[child::p[contains(text(),'BI Reporting')]]")
