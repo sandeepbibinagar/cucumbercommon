@@ -14,10 +14,7 @@ Feature: User Journey - New Application via UI
     And I go to WebEngine home page
     And I select menu System/User Administration on WebEngine home page
     And I select tab item Security Profiles/Administrator on Web Engine user administration panel
-    And I set business process rules by feature:
-      | Create | Screen New Application    |
-      | Create | New Application           |
-      | All    | Screen Update Application |
+    And I allow all business process rules
     And I select menu System/Logout on WebEngine home page
     And I stop the browser
 
@@ -61,7 +58,7 @@ Feature: User Journey - New Application via UI
       | Number of years with same employer? | 11                 |
       | Privacy Agreement                   | N                  |
 
-    And I click on button with text next on page P - New Application Screen
+    And I click on button with text Next on page P - New Application Screen
     And I verify values for fields on page P - Summary and Results Screen:
       | System Decision | Accept |
       | System Score    | 684    |
