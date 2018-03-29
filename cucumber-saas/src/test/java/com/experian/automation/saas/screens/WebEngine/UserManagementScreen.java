@@ -42,6 +42,7 @@ public class UserManagementScreen extends Screen {
   }
 
   public void selectTab(String tab) {
+    waitForElements(tabsList);
     clickWithScrollToView(getElementByText(tabsList, tab));
   }
 
