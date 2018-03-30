@@ -41,7 +41,7 @@ public class DynamicalParametersScreenSteps {
   @And("^I import dynamic parameters from files:$")
   public void importDynamicParameters(Map<String, String> parameters) throws Throwable {
     HomeScreen home = new HomeScreen(webHarness);
-    home.selectMenu("System", "Dynamic Parameter Maintenance");
+    //home.selectMenu("System", "Dynamic Parameter Maintenance");
     DynamicParameterMaintenanceScreen screen = new DynamicParameterMaintenanceScreen(webHarness);
     screen.waitForElements(screen.dynamicParameters);
     for (Map.Entry<String, String> entry : parameters.entrySet()) {
