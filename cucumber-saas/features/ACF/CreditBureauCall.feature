@@ -1,10 +1,10 @@
-@run
 Feature: Credit Bureau Calls through the REST api
   In order to obtain a credit bureau score for an application from one of the Credit Bureaus available ,
   As an ACF user,
   I want to send a POST request with  information for one applicant with appropriate setting of tactical parameters and receive a valid response with the risk model score for the application.
 
   Background:
+
     Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameter_exported_data_v0.7.xml
     And I deploy tactical parameter OtherCalls_TP - TP - OtherCalls Search version LATEST
     And I deploy tactical parameter TPID - TP - Master Search version LATEST
@@ -22,6 +22,7 @@ Feature: Credit Bureau Calls through the REST api
       | SCC02VISA1 | 18      | 60      | 100              | 1000             | Credit Card - Visa Gold        | Consumer        | SCC0234230        | Amortized        | Monthly           | No                      | 8            | 32           | 100            | 100000         | AUT8128998 | AUTOLOAN9023929 | Yes     | Yes                                | USEDAUTO098080              | AUTOParamv4                      | Yes                   |
       | SCCMASTER4 | 18      | 60      | 100              | 1000             | Credit Card - Master Card Gold | Consumer        | SCC0234229        | Amortized        | Monthly           | No                      | 7            | 31           | 100            | 100000         | AUT8128997 | AUTOLOAN9023928 | Yes     | Yes                                | USEDAUTO098080              | AUTOParamv4                      | Yes                   |
     And I deploy tactical parameter Product_TP - TP - Product_TP Search version LATEST
+    And I prepare JWT token with user adm@example.com and password Password123 from service ${token.service.url}/v1/tokens/create
 
   Scenario: ACF-US Equifax Credit Bureau - switched On
     # Test-ID: 5010784
@@ -30,7 +31,7 @@ Feature: Credit Bureau Calls through the REST api
     # Priority: P4 - Low
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
-      | N                 |  Y                | N                 | N                      | N                         |
+      | N                 | Y                 | N                 | N                      | N                         |
     And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
@@ -84,10 +85,9 @@ Feature: Credit Bureau Calls through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare JWT token with user adm@example.com and password Password123 from service ${token.service.url}/v1/tokens/create
     When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
-      | $.data.['TP-EA.BureauEnabler.Bureau En Out EQX']           | Y   |
+      | $.data.['TP-EA.BureauEnabler.Bureau En Out EQX'] | Y |
 
   Scenario: ACF-US Equifax Credit Bureau - switched Off
    # Test-ID: 5010785
@@ -153,7 +153,6 @@ Feature: Credit Bureau Calls through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare JWT token with user adm@example.com and password Password123 from service ${token.service.url}/v1/tokens/create
     When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['TP-EA.BureauEnabler.Bureau En Out EQX'] | N |
@@ -165,7 +164,7 @@ Feature: Credit Bureau Calls through the REST api
     # Priority: P4 - Low
     And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
       | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
-      | N                 |  N                | Y                 | N                      | N                         |
+      | N                 | N                 | Y                 | N                      | N                         |
     And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
@@ -219,10 +218,9 @@ Feature: Credit Bureau Calls through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare JWT token with user adm@example.com and password Password123 from service ${token.service.url}/v1/tokens/create
     When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
-      | $.data.['TP-EA.BureauEnabler.Bureau En Out TUC']           | Y   |
+      | $.data.['TP-EA.BureauEnabler.Bureau En Out TUC'] | Y |
 
   Scenario: ACF-US TransUnion Credit Bureau - switched Off
     # Test-ID: 5010787
@@ -287,7 +285,6 @@ Feature: Credit Bureau Calls through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare JWT token with user adm@example.com and password Password123 from service ${token.service.url}/v1/tokens/create
     When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
-      | $.data.['TP-EA.BureauEnabler.Bureau En Out TUC']    | N               |
+      | $.data.['TP-EA.BureauEnabler.Bureau En Out TUC'] | N |

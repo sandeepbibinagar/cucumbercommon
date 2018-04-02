@@ -12,7 +12,6 @@ import com.jayway.jsonpath.JsonPath;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,11 +20,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import net.minidev.json.JSONArray;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.io.FileUtils;
-import org.apache.wink.json4j.JSON;
 import org.json.JSONObject;
 
 
@@ -44,14 +40,15 @@ public class TacticalParametersOperations {
     apiRequests = FileUtils.readFileToString(jsonFilePath, "UTF-8");
 
     APISteps apiStep = new APISteps();
-    apiStep.getJWTtoken("adm@example.com", "Password123", Config.get("token.service.url")+"/v1/tokens/create");
+    apiStep.getJWTtoken(Config.get("tactical.parameters.api.user"), Config.get("tactical.parameters.api.password"),
+                        Config.get("token.service.url") + "/v1/tokens/create");
 
     Unirest.clearDefaultHeaders();
 
     defaultHeaders = new HashMap<String, String>();
     defaultHeaders.put("Content-Type", "application/json");
     defaultHeaders.put("Accept", "application/json");
-    defaultHeaders.put("Authorization", "Bearer " + Variables.get("JWT_TOKEN"));
+    defaultHeaders.put("Authorization", "Bearer " + Variables.get("API_JWT_TOKEN"));
 
     this.apiURL = apiURL;
   }

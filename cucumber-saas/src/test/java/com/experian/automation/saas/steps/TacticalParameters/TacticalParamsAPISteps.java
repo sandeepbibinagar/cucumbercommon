@@ -6,11 +6,8 @@ import com.experian.automation.helpers.Config;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.helpers.TacticalParametersOperations;
 import com.experian.automation.transformers.VariablesTransformer;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import cucumber.api.java.en.And;
-import java.io.IOException;
 import java.util.List;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 
 public class TacticalParamsAPISteps {
 
