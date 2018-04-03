@@ -75,7 +75,7 @@ public class SolutionWebSteps {
       String label = entry.getKey();
       String value = entry.getValue();
       String elementType = screen.getPageObjectTypeByLabel(label, page);
-      screen.waitForElementPresence(By.xpath("//*[contains(text(),'" + label + "')]"));
+      screen.waitForElementPresence(By.xpath("//label[contains(text(),'" + label + "')]"));
       switch (elementType) {
         case ("textfield"):
           screen.setTextfieldValueByLabel(label, value, page);
