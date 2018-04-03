@@ -70,8 +70,7 @@ public class SolutionWebSteps {
   */
   @And("I enter values for fields on page (.*)")
   public void enterValuesForFields(String page, Map<String, String> fields) throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
-    screen.waitForElementPresence(By.xpath("//*[contains(text(),'" + page + "')]"));
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel, page);
     for (Map.Entry<String, String> entry : fields.entrySet()) {
       String label = entry.getKey();
       String value = entry.getValue();
