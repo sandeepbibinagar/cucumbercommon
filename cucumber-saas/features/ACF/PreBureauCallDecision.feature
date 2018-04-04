@@ -10,10 +10,10 @@ Feature: Pre Bureau Call Decision through the REST api
     And I deploy tactical parameter Unsecured Credit Card Product Definition_TP - TP - Unsecured Credit Card Product Definition version LATEST
 
   Scenario: ACF-US Pre-Bureau DA call - APPROVE
-  # Test-ID: 5015358
-  # Type: Functional
-  # Use-Case: ACF
-  # Priority: P3 - Medium
+    # Test-ID: 5015358
+    # Type: Functional
+    # Use-Case: ACF
+    # Priority: P3 - Medium
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
@@ -248,10 +248,10 @@ Feature: Pre Bureau Call Decision through the REST api
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
 
   Scenario: ACF-US Pre-Bureau DA call - DECLINE - At least 1 Applicant is outside lending territory
- # Test-ID: 5015361
- # Type: Functional
- # Use-Case: ACF
- # Priority: P3 - Medium
+    # Test-ID: 5015361
+    # Type: Functional
+    # Use-Case: ACF
+    # Priority: P3 - Medium
     And I update parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning description: Test ,effective from: 01/01/2018
       | Lending Area Ind | Lending Area Rule Flag | Applicant Age | Minimum Gross Mthly Income | Product Policy Decision Ind | Product Score Decision Ind | Min Applicant Age Rule Type | Minimum Gross Mthly Income Rule Type |
       | 2                | Y                      | 21            | 3000                       | 1                           | 1                          | D                           | D                                    |
@@ -360,11 +360,11 @@ Feature: Pre Bureau Call Decision through the REST api
     Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
 
-     Scenario: ACF-US Pre-Bureau DA call - DECLINE - Primary Applicant is outside lending territory
- # Test-ID: 5015362
- # Type: Functional
- # Use-Case: ACF
- # Priority: P3 - Medium
+  Scenario: ACF-US Pre-Bureau DA call - DECLINE - Primary Applicant is outside lending territory
+    # Test-ID: 5015362
+    # Type: Functional
+    # Use-Case: ACF
+    # Priority: P3 - Medium
     And I update parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning description: Test ,effective from: 01/01/2018
       | Lending Area Ind | Lending Area Rule Flag | Applicant Age | Minimum Gross Mthly Income | Product Policy Decision Ind | Product Score Decision Ind | Min Applicant Age Rule Type | Minimum Gross Mthly Income Rule Type |
       | 3                | Y                      | 21            | 3000                       | 1                           | 1                          | D                           | D                                    |
