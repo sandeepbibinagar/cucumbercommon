@@ -23,6 +23,7 @@ Feature: TP & DP Upload from file
     And I select menu System/Dynamic Parameter Maintenance on WebEngine home page
     And I import dynamic parameters from files:
       | Country-State | /UserJourney/data/Country-State-DP.csv |
+    And I stop the browsers
 
 
 
