@@ -55,7 +55,7 @@ public class DynamicParameterMaintenanceScreen extends Screen {
       new Actions(webHarness.driver).contextClick(
           getElementWithText(dynamicParameters, parameterName)).build().perform();
       importButton.click();
-      fileUploadInput.sendKeys(Config.get("solution.parameters.dir") + fileName);
+      fileUploadInput.sendKeys(Config.get("features.path") + fileName);
       importParameterButton.click();
       waitForElement(importResult);
       imporCancelButton.click();
