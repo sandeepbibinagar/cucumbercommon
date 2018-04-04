@@ -4,84 +4,63 @@ Feature: Pre Bureau Call Decision through the REST api
   I want to send a POST request with  information for one applicant and receive a valid response with pre-bureau decision for the application.
 
   Background:
-
-    Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameter_exported_data_v0.7.xml
-    And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
-    And I deploy tactical parameter OtherCalls_TP - TP - OtherCalls Search version LATEST
-    And I deploy tactical parameter TPID - TP - Master Search version LATEST
-    And I deploy tactical parameter External Call Priority - TP - External Call Priority version LATEST
-    And I deploy tactical parameter DA Post CrossCore TP - TP - DA Post CrossCore version LATEST
-    And I deploy tactical parameter DA Pre Bureau TP - TP - DA Pre Bureau version LATEST
-    And I deploy tactical parameter DA Post Bureau TP - TP - DA Post Bureau version LATEST
-    And I deploy tactical parameter FraudandIDProducts_TP - TP - FraudandIDProducts version LATEST
-    And I update parameter Product_TP - TP - Product_TP Search description: Test ,effective from: 01/01/2018
-      | Product ID | Min Age | Max Age | Min Credit Limit | Max Credit Limit | Product Name                   | Primary Purpose | Unique Product ID | Repayment Method | Payment Frequency | Accessed by Credit Card | Minimum Term | Maximum Term | Minimum Amount | Maximum Amount | Rate ID    | Calculation ID  | Secured | Collateral Purchased with Proceeds | Decision Rules Parameter ID | Bureaus and Scores Parameter Set | Product in Production |
-      | UPL0234234 | 18      | 60      | 100              | 1000             | Personal Loan                  | Consumer        | UPL0234234        | Amortized        | Monthly           | No                      | 12           | 36           | 100            | 100000         | AUT8128992 | AUTOLOAN9023923 | Yes     | Yes                                | USEDAUTO098080              | AUTOParamv4                      | Yes                   |
-      | UCC02VISA1 | 18      | 60      | 100              | 1000             | Credit Card - Visa             | Consumer        | UCC0234233        | Amortized        | Monthly           | No                      | 11           | 35           | 100            | 100000         | AUT8128991 | AUTOLOAN9023922 | Yes     | Yes                                | USEDAUTO098080              | AUTOParamv4                      | Yes                   |
-      | UCCMASTER3 | 18      | 60      | 100              | 1000             | Credit Card - Master Card      | Consumer        | UCC0234232        | Amortized        | Monthly           | No                      | 15           | 40           | 100            | 100000         | AUT8128990 | AUTOLOAN9023921 | Yes     | Yes                                | USEDAUTO098080              | AUTOParamv4                      | Yes                   |
-      | SPL0234234 | 18      | 60      | 100              | 1000             | Personal Loan                  | Consumer        | SPL0234231        | Amortized        | Monthly           | No                      | 9            | 33           | 100            | 100000         | AUT8128999 | AUTOLOAN9023920 | Yes     | Yes                                | USEDAUTO098080              | AUTOParamv4                      | Yes                   |
-      | SCC02VISA1 | 18      | 60      | 100              | 1000             | Credit Card - Visa Gold        | Consumer        | SCC0234230        | Amortized        | Monthly           | No                      | 8            | 32           | 100            | 100000         | AUT8128998 | AUTOLOAN9023929 | Yes     | Yes                                | USEDAUTO098080              | AUTOParamv4                      | Yes                   |
-      | SCCMASTER4 | 18      | 60      | 100              | 1000             | Credit Card - Master Card Gold | Consumer        | SCC0234229        | Amortized        | Monthly           | No                      | 7            | 31           | 100            | 100000         | AUT8128997 | AUTOLOAN9023928 | Yes     | Yes                                | USEDAUTO098080              | AUTOParamv4                      | Yes                   |
-    And I deploy tactical parameter Product_TP - TP - Product_TP Search version LATEST
-
+  Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameter_exported_data_PREBUR.xml
+  And I deploy tactical parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning version LATEST
+  And I deploy tactical parameter Lending Area_TP - TP - Lending Area version LATEST
+  And I deploy tactical parameter Unsecured Credit Card Product Definition_TP - TP - Unsecured Credit Card Product Definition version LATEST
 
   Scenario: ACF-US Pre-Bureau DA call - APPROVE
   # Test-ID: 5015358
   # Type: Functional
   # Use-Case: ACF
   # Priority: P3 - Medium
-    And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
-      | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
-      | N                 | Y                 | N                 | N                      | N                         |
-
-    And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
         {
-          "DV-Application.Channel" : "BRA",
-          "DV-Application.InternalContactName" : "Mount Pilot Bank",
-          "DV-Application.ApplicationSource" : "Frederick,JoAnne",
-          "DV-Applicant.APP[1].NAME[1].FirstName " : "Edwin",
-          "DV-Applicant.APP[1].NAME[1].MiddleName " : "B",
-          "DV-Applicant.APP[1].NAME[1].LastName " : "Cliff",
-          "DV-Applicant.APP[1].NAME[1].Suffix " : "MR",
-          "DV-Applicant.APP[1].DateofBirth " : "19651003",
-          "DV-Applicant.APP[1].SSN " : "666453252",
-          "DV-Product.PRODUCT[1].ProductNamePrefix" : "Unsecured",
-          "DV-Product.PRODUCT[1].ProductName" : "Credit Card",
-          "DV-Product.PRODUCT[1].ProductID" : "UCC02VISA1",
-          "DV-Applicant.APP[1].CreditRole" : "Borrower",
-          "DV-Applicant.APP[1].IndividualJoint" : "I",
-          "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
-          "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
-          "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
-          "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
-          "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
-          "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
-          "DV-Applicant.APP[1].ADDRESS[1].City " : "Centennial",
-          "DV-Applicant.APP[1].ADDRESS[1].State " : "AL",
-          "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "80016",
-          "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
-          "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
-          "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "987987456",
-          "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
-          "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
-          "DV-Applicant.APP[1].EmailAddress" : "acb@asd",
-          "DV-Applicant.APP[1].GrossMthlyIncome" : 5890,
-          "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
-          "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
-          "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
-          "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
-          "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
-          "DV-Product.PRODUCT[1].AmountRequested " : 10000,
-          "DV-Product.PRODUCT[1].TermRequested " : 15
+            "DV-Application.Channel" : "HVC",
+            "DV-Application.ApplicationSource" : "Terry's HVAC",
+            "DV-Application.InternalContactName" : "Lottle, Nancy",
+            "DV-Applicant.APP[1].NAME[1].FirstName " : "KENNETH",
+            "DV-Applicant.APP[1].NAME[1].MiddleName " : "B",
+            "DV-Applicant.APP[1].NAME[1].LastName " : "CARISON",
+            "DV-Applicant.APP[1].NAME[1].Suffix " : "MRS",
+            "DV-Applicant.APP[1].DateofBirth " : "19610627",
+            "DV-Applicant.APP[1].SSN " : "666559236",
+            "DV-Product.PRODUCT[1].ProductType" : "UCC",
+            "DV-Product.PRODUCT[1].ProductID" : "UNSECCC",
+            "DV-Applicant.APP[1].CreditRole" : "Borrower",
+            "DV-Applicant.APP[1].IndividualJoint" : "I",
+            "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
+            "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
+            "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
+            "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
+            "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
+            "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
+            "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
+            "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
+            "DV-Applicant.APP[1].ADDRESS[1].City " : "VIDOR",
+            "DV-Applicant.APP[1].ADDRESS[1].State " : "AL",
+            "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "776623108",
+            "DV-Applicant.APP[1].ADDRESS[1].ResidentialStatus " : "Own",
+            "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
+            "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
+            "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "4097691742",
+            "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
+            "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
+            "DV-Applicant.APP[1].EmailAddress" : "acb@asd",
+            "DV-Applicant.APP[1].GrossMthlyIncome" : 5890,
+            "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
+            "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
+            "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
+            "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
+            "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
+            "DV-Product.PRODUCT[1].AmountRequested " : 10000,
+            "DV-Product.PRODUCT[1].TermRequested " : 12
         }
       """
     And I add the following headers to the REST request:
@@ -91,80 +70,6 @@ Feature: Pre Bureau Call Decision through the REST api
     When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | APPROVE    |
-      | $.data.['DV-Results.Result Calls.C1 Scorecard 1-Scorecard Minimum Results.Score']                   | 950.000000 |
-
-
-  Scenario: ACF-US Pre-Bureau DA call - INCOMPLETE
-    # Test-ID: 5015359
-    # Type: Functional
-    # Use-Case: ACF
-    # Priority: P3 - Medium
-    And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
-      | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
-      | N                 | Y                 | N                 | N                      | N                         |
-
-    And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
-    And I update parameter DA Pre Bureau TP - TP - DA Pre Bureau description: Test ,effective from: 01/01/2018
-      | DA Pre Bureau ID | MinimumAcceptScore |
-      | 1                | 700                |
-    And I deploy tactical parameter DA Pre Bureau TP - TP - DA Pre Bureau version LATEST
-
-    And I set the base webservice url to ${bps.webservices.url}
-    And I prepare REST request body:
-    """
-      {
-        "DV-Application.Channel" : "BRA",
-        "DV-Application.InternalContactName" : "Mount Pilot Bank",
-        "DV-Application.ApplicationSource" : "Frederick,JoAnne",
-        "DV-Applicant.APP[1].NAME[1].FirstName " : "Edwin",
-        "DV-Applicant.APP[1].NAME[1].MiddleName " : "B",
-        "DV-Applicant.APP[1].NAME[1].LastName " : "Cliff",
-        "DV-Applicant.APP[1].NAME[1].Suffix " : "MR",
-        "DV-Applicant.APP[1].DateofBirth " : "19851003",
-        "DV-Applicant.APP[1].SSN " : "666453252",
-        "DV-Product.PRODUCT[1].ProductNamePrefix" : "Unsecured",
-        "DV-Product.PRODUCT[1].ProductName" : "Credit Card",
-        "DV-Product.PRODUCT[1].ProductID" : "UCC02VISA1",
-        "DV-Applicant.APP[1].CreditRole" : "Borrower",
-        "DV-Applicant.APP[1].IndividualJoint" : "I",
-        "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
-        "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
-        "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
-        "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
-        "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
-        "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
-        "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
-        "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
-        "DV-Applicant.APP[1].ADDRESS[1].City " : "Centennial",
-        "DV-Applicant.APP[1].ADDRESS[1].State " : "AL",
-        "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "80016",
-        "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
-        "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
-        "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "987987456",
-        "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
-        "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
-        "DV-Applicant.APP[1].EmailAddress" : "acb@asd",
-        "DV-Applicant.APP[1].GrossMthlyIncome" : 0,
-        "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
-        "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
-        "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
-        "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
-        "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
-        "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
-        "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
-        "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
-        "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
-        "DV-Product.PRODUCT[1].AmountRequested " : 10000,
-        "DV-Product.PRODUCT[1].TermRequested " : 15
-      }
-          """
-    And I add the following headers to the REST request:
-      | Content-Type | application/json |
-      | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
-    Then I verify that the JSON response has fields:
-      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | INCOMPLETE |
 
 
   Scenario: ACF-US Pre-Bureau DA call - DECLINE - Applicant's age lower than the minimum.
@@ -172,59 +77,54 @@ Feature: Pre Bureau Call Decision through the REST api
     # Type: Functional
     # Use-Case: ACF
     # Priority: P3 - Medium
-    And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
-      | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
-      | N                 | Y                 | N                 | N                      | N                         |
-
-    And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
-        {
-          "DV-Application.Channel" : "BRA",
-          "DV-Application.InternalContactName" : "Mount Pilot Bank",
-          "DV-Application.ApplicationSource" : "Frederick,JoAnne",
-          "DV-Applicant.APP[1].NAME[1].FirstName " : "Edwin",
-          "DV-Applicant.APP[1].NAME[1].MiddleName " : "B",
-          "DV-Applicant.APP[1].NAME[1].LastName " : "Cliff",
-          "DV-Applicant.APP[1].NAME[1].Suffix " : "MR",
-          "DV-Applicant.APP[1].DateofBirth " : "20021003",
-          "DV-Applicant.APP[1].SSN " : "666453252",
-          "DV-Product.PRODUCT[1].ProductNamePrefix" : "Unsecured",
-          "DV-Product.PRODUCT[1].ProductName" : "Credit Card",
-          "DV-Product.PRODUCT[1].ProductID" : "UCC02VISA1",
-          "DV-Applicant.APP[1].CreditRole" : "Borrower",
-          "DV-Applicant.APP[1].IndividualJoint" : "I",
-          "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
-          "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
-          "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
-          "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
-          "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
-          "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
-          "DV-Applicant.APP[1].ADDRESS[1].City " : "Centennial",
-          "DV-Applicant.APP[1].ADDRESS[1].State " : "AL",
-          "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "80016",
-          "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
-          "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
-          "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "987987456",
-          "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
-          "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
-          "DV-Applicant.APP[1].EmailAddress" : "acb@asd",
-          "DV-Applicant.APP[1].GrossMthlyIncome" : 5890,
-          "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
-          "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
-          "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
-          "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
-          "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
-          "DV-Product.PRODUCT[1].AmountRequested " : 10000,
-          "DV-Product.PRODUCT[1].TermRequested " : 15
-        }
+         {
+            "DV-Application.Channel" : "Web",
+            "DV-Application.ApplicationSource" : "Home Banking",
+            "DV-Application.InternalContactName" : "Porter,Nancy",
+            "DV-Applicant.APP[1].NAME[1].FirstName " : "EMILIONO",
+            "DV-Applicant.APP[1].NAME[1].MiddleName " : "B",
+            "DV-Applicant.APP[1].NAME[1].LastName " : "BROWN",
+            "DV-Applicant.APP[1].NAME[1].Suffix " : "MR",
+            "DV-Applicant.APP[1].DateofBirth " : "19991003",
+            "DV-Applicant.APP[1].SSN " : "666535944",
+            "DV-Product.PRODUCT[1].ProductType" : "UCC",
+            "DV-Product.PRODUCT[1].ProductID" : "UNSECCC",
+            "DV-Applicant.APP[1].CreditRole" : "Borrower",
+            "DV-Applicant.APP[1].IndividualJoint" : "I",
+            "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
+            "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
+            "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
+            "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
+            "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
+            "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
+            "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
+            "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
+            "DV-Applicant.APP[1].ADDRESS[1].City " : "PORTLAND",
+            "DV-Applicant.APP[1].ADDRESS[1].State " : "OR",
+            "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "972093482",
+            "DV-Applicant.APP[1].ADDRESS[1].ResidentialStatus " : "Own",
+            "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
+            "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
+            "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "5032219597",
+            "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
+            "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
+            "DV-Applicant.APP[1].EmailAddress" : "eb@asd",
+            "DV-Applicant.APP[1].GrossMthlyIncome" : 5890,
+            "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
+            "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
+            "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
+            "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
+            "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
+            "DV-Product.PRODUCT[1].AmountRequested " : 10000,
+            "DV-Product.PRODUCT[1].TermRequested " : 12
+          }
       """
     And I add the following headers to the REST request:
       | Content-Type | application/json |
@@ -234,64 +134,110 @@ Feature: Pre Bureau Call Decision through the REST api
     Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
 
-  Scenario: ACF-US Pre-Bureau DA call - DECLINE - Pre-bureau score lower than the minimum
-    # Test-ID: 5015361
+  Scenario: ACF-US Pre-Bureau DA call - DECLINE - All Applicants are outside lending territory
+    # Test-ID: 5015359
     # Type: Functional
     # Use-Case: ACF
     # Priority: P3 - Medium
-    And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
-      | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
-      | N                 | Y                 | N                 | N                      | N                         |
-
-    And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
+    And I update parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning description: Test ,effective from: 01/01/2018
+      | Lending Area Ind | Lending Area Rule Flag | Applicant Age | Minimum Gross Mthly Income | Product Policy Decision Ind | Product Score Decision Ind | Min Applicant Age Rule Type | Minimum Gross Mthly Income Rule Type |
+      | 1                | Y                      | 21            | 3000                       | 1                           | 1                          | D                           | D                                    |
+    And I update parameter Lending Area_TP - TP - Lending Area description: Test ,effective from: 01/01/2018
+      | Lending Area ID | All States | State 1 | State 2 | State 3 | State 4 | State 5 | State 6 | State 7 | State 8 | State 9 | State 10 | State 11 | State 12 | State 13 | State 14 | State 15 | State 16 | State 17 | State 18 | State 19 | State 20 | State 21 | State 22 | State 23 | State 24 | State 25 | State 26 | State 27 | State 28 | State 29 | State 30 | State 31 | State 32 | State 33 | State 34 | State 35 | State 36 | State 37 | State 38 | State 39 | State 40 | State 41 | State 42 | State 43 | State 44 | State 45 | State 46 | State 47 | State 48 | State 49 | State 50 |
+      | LAID1           | N          | AL      | AK      |       |       |       |       |       |       |       |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |       |       |        |
+    And I deploy tactical parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning version LATEST
+    And I deploy tactical parameter Lending Area_TP - TP - Lending Area version LATEST
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
-        {
-          "DV-Application.Channel" : "BRA",
-          "DV-Application.InternalContactName" : "Mount Pilot Bank",
-          "DV-Application.ApplicationSource" : "Frederick,JoAnne",
-          "DV-Applicant.APP[1].NAME[1].FirstName " : "Edwin",
-          "DV-Applicant.APP[1].NAME[1].MiddleName " : "B",
-          "DV-Applicant.APP[1].NAME[1].LastName " : "Cliff",
-          "DV-Applicant.APP[1].NAME[1].Suffix " : "MR",
-          "DV-Applicant.APP[1].DateofBirth " : "19951003",
-          "DV-Applicant.APP[1].SSN " : "666453252",
-          "DV-Product.PRODUCT[1].ProductNamePrefix" : "Unsecured",
-          "DV-Product.PRODUCT[1].ProductName" : "Credit Card",
-          "DV-Product.PRODUCT[1].ProductID" : "UCC02VISA1",
-          "DV-Applicant.APP[1].CreditRole" : "Borrower",
-          "DV-Applicant.APP[1].IndividualJoint" : "I",
-          "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
-          "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
-          "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
-          "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
-          "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
-          "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
-          "DV-Applicant.APP[1].ADDRESS[1].City " : "Centennial",
-          "DV-Applicant.APP[1].ADDRESS[1].State " : "AL",
-          "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "80016",
-          "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
-          "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
-          "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "987987456",
-          "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
-          "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
-          "DV-Applicant.APP[1].EmailAddress" : "acb@asd",
-          "DV-Applicant.APP[1].GrossMthlyIncome" : 70,
-          "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
-          "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
-          "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
-          "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
-          "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
-          "DV-Product.PRODUCT[1].AmountRequested " : 10000,
-          "DV-Product.PRODUCT[1].TermRequested " : 15
-        }
+         {
+            "DV-Application.Channel" : "Str",
+            "DV-Application.ApplicationSource" : "Post Modern Furniture Nbr1",
+            "DV-Application.InternalContactName" : "Jones,Kerry",
+            "DV-Applicant.APP[1].NAME[1].FirstName " : "NANCY",
+            "DV-Applicant.APP[1].NAME[1].MiddleName " : "L",
+            "DV-Applicant.APP[1].NAME[1].LastName " : "BIRKHEAD",
+            "DV-Applicant.APP[1].NAME[1].Suffix " : "MRS",
+            "DV-Applicant.APP[1].DateofBirth " : "19381014",
+            "DV-Applicant.APP[1].SSN " : "666701451",
+            "DV-Product.PRODUCT[1].ProductType" : "UCC",
+            "DV-Product.PRODUCT[1].ProductID" : "UNSECCC",
+            "DV-Applicant.APP[1].CreditRole" : "Borrower",
+            "DV-Applicant.APP[1].IndividualJoint" : "I",
+            "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
+            "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
+            "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
+            "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
+            "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
+            "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
+            "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
+            "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
+            "DV-Applicant.APP[1].ADDRESS[1].City " : "BLOOMSBURG",
+            "DV-Applicant.APP[1].ADDRESS[1].State " : "FL",
+            "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "178151847",
+            "DV-Applicant.APP[1].ADDRESS[1].ResidentialStatus " : "Own",
+            "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
+            "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
+            "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "5704414264",
+            "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
+            "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
+            "DV-Applicant.APP[1].EmailAddress" : "nb@asd",
+            "DV-Applicant.APP[1].GrossMthlyIncome" : 5890,
+            "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
+            "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
+            "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
+            "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
+            "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
+            "DV-Product.PRODUCT[1].AmountRequested " : 10000,
+            "DV-Product.PRODUCT[1].TermRequested " : 12,
+            "DV-Application.Channel" : "Str",
+            "DV-Application.ApplicationSource" : "Post Modern Furniture Nbr1",
+            "DV-Application.InternalContactName" : "Jones,Kerry",
+            "DV-Applicant.APP[2].NAME[1].FirstName " : "NANCY",
+            "DV-Applicant.APP[2].NAME[1].MiddleName " : "L",
+            "DV-Applicant.APP[2].NAME[1].LastName " : "BIRKHEAD",
+            "DV-Applicant.APP[2].NAME[1].Suffix " : "MRS",
+            "DV-Applicant.APP[2].DateofBirth " : "19381014",
+            "DV-Applicant.APP[2].SSN " : "666701451",
+            "DV-Product.PRODUCT[1].ProductType" : "UCC",
+            "DV-Product.PRODUCT[1].ProductID" : "UNSECCC",
+            "DV-Applicant.APP[2].CreditRole" : "Borrower",
+            "DV-Applicant.APP[2].IndividualJoint" : "I",
+            "DV-Applicant.APP[2].IDENT[1].IDType" : "DL",
+            "DV-Applicant.APP[2].IDENT[1].IDNumber" : "12345678",
+            "DV-Applicant.APP[2].IDENT[1].IDCountry" : "US",
+            "DV-Applicant.APP[2].IDENT[1].IDState" : "AL",
+            "DV-Applicant.APP[2].IDENT[1].IDIssueDate" : "20101010",
+            "DV-Applicant.APP[2].IDENT[1].IDExpiration": "20201010",
+            "DV-Applicant.APP[2].ADDRESS[1].AddressLine1 " : "6402 S.234",
+            "DV-Applicant.APP[2].ADDRESS[1].AddressLine2 " : "Apt. 2012",
+            "DV-Applicant.APP[2].ADDRESS[1].City " : "BLOOMSBURG",
+            "DV-Applicant.APP[2].ADDRESS[1].State " : "FL",
+            "DV-Applicant.APP[2].ADDRESS[1].ZipCode " : "178151847",
+            "DV-Applicant.APP[2].ADDRESS[1].ResidentialStatus " : "Own",
+            "DV-Applicant.APP[2].ADDRESS[1].MonthlyPayment" : 2000,
+            "DV-Applicant.APP[2].ADDRESS[1].YearsAtAddress " : 3,
+            "DV-Applicant.APP[2].PHONE[1].PhoneNumber" : "5704414264",
+            "DV-Applicant.APP[2].PHONE[1].PhoneType" : "C",
+            "DV-Applicant.APP[2].GrantPermissionToContactCell" : "Y",
+            "DV-Applicant.APP[2].EmailAddress" : "nb@asd",
+            "DV-Applicant.APP[2].GrossMthlyIncome" : 5890,
+            "DV-Applicant.APP[2].EMPL[1].ContactName" : "Jacks Fish Cleaning",
+            "DV-Applicant.APP[2].EMPL[1].EmployerAddressLine1" : "101 S. Main",
+            "DV-Applicant.APP[2].EMPL[1].EmployerAddressLine2" : "Suite 101",
+            "DV-Applicant.APP[2].EMPL[1].EmployerAddressCity" : "Aurora",
+            "DV-Applicant.APP[2].EMPL[1].EmployerAddressState" : "Al",
+            "DV-Applicant.APP[2].EMPL[1].YearsWithEmployer" : 3,
+            "DV-Applicant.APP[2].AlimonyChildSupport" : 1200,
+            "DV-Applicant.APP[2].OtherMthlyIncome" : 500,
+            "DV-Applicant.APP[2].OtherIncomeSource" : "Stock dividend and interest",
+            "DV-Product.PRODUCT[1].AmountRequested " : 10000,
+            "DV-Product.PRODUCT[1].TermRequested " : 12
+          }
           """
     And I add the following headers to the REST request:
       | Content-Type | application/json |
@@ -300,133 +246,286 @@ Feature: Pre Bureau Call Decision through the REST api
     When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
-      | $.data.['DV-Results.Result Calls.C1 Scorecard 1-Scorecard Minimum Results.Score']                   | 600.000000 |
 
-  Scenario: ACF-US Pre-Bureau DA call - DECLINE - Applicant's age higher than the maximum.
-    # Test-ID: 5015362
-    # Type: Functional
-    # Use-Case: ACF
-    # Priority: P3 - Medium
-    And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
-      | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
-      | N                 | Y                 | N                 | N                      | N                         |
-
-    And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
+  Scenario: ACF-US Pre-Bureau DA call - DECLINE - At least 1 Applicant is outside lending territory
+ # Test-ID: 5015361
+ # Type: Functional
+ # Use-Case: ACF
+ # Priority: P3 - Medium
+    And I update parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning description: Test ,effective from: 01/01/2018
+      | Lending Area Ind | Lending Area Rule Flag | Applicant Age | Minimum Gross Mthly Income | Product Policy Decision Ind | Product Score Decision Ind | Min Applicant Age Rule Type | Minimum Gross Mthly Income Rule Type |
+      | 2                | Y                      | 21            | 3000                       | 1                           | 1                          | D                           | D                                    |
+    And I update parameter Lending Area_TP - TP - Lending Area description: Test ,effective from: 01/01/2018
+      | Lending Area ID | All States | State 1 | State 2 | State 3 | State 4 | State 5 | State 6 | State 7 | State 8 | State 9 | State 10 | State 11 | State 12 | State 13 | State 14 | State 15 | State 16 | State 17 | State 18 | State 19 | State 20 | State 21 | State 22 | State 23 | State 24 | State 25 | State 26 | State 27 | State 28 | State 29 | State 30 | State 31 | State 32 | State 33 | State 34 | State 35 | State 36 | State 37 | State 38 | State 39 | State 40 | State 41 | State 42 | State 43 | State 44 | State 45 | State 46 | State 47 | State 48 | State 49 | State 50 |
+      | LAID1           | N          | AL      | AK      |       |       |       |       |       |       |       |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |       |       |        |
+    And I deploy tactical parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning version LATEST
+    And I deploy tactical parameter Lending Area_TP - TP - Lending Area version LATEST
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
-        {
-          "DV-Application.Channel" : "BRA",
-          "DV-Application.InternalContactName" : "Mount Pilot Bank",
-          "DV-Application.ApplicationSource" : "Frederick,JoAnne",
-          "DV-Applicant.APP[1].NAME[1].FirstName " : "Edwin",
-          "DV-Applicant.APP[1].NAME[1].MiddleName " : "B",
-          "DV-Applicant.APP[1].NAME[1].LastName " : "Cliff",
-          "DV-Applicant.APP[1].NAME[1].Suffix " : "MR",
-          "DV-Applicant.APP[1].DateofBirth " : "19451003",
-          "DV-Applicant.APP[1].SSN " : "666453252",
-          "DV-Product.PRODUCT[1].ProductNamePrefix" : "Unsecured",
-          "DV-Product.PRODUCT[1].ProductName" : "Credit Card",
-          "DV-Product.PRODUCT[1].ProductID" : "UCC02VISA1",
-          "DV-Applicant.APP[1].CreditRole" : "Borrower",
-          "DV-Applicant.APP[1].IndividualJoint" : "I",
-          "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
-          "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
-          "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
-          "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
-          "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
-          "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
-          "DV-Applicant.APP[1].ADDRESS[1].City " : "Centennial",
-          "DV-Applicant.APP[1].ADDRESS[1].State " : "AL",
-          "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "80016",
-          "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
-          "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
-          "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "987987456",
-          "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
-          "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
-          "DV-Applicant.APP[1].EmailAddress" : "acb@asd",
-          "DV-Applicant.APP[1].GrossMthlyIncome" : 5890,
-          "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
-          "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
-          "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
-          "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
-          "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
-          "DV-Product.PRODUCT[1].AmountRequested " : 10000,
-          "DV-Product.PRODUCT[1].TermRequested " : 15
-        }
-                  """
+         {
+            "DV-Application.Channel" : "Str",
+            "DV-Application.ApplicationSource" : "Post Modern Furniture Nbr1",
+            "DV-Application.InternalContactName" : "Jones,Kerry",
+            "DV-Applicant.APP[1].NAME[1].FirstName " : "NANCY",
+            "DV-Applicant.APP[1].NAME[1].MiddleName " : "L",
+            "DV-Applicant.APP[1].NAME[1].LastName " : "BIRKHEAD",
+            "DV-Applicant.APP[1].NAME[1].Suffix " : "MRS",
+            "DV-Applicant.APP[1].DateofBirth " : "19381014",
+            "DV-Applicant.APP[1].SSN " : "666701451",
+            "DV-Product.PRODUCT[1].ProductType" : "UCC",
+            "DV-Product.PRODUCT[1].ProductID" : "UNSECCC",
+            "DV-Applicant.APP[1].CreditRole" : "Borrower",
+            "DV-Applicant.APP[1].IndividualJoint" : "I",
+            "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
+            "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
+            "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
+            "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
+            "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
+            "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
+            "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
+            "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
+            "DV-Applicant.APP[1].ADDRESS[1].City " : "BLOOMSBURG",
+            "DV-Applicant.APP[1].ADDRESS[1].State " : "FL",
+            "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "178151847",
+            "DV-Applicant.APP[1].ADDRESS[1].ResidentialStatus " : "Own",
+            "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
+            "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
+            "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "5704414264",
+            "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
+            "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
+            "DV-Applicant.APP[1].EmailAddress" : "nb@asd",
+            "DV-Applicant.APP[1].GrossMthlyIncome" : 5890,
+            "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
+            "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
+            "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
+            "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
+            "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
+            "DV-Product.PRODUCT[1].AmountRequested " : 10000,
+            "DV-Product.PRODUCT[1].TermRequested " : 12,
+            "DV-Application.Channel" : "Str",
+            "DV-Application.ApplicationSource" : "Post Modern Furniture Nbr1",
+            "DV-Application.InternalContactName" : "Jones,Kerry",
+            "DV-Applicant.APP[2].NAME[1].FirstName " : "NANCY",
+            "DV-Applicant.APP[2].NAME[1].MiddleName " : "L",
+            "DV-Applicant.APP[2].NAME[1].LastName " : "BIRKHEAD",
+            "DV-Applicant.APP[2].NAME[1].Suffix " : "MRS",
+            "DV-Applicant.APP[2].DateofBirth " : "19381014",
+            "DV-Applicant.APP[2].SSN " : "666701451",
+            "DV-Product.PRODUCT[1].ProductType" : "UCC",
+            "DV-Product.PRODUCT[1].ProductID" : "UNSECCC",
+            "DV-Applicant.APP[2].CreditRole" : "Borrower",
+            "DV-Applicant.APP[2].IndividualJoint" : "I",
+            "DV-Applicant.APP[2].IDENT[1].IDType" : "DL",
+            "DV-Applicant.APP[2].IDENT[1].IDNumber" : "12345678",
+            "DV-Applicant.APP[2].IDENT[1].IDCountry" : "US",
+            "DV-Applicant.APP[2].IDENT[1].IDState" : "TX",
+            "DV-Applicant.APP[2].IDENT[1].IDIssueDate" : "20101010",
+            "DV-Applicant.APP[2].IDENT[1].IDExpiration": "20201010",
+            "DV-Applicant.APP[2].ADDRESS[1].AddressLine1 " : "6402 S.234",
+            "DV-Applicant.APP[2].ADDRESS[1].AddressLine2 " : "Apt. 2012",
+            "DV-Applicant.APP[2].ADDRESS[1].City " : "BLOOMSBURG",
+            "DV-Applicant.APP[2].ADDRESS[1].State " : "TX",
+            "DV-Applicant.APP[2].ADDRESS[1].ZipCode " : "178151847",
+            "DV-Applicant.APP[2].ADDRESS[1].ResidentialStatus " : "Own",
+            "DV-Applicant.APP[2].ADDRESS[1].MonthlyPayment" : 2000,
+            "DV-Applicant.APP[2].ADDRESS[1].YearsAtAddress " : 3,
+            "DV-Applicant.APP[2].PHONE[1].PhoneNumber" : "5704414264",
+            "DV-Applicant.APP[2].PHONE[1].PhoneType" : "C",
+            "DV-Applicant.APP[2].GrantPermissionToContactCell" : "Y",
+            "DV-Applicant.APP[2].EmailAddress" : "nb@asd",
+            "DV-Applicant.APP[2].GrossMthlyIncome" : 5890,
+            "DV-Applicant.APP[2].EMPL[1].ContactName" : "Jacks Fish Cleaning",
+            "DV-Applicant.APP[2].EMPL[1].EmployerAddressLine1" : "101 S. Main",
+            "DV-Applicant.APP[2].EMPL[1].EmployerAddressLine2" : "Suite 101",
+            "DV-Applicant.APP[2].EMPL[1].EmployerAddressCity" : "Aurora",
+            "DV-Applicant.APP[2].EMPL[1].EmployerAddressState" : "Al",
+            "DV-Applicant.APP[2].EMPL[1].YearsWithEmployer" : 3,
+            "DV-Applicant.APP[2].AlimonyChildSupport" : 1200,
+            "DV-Applicant.APP[2].OtherMthlyIncome" : 500,
+            "DV-Applicant.APP[2].OtherIncomeSource" : "Stock dividend and interest",
+            "DV-Product.PRODUCT[1].AmountRequested " : 10000,
+            "DV-Product.PRODUCT[1].TermRequested " : 12
+          }
+          """
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
     And I prepare REST authentcation username admin and password Secret123!
     When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
-      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
+      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
 
-  Scenario: ACF-US Pre-Bureau DA call - DECLINE - Requested term lower than the minimum.
+     Scenario: ACF-US Pre-Bureau DA call - DECLINE - Primary Applicant is outside lending territory
+ # Test-ID: 5015362
+ # Type: Functional
+ # Use-Case: ACF
+ # Priority: P3 - Medium
+    And I update parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning description: Test ,effective from: 01/01/2018
+      | Lending Area Ind | Lending Area Rule Flag | Applicant Age | Minimum Gross Mthly Income | Product Policy Decision Ind | Product Score Decision Ind | Min Applicant Age Rule Type | Minimum Gross Mthly Income Rule Type |
+      | 3                | Y                      | 21            | 3000                       | 1                           | 1                          | D                           | D                                    |
+    And I update parameter Lending Area_TP - TP - Lending Area description: Test ,effective from: 01/01/2018
+      | Lending Area ID | All States | State 1 | State 2 | State 3 | State 4 | State 5 | State 6 | State 7 | State 8 | State 9 | State 10 | State 11 | State 12 | State 13 | State 14 | State 15 | State 16 | State 17 | State 18 | State 19 | State 20 | State 21 | State 22 | State 23 | State 24 | State 25 | State 26 | State 27 | State 28 | State 29 | State 30 | State 31 | State 32 | State 33 | State 34 | State 35 | State 36 | State 37 | State 38 | State 39 | State 40 | State 41 | State 42 | State 43 | State 44 | State 45 | State 46 | State 47 | State 48 | State 49 | State 50 |
+      | LAID1           | N          | AL      | AK      |       |       |       |       |       |       |       |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |       |       |        |
+    And I deploy tactical parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning version LATEST
+    And I deploy tactical parameter Lending Area_TP - TP - Lending Area version LATEST
+    And I set the base webservice url to ${bps.webservices.url}
+    And I prepare REST request body:
+      """
+         {
+            "DV-Application.Channel" : "Str",
+            "DV-Application.ApplicationSource" : "Post Modern Furniture Nbr1",
+            "DV-Application.InternalContactName" : "Jones,Kerry",
+            "DV-Applicant.APP[1].NAME[1].FirstName " : "NANCY",
+            "DV-Applicant.APP[1].NAME[1].MiddleName " : "L",
+            "DV-Applicant.APP[1].NAME[1].LastName " : "BIRKHEAD",
+            "DV-Applicant.APP[1].NAME[1].Suffix " : "MRS",
+            "DV-Applicant.APP[1].DateofBirth " : "19381014",
+            "DV-Applicant.APP[1].SSN " : "666701451",
+            "DV-Product.PRODUCT[1].ProductType" : "UCC",
+            "DV-Product.PRODUCT[1].ProductID" : "UNSECCC",
+            "DV-Applicant.APP[1].CreditRole" : "Borrower",
+            "DV-Applicant.APP[1].IndividualJoint" : "I",
+            "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
+            "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
+            "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
+            "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
+            "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
+            "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
+            "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
+            "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
+            "DV-Applicant.APP[1].ADDRESS[1].City " : "BLOOMSBURG",
+            "DV-Applicant.APP[1].ADDRESS[1].State " : "TX",
+            "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "178151847",
+            "DV-Applicant.APP[1].ADDRESS[1].ResidentialStatus " : "Own",
+            "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
+            "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
+            "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "5704414264",
+            "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
+            "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
+            "DV-Applicant.APP[1].EmailAddress" : "nb@asd",
+            "DV-Applicant.APP[1].GrossMthlyIncome" : 5890,
+            "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
+            "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
+            "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
+            "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
+            "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
+            "DV-Product.PRODUCT[1].AmountRequested " : 10000,
+            "DV-Product.PRODUCT[1].TermRequested " : 12,
+            "DV-Application.Channel" : "Str",
+            "DV-Application.ApplicationSource" : "Post Modern Furniture Nbr1",
+            "DV-Application.InternalContactName" : "Jones,Kerry",
+            "DV-Applicant.APP[2].NAME[1].FirstName " : "NANCY",
+            "DV-Applicant.APP[2].NAME[1].MiddleName " : "L",
+            "DV-Applicant.APP[2].NAME[1].LastName " : "BIRKHEAD",
+            "DV-Applicant.APP[2].NAME[1].Suffix " : "MRS",
+            "DV-Applicant.APP[2].DateofBirth " : "19381014",
+            "DV-Applicant.APP[2].SSN " : "666701451",
+            "DV-Product.PRODUCT[1].ProductType" : "UCC",
+            "DV-Product.PRODUCT[1].ProductID" : "UNSECCC",
+            "DV-Applicant.APP[2].CreditRole" : "Borrower",
+            "DV-Applicant.APP[2].IndividualJoint" : "I",
+            "DV-Applicant.APP[2].IDENT[1].IDType" : "DL",
+            "DV-Applicant.APP[2].IDENT[1].IDNumber" : "12345678",
+            "DV-Applicant.APP[2].IDENT[1].IDCountry" : "US",
+            "DV-Applicant.APP[2].IDENT[1].IDState" : "AL",
+            "DV-Applicant.APP[2].IDENT[1].IDIssueDate" : "20101010",
+            "DV-Applicant.APP[2].IDENT[1].IDExpiration": "20201010",
+            "DV-Applicant.APP[2].ADDRESS[1].AddressLine1 " : "6402 S.234",
+            "DV-Applicant.APP[2].ADDRESS[1].AddressLine2 " : "Apt. 2012",
+            "DV-Applicant.APP[2].ADDRESS[1].City " : "BLOOMSBURG",
+            "DV-Applicant.APP[2].ADDRESS[1].State " : "AL",
+            "DV-Applicant.APP[2].ADDRESS[1].ZipCode " : "178151847",
+            "DV-Applicant.APP[2].ADDRESS[1].ResidentialStatus " : "Own",
+            "DV-Applicant.APP[2].ADDRESS[1].MonthlyPayment" : 2000,
+            "DV-Applicant.APP[2].ADDRESS[1].YearsAtAddress " : 3,
+            "DV-Applicant.APP[2].PHONE[1].PhoneNumber" : "5704414264",
+            "DV-Applicant.APP[2].PHONE[1].PhoneType" : "C",
+            "DV-Applicant.APP[2].GrantPermissionToContactCell" : "Y",
+            "DV-Applicant.APP[2].EmailAddress" : "nb@asd",
+            "DV-Applicant.APP[2].GrossMthlyIncome" : 5890,
+            "DV-Applicant.APP[2].EMPL[1].ContactName" : "Jacks Fish Cleaning",
+            "DV-Applicant.APP[2].EMPL[1].EmployerAddressLine1" : "101 S. Main",
+            "DV-Applicant.APP[2].EMPL[1].EmployerAddressLine2" : "Suite 101",
+            "DV-Applicant.APP[2].EMPL[1].EmployerAddressCity" : "Aurora",
+            "DV-Applicant.APP[2].EMPL[1].EmployerAddressState" : "Al",
+            "DV-Applicant.APP[2].EMPL[1].YearsWithEmployer" : 3,
+            "DV-Applicant.APP[2].AlimonyChildSupport" : 1200,
+            "DV-Applicant.APP[2].OtherMthlyIncome" : 500,
+            "DV-Applicant.APP[2].OtherIncomeSource" : "Stock dividend and interest",
+            "DV-Product.PRODUCT[1].AmountRequested " : 10000,
+            "DV-Product.PRODUCT[1].TermRequested " : 12
+          }
+          """
+    And I add the following headers to the REST request:
+      | Content-Type | application/json |
+      | Accept       | application/json |
+    And I prepare REST authentcation username admin and password Secret123!
+    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
+    Then I verify that the JSON response has fields:
+      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
+
+  Scenario: ACF-US Pre-Bureau DA call - DECLINE - Gross Monthly Income below Min cut-off
     # Test-ID: 5015363
     # Type: Functional
     # Use-Case: ACF
     # Priority: P3 - Medium
-    And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
-      | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
-      | N                 | Y                 | N                 | N                      | N                         |
-
-    And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
     And I set the base webservice url to ${bps.webservices.url}
     And I prepare REST request body:
       """
-        {
-          "DV-Application.Channel" : "BRA",
-          "DV-Application.InternalContactName" : "Mount Pilot Bank",
-          "DV-Application.ApplicationSource" : "Frederick,JoAnne",
-          "DV-Applicant.APP[1].NAME[1].FirstName " : "Edwin",
-          "DV-Applicant.APP[1].NAME[1].MiddleName " : "B",
-          "DV-Applicant.APP[1].NAME[1].LastName " : "Cliff",
-          "DV-Applicant.APP[1].NAME[1].Suffix " : "MR",
-          "DV-Applicant.APP[1].DateofBirth " : "19851003",
-          "DV-Applicant.APP[1].SSN " : "666453252",
-          "DV-Product.PRODUCT[1].ProductNamePrefix" : "Unsecured",
-          "DV-Product.PRODUCT[1].ProductName" : "Credit Card",
-          "DV-Product.PRODUCT[1].ProductID" : "UCC02VISA1",
-          "DV-Applicant.APP[1].CreditRole" : "Borrower",
-          "DV-Applicant.APP[1].IndividualJoint" : "I",
-          "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
-          "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
-          "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
-          "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
-          "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
-          "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
-          "DV-Applicant.APP[1].ADDRESS[1].City " : "Centennial",
-          "DV-Applicant.APP[1].ADDRESS[1].State " : "AL",
-          "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "80016",
-          "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
-          "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
-          "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "987987456",
-          "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
-          "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
-          "DV-Applicant.APP[1].EmailAddress" : "acb@asd",
-          "DV-Applicant.APP[1].GrossMthlyIncome" : 5890,
-          "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
-          "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
-          "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
-          "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
-          "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
-          "DV-Product.PRODUCT[1].AmountRequested " : 10000,
-          "DV-Product.PRODUCT[1].TermRequested " : 1
-        }
+         {
+            "DV-Application.Channel" : "BRA",
+            "DV-Application.ApplicationSource" : "Telluride",
+            "DV-Application.InternalContactName" : "Jones, Jane",
+            "DV-Applicant.APP[1].NAME[1].FirstName " : "PAUL",
+            "DV-Applicant.APP[1].NAME[1].MiddleName " : "MARIE",
+            "DV-Applicant.APP[1].NAME[1].LastName " : "BURNIA",
+            "DV-Applicant.APP[1].NAME[1].Suffix " : "MR",
+            "DV-Applicant.APP[1].DateofBirth " : "19610810",
+            "DV-Applicant.APP[1].SSN " : "666390426",
+            "DV-Product.PRODUCT[1].ProductType" : "UCC",
+            "DV-Product.PRODUCT[1].ProductID" : "UNSECCC",
+            "DV-Applicant.APP[1].CreditRole" : "Borrower",
+            "DV-Applicant.APP[1].IndividualJoint" : "I",
+            "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
+            "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
+            "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
+            "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
+            "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
+            "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
+            "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
+            "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
+            "DV-Applicant.APP[1].ADDRESS[1].City " : "CARSON",
+            "DV-Applicant.APP[1].ADDRESS[1].State " : "CA",
+            "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "907462742",
+            "DV-Applicant.APP[1].ADDRESS[1].ResidentialStatus " : "Own",
+            "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
+            "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
+            "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "3107649465",
+            "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
+            "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
+            "DV-Applicant.APP[1].EmailAddress" : "pb@asd",
+            "DV-Applicant.APP[1].GrossMthlyIncome" : 2500,
+            "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
+            "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
+            "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
+            "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
+            "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
+            "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
+            "DV-Product.PRODUCT[1].AmountRequested " : 10000,
+            "DV-Product.PRODUCT[1].TermRequested " : 12
+          }
                   """
     And I add the following headers to the REST request:
       | Content-Type | application/json |
@@ -436,203 +535,3 @@ Feature: Pre Bureau Call Decision through the REST api
     Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
 
-  Scenario:  ACF-US Pre-Bureau DA call - DECLINE - Requested term higher than the maximum.
-    # Test-ID: 5015364
-    # Type: Functional
-    # Use-Case: ACF
-    # Priority: P3 - Medium
-    And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
-      | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
-      | N                 | Y                 | N                 | N                      | N                         |
-
-    And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
-    And I set the base webservice url to ${bps.webservices.url}
-    And I prepare REST request body:
-      """
-        {
-          "DV-Application.Channel" : "BRA",
-          "DV-Application.InternalContactName" : "Mount Pilot Bank",
-          "DV-Application.ApplicationSource" : "Frederick,JoAnne",
-          "DV-Applicant.APP[1].NAME[1].FirstName " : "Edwin",
-          "DV-Applicant.APP[1].NAME[1].MiddleName " : "B",
-          "DV-Applicant.APP[1].NAME[1].LastName " : "Cliff",
-          "DV-Applicant.APP[1].NAME[1].Suffix " : "MR",
-          "DV-Applicant.APP[1].DateofBirth " : "19851003",
-          "DV-Applicant.APP[1].SSN " : "666453252",
-          "DV-Product.PRODUCT[1].ProductNamePrefix" : "Unsecured",
-          "DV-Product.PRODUCT[1].ProductName" : "Credit Card",
-          "DV-Product.PRODUCT[1].ProductID" : "UCC02VISA1",
-          "DV-Applicant.APP[1].CreditRole" : "Borrower",
-          "DV-Applicant.APP[1].IndividualJoint" : "I",
-          "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
-          "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
-          "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
-          "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
-          "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
-          "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
-          "DV-Applicant.APP[1].ADDRESS[1].City " : "Centennial",
-          "DV-Applicant.APP[1].ADDRESS[1].State " : "AL",
-          "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "80016",
-          "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
-          "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
-          "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "987987456",
-          "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
-          "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
-          "DV-Applicant.APP[1].EmailAddress" : "acb@asd",
-          "DV-Applicant.APP[1].GrossMthlyIncome" : 5890,
-          "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
-          "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
-          "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
-          "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
-          "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
-          "DV-Product.PRODUCT[1].AmountRequested " : 10000,
-          "DV-Product.PRODUCT[1].TermRequested " : 41
-        }
-                  """
-    And I add the following headers to the REST request:
-      | Content-Type | application/json |
-      | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
-    Then I verify that the JSON response has fields:
-      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
-
-  Scenario:  ACF-US Pre-Bureau DA call - DECLINE - Requested amount lower than the minimum.
-    # Test-ID: 5015365
-    # Type: Functional
-    # Use-Case: ACF
-    # Priority: P3 - Medium
-    And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
-      | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
-      | N                 | Y                 | N                 | N                      | N                         |
-
-    And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
-    And I set the base webservice url to ${bps.webservices.url}
-    And I prepare REST request body:
-      """
-        {
-          "DV-Application.Channel" : "BRA",
-          "DV-Application.InternalContactName" : "Mount Pilot Bank",
-          "DV-Application.ApplicationSource" : "Frederick,JoAnne",
-          "DV-Applicant.APP[1].NAME[1].FirstName " : "Edwin",
-          "DV-Applicant.APP[1].NAME[1].MiddleName " : "B",
-          "DV-Applicant.APP[1].NAME[1].LastName " : "Cliff",
-          "DV-Applicant.APP[1].NAME[1].Suffix " : "MR",
-          "DV-Applicant.APP[1].DateofBirth " : "19851003",
-          "DV-Applicant.APP[1].SSN " : "666453252",
-          "DV-Product.PRODUCT[1].ProductNamePrefix" : "Unsecured",
-          "DV-Product.PRODUCT[1].ProductName" : "Credit Card",
-          "DV-Product.PRODUCT[1].ProductID" : "UCC02VISA1",
-          "DV-Applicant.APP[1].CreditRole" : "Borrower",
-          "DV-Applicant.APP[1].IndividualJoint" : "I",
-          "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
-          "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
-          "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
-          "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
-          "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
-          "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
-          "DV-Applicant.APP[1].ADDRESS[1].City " : "Centennial",
-          "DV-Applicant.APP[1].ADDRESS[1].State " : "AL",
-          "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "80016",
-          "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
-          "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
-          "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "987987456",
-          "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
-          "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
-          "DV-Applicant.APP[1].EmailAddress" : "acb@asd",
-          "DV-Applicant.APP[1].GrossMthlyIncome" : 5890,
-          "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
-          "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
-          "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
-          "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
-          "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
-          "DV-Product.PRODUCT[1].AmountRequested " : 99,
-          "DV-Product.PRODUCT[1].TermRequested " : 3
-        }
-                  """
-    And I add the following headers to the REST request:
-      | Content-Type | application/json |
-      | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
-    Then I verify that the JSON response has fields:
-      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
-
-  Scenario: ACF-US Pre-Bureau DA call - DECLINE - Requested amount higher than the maximum.
-    # Test-ID: 5015366
-    # Type: Functional
-    # Use-Case: ACF
-    # Priority: P3 - Medium
-    And I update parameter BureauEnabler_TP - TP - BureauEnabler description: Test ,effective from: 01/01/2018
-      | Bureau En Out EXP | Bureau En Out EQX | Bureau En Out TUC | Experian FACTA Enabled | Experian Red Flag Enabled |
-      | N                 | Y                 | N                 | N                      | N                         |
-
-    And I deploy tactical parameter BureauEnabler_TP - TP - BureauEnabler version LATEST
-    And I set the base webservice url to ${bps.webservices.url}
-    And I prepare REST request body:
-      """
-        {
-          "DV-Application.Channel" : "BRA",
-          "DV-Application.InternalContactName" : "Mount Pilot Bank",
-          "DV-Application.ApplicationSource" : "Frederick,JoAnne",
-          "DV-Applicant.APP[1].NAME[1].FirstName " : "Edwin",
-          "DV-Applicant.APP[1].NAME[1].MiddleName " : "B",
-          "DV-Applicant.APP[1].NAME[1].LastName " : "Cliff",
-          "DV-Applicant.APP[1].NAME[1].Suffix " : "MR",
-          "DV-Applicant.APP[1].DateofBirth " : "19851003",
-          "DV-Applicant.APP[1].SSN " : "666453252",
-          "DV-Product.PRODUCT[1].ProductNamePrefix" : "Unsecured",
-          "DV-Product.PRODUCT[1].ProductName" : "Credit Card",
-          "DV-Product.PRODUCT[1].ProductID" : "UCC02VISA1",
-          "DV-Applicant.APP[1].CreditRole" : "Borrower",
-          "DV-Applicant.APP[1].IndividualJoint" : "I",
-          "DV-Applicant.APP[1].IDENT[1].IDType" : "DL",
-          "DV-Applicant.APP[1].IDENT[1].IDNumber" : "12345678",
-          "DV-Applicant.APP[1].IDENT[1].IDCountry" : "US",
-          "DV-Applicant.APP[1].IDENT[1].IDState" : "AL",
-          "DV-Applicant.APP[1].IDENT[1].IDIssueDate" : "20101010",
-          "DV-Applicant.APP[1].IDENT[1].IDExpiration": "20201010",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine1 " : "6402 S.234",
-          "DV-Applicant.APP[1].ADDRESS[1].AddressLine2 " : "Apt. 2012",
-          "DV-Applicant.APP[1].ADDRESS[1].City " : "Centennial",
-          "DV-Applicant.APP[1].ADDRESS[1].State " : "AL",
-          "DV-Applicant.APP[1].ADDRESS[1].ZipCode " : "80016",
-          "DV-Applicant.APP[1].ADDRESS[1].MonthlyPayment" : 2000,
-          "DV-Applicant.APP[1].ADDRESS[1].YearsAtAddress " : 3,
-          "DV-Applicant.APP[1].PHONE[1].PhoneNumber" : "987987456",
-          "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
-          "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
-          "DV-Applicant.APP[1].EmailAddress" : "acb@asd",
-          "DV-Applicant.APP[1].GrossMthlyIncome" : 5890,
-          "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
-          "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
-          "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
-          "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
-          "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
-          "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
-          "DV-Product.PRODUCT[1].AmountRequested " : 100001,
-          "DV-Product.PRODUCT[1].TermRequested " : 3
-        }
-                  """
-    And I add the following headers to the REST request:
-      | Content-Type | application/json |
-      | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
-    Then I verify that the JSON response has fields:
-      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
