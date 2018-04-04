@@ -4,10 +4,10 @@ Feature: Pre Bureau Call Decision through the REST api
   I want to send a POST request with  information for one applicant and receive a valid response with pre-bureau decision for the application.
 
   Background:
-  Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameter_exported_data_PREBUR.xml
-  And I deploy tactical parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning version LATEST
-  And I deploy tactical parameter Lending Area_TP - TP - Lending Area version LATEST
-  And I deploy tactical parameter Unsecured Credit Card Product Definition_TP - TP - Unsecured Credit Card Product Definition version LATEST
+    Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameter_exported_data_PREBUR.xml
+    And I deploy tactical parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning version LATEST
+    And I deploy tactical parameter Lending Area_TP - TP - Lending Area version LATEST
+    And I deploy tactical parameter Unsecured Credit Card Product Definition_TP - TP - Unsecured Credit Card Product Definition version LATEST
 
   Scenario: ACF-US Pre-Bureau DA call - APPROVE
   # Test-ID: 5015358
