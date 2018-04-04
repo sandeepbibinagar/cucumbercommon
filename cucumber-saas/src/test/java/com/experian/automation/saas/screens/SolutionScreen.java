@@ -32,6 +32,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 
@@ -45,6 +46,21 @@ public class SolutionScreen extends Screen {
       throws IOException, ConfigurationException {
     super(webHarness);
     this.pageObjectModel = pageObjectModel;
+  }
+
+  /**
+   * Constructor of SolutionScreen with wait for page title. Used for screens in WRA file.
+   *
+   * @param webHarness WebHarness from actual web elements
+   * @param pageObjectModel PageObjectModel generated from WRA file
+   * @param page The title of the page where the required web element resides
+   */
+  public SolutionScreen(WebHarness webHarness, String pageObjectModel, String page)
+          throws IOException, ConfigurationException {
+    super(webHarness);
+    this.pageObjectModel = pageObjectModel;
+    // Note: checking on h2 as the page title in WRA is converted to h2 by saas portal ui
+    waitForElementPresence(By.xpath("//main[@class='main-content']//h2[contains(text(),'" + page + "')]"));
   }
 
 
@@ -352,8 +368,6 @@ public class SolutionScreen extends Screen {
    * @param page The title of the page where the element resides
    */
   public void setDropdownValueByLabel(String label, String value, String page) throws IOException {
-
-    assertTrue(getWindowTitle().equals(page), "Page loaded: " + page);
 
     String elementType = getPageObjectTypeByLabel(label, page);
     List<WebElement> pageObjects = getPageObjects(page, elementType, label);
