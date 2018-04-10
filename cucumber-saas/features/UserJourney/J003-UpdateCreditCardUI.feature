@@ -51,7 +51,8 @@ Feature: User Journey - Update Credit Card TP via UI
       | Address Line 1                      | 1148 SMITH ST      |
       | House Number                        | 12                 |
       | City                                | MAXWELL AFB        |
-      | State                               | AL                 |
+      | Country                             | US                 |
+      | State                               | Alabama            |
       | Zip                                 | 361131510          |
       | Number of years at same address?    | 11                 |
       | Residential Status                  | Owner              |
