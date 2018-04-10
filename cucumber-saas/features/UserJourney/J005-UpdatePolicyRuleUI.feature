@@ -1,7 +1,8 @@
 Feature: User Journey - Update Policy Rule TP via UI
 
   Background:
-#    # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
+    # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
+    # {% include 'classpath:../UserJourney/DynamicParametersFileUpload.background.feature' %}
 
   Scenario: Turn off Policy Rules TP via UI to get System Decision Empty
    # Test-ID: 4039613

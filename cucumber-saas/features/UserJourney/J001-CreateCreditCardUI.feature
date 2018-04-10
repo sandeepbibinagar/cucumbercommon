@@ -2,6 +2,7 @@ Feature: User Journey - Create Credit Card TP via UI
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
+    # {% include 'classpath:../UserJourney/DynamicParametersFileUpload.background.feature' %}
 
   Scenario: Create Credit Card TP via UI to get system decision Accept
    # Test-ID: 4039609

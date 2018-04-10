@@ -2,6 +2,7 @@ Feature: User Journey - Update Scorecard TP via UI
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
+    # {% include 'classpath:../UserJourney/DynamicParametersFileUpload.background.feature' %}
 
   Scenario: Update Initial Score of Scorecard Generic UL TP via UI to get system decision Accept
    # Test-ID: 4039616

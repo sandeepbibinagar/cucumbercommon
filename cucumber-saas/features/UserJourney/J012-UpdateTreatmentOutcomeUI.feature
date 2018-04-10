@@ -2,6 +2,7 @@ Feature: User Journey - Update Treatment Tree TP via UI
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
+    # {% include 'classpath:../UserJourney/DynamicParametersFileUpload.background.feature' %}
 
   Scenario: Update Treatment Tree Credit Limit Offer TP via UI to get system decision Accept
    # Test-ID: 4039620

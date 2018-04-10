@@ -2,6 +2,7 @@ Feature: User Journey - Update Credit Card TP via UI
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
+    # {% include 'classpath:../UserJourney/DynamicParametersFileUpload.background.feature' %}
 
   Scenario: Update Credit Card TP via UI to get system decision Accept
    # Test-ID: 4039611
