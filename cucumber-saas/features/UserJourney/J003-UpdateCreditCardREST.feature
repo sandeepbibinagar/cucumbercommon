@@ -13,7 +13,7 @@ Feature: User Journey - Update Credit Card TP via REST
     And I deploy tactical parameter Product_TP - TP - Product_TP Search version LATEST
 
     Then I set the base webservice url to ${bps.webservices.url}
-    And I prepare JWT token with user adm@example.com and password Password123 from service ${token.service.url}/v1/tokens/create
+    And I prepare JWT token with user stan.marsh@nabtest.example.com and password Password123 from service ${token.service.url}/v1/tokens/create
     And I prepare REST request body:
         """
         {
