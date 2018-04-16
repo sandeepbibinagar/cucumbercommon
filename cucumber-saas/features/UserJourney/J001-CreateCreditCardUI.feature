@@ -2,6 +2,7 @@ Feature: User Journey - Create Credit Card TP via UI
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
+    # {% include 'classpath:../UserJourney/DynamicParametersFileUpload.background.feature' %}
 
   Scenario: Create Credit Card TP via UI to get system decision Accept
    # Test-ID: 4039609
@@ -10,7 +11,7 @@ Feature: User Journey - Create Credit Card TP via UI
     Given Initial setup
     And I start the browser
     And I go to login page
-    And I login on Admin Portal with username adm@example.com and password Password123
+    And I login on Admin Portal with username stan.marsh@nabtest.example.com and password Password123
     And I go to WebEngine home page
     And I select menu System/User Administration on WebEngine home page
     And I select tab item Security Profiles/Administrator on Web Engine user administration panel
@@ -28,7 +29,7 @@ Feature: User Journey - Create Credit Card TP via UI
 #    Filling the new application form in the ACF Originations UI
     And I start the browser
     And I go to login page
-    And I login on Admin Portal with username adm@example.com and password Password123
+    And I login on Admin Portal with username stan.marsh@nabtest.example.com and password Password123
     And I select solution - Acquire Customers Faster
     And I select menu Capture Data on page Home Page
     And I enter values for fields on page P - New Application Screen
@@ -51,7 +52,8 @@ Feature: User Journey - Create Credit Card TP via UI
       | Address Line 1                      | 1148 SMITH ST      |
       | House Number                        | 12                 |
       | City                                | MAXWELL AFB        |
-      | State                               | AL                 |
+      | Country                             | US                 |
+      | State                               | Alabama            |
       | Zip                                 | 361131510          |
       | Number of years at same address?    | 11                 |
       | Residential Status                  | Owner              |

@@ -1,6 +1,6 @@
 # {# Skip this section when used as background
 @skip
-Feature: TP & DP Upload from file
+Feature: TP Upload from file
 
   Scenario: Tactical Parameters Upload and Deploy
     # End of section #}
@@ -14,18 +14,3 @@ Feature: TP & DP Upload from file
     And I deploy tactical parameter WorkflowTP - TP - Workflow Search version LATEST
     And I deploy tactical parameter ExpCons_TP - TP - ExpCons_TP Search version LATEST
     And I deploy tactical parameter EquCons_TP - TP - EquCons_TP Search version LATEST
-
-    #Import Dynamic Parameters
-#    And I start the browser
-#    And I go to login page
-#    And I login on Admin Portal with username adm@example.com and password Password123
-#    And I go to WebEngine home page
-#    And I select menu System/Dynamic Parameter Maintenance on WebEngine home page
-#    And I import dynamic parameters from files:
-#      | Country-State | /UserJourney/data/Country-State-DP.csv |
-#    And I stop the browsers
-
-
-
-
-
