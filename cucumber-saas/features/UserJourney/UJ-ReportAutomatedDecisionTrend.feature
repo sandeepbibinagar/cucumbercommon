@@ -1,3 +1,4 @@
+@skip
 Feature: Automated Decision Trend Report
 
   Scenario: UJ-Report-Automated Decision Trend Report

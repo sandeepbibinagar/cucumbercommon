@@ -9,6 +9,7 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 
 import static org.testng.Assert.*;
@@ -69,18 +70,21 @@ public class SolutionWebSteps {
   */
   @And("I enter values for fields on page (.*)")
   public void enterValuesForFields(String page, Map<String, String> fields) throws IOException, ConfigurationException {
-    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel);
+    SolutionScreen screen = new SolutionScreen(webHarness, pageObjectModel, page);
     for (Map.Entry<String, String> entry : fields.entrySet()) {
-      String elementType = screen.getPageObjectTypeByLabel(entry.getKey(), page);
+      String label = entry.getKey();
+      String value = entry.getValue();
+      String elementType = screen.getPageObjectTypeByLabel(label, page);
+      screen.waitForElementPresence(By.xpath("//label[contains(text(),'" + label + "')]"));
       switch (elementType) {
         case ("textfield"):
-          screen.setTextfieldValueByLabel(entry.getKey(), entry.getValue(), page);
+          screen.setTextfieldValueByLabel(label, value, page);
           break;
         case ("dropdown"):
-          screen.setDropdownValueByLabel(entry.getKey(), entry.getValue(), page);
+          screen.setDropdownValueByLabel(label, value, page);
           break;
         case ("datepicker"):
-          screen.setDatepickerValueByLabel(entry.getKey(), entry.getValue(), page);
+          screen.setDatepickerValueByLabel(label, value, page);
           break;
         default:
           throw new IllegalArgumentException("Illegal element type argument: " + elementType);

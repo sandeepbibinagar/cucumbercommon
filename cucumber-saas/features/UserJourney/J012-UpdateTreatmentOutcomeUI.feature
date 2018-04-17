@@ -2,6 +2,7 @@ Feature: User Journey - Update Treatment Tree TP via UI
 
   Background:
     # {% include 'classpath:../UserJourney/TacticalParametersFileUpload.background.feature' %}
+    # {% include 'classpath:../UserJourney/DynamicParametersFileUpload.background.feature' %}
 
   Scenario: Update Treatment Tree Credit Limit Offer TP via UI to get system decision Accept
    # Test-ID: 4039620
@@ -10,14 +11,11 @@ Feature: User Journey - Update Treatment Tree TP via UI
     Given Initial setup
     And I start the browser
     And I go to login page
-    And I login on Admin Portal with username adm@example.com and password Password123
+    And I login on Admin Portal with username stan.marsh@nabtest.example.com and password Password123
     And I go to WebEngine home page
     And I select menu System/User Administration on WebEngine home page
     And I select tab item Security Profiles/Administrator on Web Engine user administration panel
-    And I set business process rules by feature:
-      | Create | Screen New Application    |
-      | Create | New Application           |
-      | All    | Screen Update Application |
+    And I allow all business process rules
     And I select menu System/Logout on WebEngine home page
     And I stop the browser
 
@@ -30,8 +28,8 @@ Feature: User Journey - Update Treatment Tree TP via UI
 #    Filling the new application form in the ACF Originations UI
     And I start the browser
     And I go to login page
-    And I login on Admin Portal with username adm@example.com and password Password123
-    And I select solution - PowerCurve Originations
+    And I login on Admin Portal with username stan.marsh@nabtest.example.com and password Password123
+    And I select solution - Acquire Customers Faster
     And I select menu Capture Data on page Home Page
     And I enter values for fields on page P - New Application Screen
       | Suffix                              | Mrs                |
@@ -53,7 +51,8 @@ Feature: User Journey - Update Treatment Tree TP via UI
       | Address Line 1                      | 1148 SMITH ST      |
       | House Number                        | 12                 |
       | City                                | MAXWELL AFB        |
-      | State                               | AL                 |
+      | Country                             | US                 |
+      | State                               | Alabama            |
       | Zip                                 | 361131510          |
       | Number of years at same address?    | 11                 |
       | Residential Status                  | Owner              |
@@ -67,7 +66,7 @@ Feature: User Journey - Update Treatment Tree TP via UI
       | Number of years with same employer? | 11                 |
       | Privacy Agreement                   | N                  |
 
-    And I click on button with text next on page P - New Application Screen
+    And I click on button with text Next on page P - New Application Screen
     And I verify values for fields on page P - Summary and Results Screen:
       | System Score    | 684    |
       | System Decision | Accept |

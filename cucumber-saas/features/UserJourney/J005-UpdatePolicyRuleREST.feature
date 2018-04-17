@@ -59,4 +59,5 @@ Feature: User Journey - Update Policy Rule TP via REST
     And I send a REST POST request to /v1/applications/TENANT1/CreditEvaluation and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['Application-DV.Product Details[1].Decision Results[1].Post-Bureau Risk Scorecard.Score'] | 684 |
-      | $.data.['Results-DV.RSLT.Pst-B-Policy-Decision-Text']                                             |     |
+    And I verify that the JSON response does not have fields:
+      | $.data.['Results-DV.RSLT.Pst-B-Policy-Decision-Text'] |

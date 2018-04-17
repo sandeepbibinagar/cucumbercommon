@@ -15,7 +15,7 @@ public class PortalSolutionSelectionSteps {
     this.webHarness = webHarness;
   }
 
-  @And("^I select solution - (PowerCurve Originations|PoweCurve Admin Portal|Options|BI)$")
+  @And("^I select solution - (Acquire Customers Faster|PoweCurve Admin Portal|Options|BI)$")
   public void selectSolution(String solution) {
     PortalHomeScreen portalScreen = new PortalHomeScreen(webHarness);
 
@@ -23,8 +23,9 @@ public class PortalSolutionSelectionSteps {
     portalScreen.jsClick(portalScreen.solutionsListButton);
     portalScreen.waitForElement(portalScreen.menuExpanded);
     switch (solution) {
-      case "PowerCurve Originations":
-        portalScreen.clickWithScrollToView(portalScreen.originationsSolution);
+      case "Acquire Customers Faster":
+        portalScreen.waitForElement(portalScreen.originationsSolution);
+        portalScreen.jsClick(portalScreen.originationsSolution);
         break;
       case "PowerCurve Admin Portal":
         portalScreen.adminPortal.click();
