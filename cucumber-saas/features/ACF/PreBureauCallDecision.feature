@@ -354,6 +354,7 @@ Feature: Pre Bureau Call Decision through the REST api
       | Content-Type | application/json |
       | Accept       | application/json |
     When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
+    Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
 
   Scenario: ACF-US Pre-Bureau DA call - DECLINE - Primary Applicant is outside lending territory
