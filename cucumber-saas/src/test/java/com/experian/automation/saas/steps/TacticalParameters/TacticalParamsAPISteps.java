@@ -6,11 +6,8 @@ import com.experian.automation.helpers.Config;
 import com.experian.automation.logger.Logger;
 import com.experian.automation.saas.helpers.TacticalParametersOperations;
 import com.experian.automation.transformers.VariablesTransformer;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import cucumber.api.java.en.And;
-import java.io.IOException;
 import java.util.List;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 
 public class TacticalParamsAPISteps {
 
@@ -29,7 +26,7 @@ public class TacticalParamsAPISteps {
 
   @And("^I update parameter (.*) description: (.*) ,effective from: (.*?)(?: to (.*))?$")
   public void updateParameterAttributes(String name, String description, String fromDate, String toDate,
-      List<List<String>> data) throws IOException, ConfigurationException, UnirestException {
+      List<List<String>> data) throws Exception {
     TacticalParametersOperations tpo = new TacticalParametersOperations(Config.get("bps.webservices.url"));
     assertTrue(tpo.updateParameter(name, description, fromDate, toDate, data),
                "Successfully updated parameter: " + name);
@@ -42,7 +39,7 @@ public class TacticalParamsAPISteps {
 
   @And("^I deploy tactical parameter (.*) version (.*)$")
   public void deployParameter(String name, String version)
-      throws IOException, ConfigurationException, UnirestException {
+      throws Exception {
     TacticalParametersOperations tpo = new TacticalParametersOperations(
         Config.get("bps.webservices.url"));
     tpo.deployParameter(name, version);
@@ -54,7 +51,7 @@ public class TacticalParamsAPISteps {
     */
 
   @And("^I update tactical parameters from file (.*)$")
-  public void updateParameterFromFile(String filePath) throws IOException, ConfigurationException, UnirestException {
+  public void updateParameterFromFile(String filePath) throws Exception {
 
     String parametersFile = VariablesTransformer.transformSingleValue(filePath);
     TacticalParametersOperations tpo = new TacticalParametersOperations(

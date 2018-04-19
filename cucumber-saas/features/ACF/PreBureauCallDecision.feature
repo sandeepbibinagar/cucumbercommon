@@ -8,6 +8,7 @@ Feature: Pre Bureau Call Decision through the REST api
     And I deploy tactical parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning version LATEST
     And I deploy tactical parameter Lending Area_TP - TP - Lending Area version LATEST
     And I deploy tactical parameter Unsecured Credit Card Product Definition_TP - TP - Unsecured Credit Card Product Definition version LATEST
+    And I prepare JWT token with user stan.marsh@nabtest.example.com and password Password123 from service ${token.service.url}/v1/tokens/create
 
   Scenario: ACF-US Pre-Bureau DA call - APPROVE
     # Test-ID: 5015358
@@ -66,8 +67,7 @@ Feature: Pre Bureau Call Decision through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
+    When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | APPROVE    |
 
@@ -129,8 +129,7 @@ Feature: Pre Bureau Call Decision through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
+    When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
 
@@ -242,8 +241,7 @@ Feature: Pre Bureau Call Decision through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
+    When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
 
@@ -355,9 +353,7 @@ Feature: Pre Bureau Call Decision through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
-    Then I verify that the JSON response has fields:
+    When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
 
   Scenario: ACF-US Pre-Bureau DA call - DECLINE - Primary Applicant is outside lending territory
@@ -468,8 +464,7 @@ Feature: Pre Bureau Call Decision through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
+    When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
 
@@ -530,8 +525,6 @@ Feature: Pre Bureau Call Decision through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
-    When I send a REST POST request to /v1/applications/TENANT1/NewApp and receive status code HTTP 200
+    When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
-

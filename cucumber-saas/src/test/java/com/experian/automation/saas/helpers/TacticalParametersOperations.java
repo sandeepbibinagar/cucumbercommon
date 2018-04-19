@@ -1,7 +1,10 @@
 package com.experian.automation.saas.helpers;
 
+import com.experian.automation.helpers.Config;
+import com.experian.automation.helpers.Variables;
 import com.experian.automation.helpers.XMLOperations;
 import com.experian.automation.logger.Logger;
+import com.experian.automation.steps.APISteps;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -9,7 +12,6 @@ import com.jayway.jsonpath.JsonPath;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,11 +20,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import net.minidev.json.JSONArray;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.io.FileUtils;
-import org.apache.wink.json4j.JSON;
 import org.json.JSONObject;
 
 
@@ -35,17 +34,21 @@ public class TacticalParametersOperations {
 
   HashMap<String, String> defaultHeaders;
 
-  public TacticalParametersOperations(String apiURL) throws IOException, ConfigurationException {
+  public TacticalParametersOperations(String apiURL) throws Exception {
 
     File jsonFilePath = new File(getClass().getResource("/steps/tactical-parameters-api/requests.json").getPath());
     apiRequests = FileUtils.readFileToString(jsonFilePath, "UTF-8");
+
+    APISteps apiStep = new APISteps();
+    apiStep.getJWTtoken(Config.get("tactical.parameters.api.user"), Config.get("tactical.parameters.api.password"),
+                        Config.get("token.service.url") + "/v1/tokens/create");
 
     Unirest.clearDefaultHeaders();
 
     defaultHeaders = new HashMap<String, String>();
     defaultHeaders.put("Content-Type", "application/json");
     defaultHeaders.put("Accept", "application/json");
-    defaultHeaders.put("Authorization", "Basic YWRtaW46U2VjcmV0MTIzIQ==");
+    defaultHeaders.put("Authorization", "Bearer " + Variables.get("API_JWT_TOKEN"));
 
     this.apiURL = apiURL;
   }
