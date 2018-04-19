@@ -353,7 +353,6 @@ Feature: Pre Bureau Call Decision through the REST api
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
-    And I prepare REST authentcation username admin and password Secret123!
     When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
 
