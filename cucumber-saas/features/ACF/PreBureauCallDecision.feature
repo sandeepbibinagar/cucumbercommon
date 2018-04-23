@@ -4,7 +4,7 @@ Feature: Pre Bureau Call Decision through the REST api
   I want to send a POST request with  information for one applicant and receive a valid response with pre-bureau decision for the application.
 
   Background:
-    Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameter_exported_data_PREBUR.xml
+    Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameter_exported_data_PreBureau_v16.xml
     And I deploy tactical parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning version LATEST
     And I deploy tactical parameter Lending Area_TP - TP - Lending Area version LATEST
     And I deploy tactical parameter Unsecured Credit Card Product Definition_TP - TP - Unsecured Credit Card Product Definition version LATEST
@@ -139,8 +139,8 @@ Feature: Pre Bureau Call Decision through the REST api
     # Use-Case: ACF
     # Priority: P3 - Medium
     And I update parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning description: Test ,effective from: 01/01/2018
-      | Lending Area Ind | Lending Area Rule Flag | Applicant Age | Minimum Gross Mthly Income | Product Policy Decision Ind | Product Score Decision Ind | Min Applicant Age Rule Type | Minimum Gross Mthly Income Rule Type |
-      | 1                | Y                      | 21            | 3000                       | 1                           | 1                          | D                           | D                                    |
+      | Lending Area Ind | Lending Area Rule Flag | Applicant Age | Minimum Gross Mthly Income | Min Applicant Age Rule Type | Minimum Gross Mthly Income Rule Type |
+      | 1                | Y                      | 21            | 3000                       | D                           | D                                    |
     And I update parameter Lending Area_TP - TP - Lending Area description: Test ,effective from: 01/01/2018
       | Lending Area ID | All States | State 1 | State 2 | State 3 | State 4 | State 5 | State 6 | State 7 | State 8 | State 9 | State 10 | State 11 | State 12 | State 13 | State 14 | State 15 | State 16 | State 17 | State 18 | State 19 | State 20 | State 21 | State 22 | State 23 | State 24 | State 25 | State 26 | State 27 | State 28 | State 29 | State 30 | State 31 | State 32 | State 33 | State 34 | State 35 | State 36 | State 37 | State 38 | State 39 | State 40 | State 41 | State 42 | State 43 | State 44 | State 45 | State 46 | State 47 | State 48 | State 49 | State 50 |
       | LAID1           | N          | AL      | AK      |       |       |       |       |       |       |       |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |       |       |        |
@@ -251,8 +251,8 @@ Feature: Pre Bureau Call Decision through the REST api
     # Use-Case: ACF
     # Priority: P3 - Medium
     And I update parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning description: Test ,effective from: 01/01/2018
-      | Lending Area Ind | Lending Area Rule Flag | Applicant Age | Minimum Gross Mthly Income | Product Policy Decision Ind | Product Score Decision Ind | Min Applicant Age Rule Type | Minimum Gross Mthly Income Rule Type |
-      | 2                | Y                      | 21            | 3000                       | 1                           | 1                          | D                           | D                                    |
+      | Lending Area Ind | Lending Area Rule Flag | Applicant Age | Minimum Gross Mthly Income | Min Applicant Age Rule Type | Minimum Gross Mthly Income Rule Type |
+      | 2                | Y                      | 21            | 3000                       | D                           | D                                    |
     And I update parameter Lending Area_TP - TP - Lending Area description: Test ,effective from: 01/01/2018
       | Lending Area ID | All States | State 1 | State 2 | State 3 | State 4 | State 5 | State 6 | State 7 | State 8 | State 9 | State 10 | State 11 | State 12 | State 13 | State 14 | State 15 | State 16 | State 17 | State 18 | State 19 | State 20 | State 21 | State 22 | State 23 | State 24 | State 25 | State 26 | State 27 | State 28 | State 29 | State 30 | State 31 | State 32 | State 33 | State 34 | State 35 | State 36 | State 37 | State 38 | State 39 | State 40 | State 41 | State 42 | State 43 | State 44 | State 45 | State 46 | State 47 | State 48 | State 49 | State 50 |
       | LAID1           | N          | AL      | AK      |       |       |       |       |       |       |       |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |       |       |        |
@@ -348,8 +348,8 @@ Feature: Pre Bureau Call Decision through the REST api
             "DV-Applicant.APP[2].OtherIncomeSource" : "Stock dividend and interest",
             "DV-Product.PRODUCT[1].AmountRequested " : 10000,
             "DV-Product.PRODUCT[1].TermRequested " : 12
-          }
-          """
+         }
+      """
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
@@ -363,8 +363,8 @@ Feature: Pre Bureau Call Decision through the REST api
     # Use-Case: ACF
     # Priority: P3 - Medium
     And I update parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning description: Test ,effective from: 01/01/2018
-      | Lending Area Ind | Lending Area Rule Flag | Applicant Age | Minimum Gross Mthly Income | Product Policy Decision Ind | Product Score Decision Ind | Min Applicant Age Rule Type | Minimum Gross Mthly Income Rule Type |
-      | 3                | Y                      | 21            | 3000                       | 1                           | 1                          | D                           | D                                    |
+      | Lending Area Ind | Lending Area Rule Flag | Applicant Age | Minimum Gross Mthly Income | Min Applicant Age Rule Type | Minimum Gross Mthly Income Rule Type |
+      | 3                | Y                      | 21            | 3000                       | D                           | D                                    |
     And I update parameter Lending Area_TP - TP - Lending Area description: Test ,effective from: 01/01/2018
       | Lending Area ID | All States | State 1 | State 2 | State 3 | State 4 | State 5 | State 6 | State 7 | State 8 | State 9 | State 10 | State 11 | State 12 | State 13 | State 14 | State 15 | State 16 | State 17 | State 18 | State 19 | State 20 | State 21 | State 22 | State 23 | State 24 | State 25 | State 26 | State 27 | State 28 | State 29 | State 30 | State 31 | State 32 | State 33 | State 34 | State 35 | State 36 | State 37 | State 38 | State 39 | State 40 | State 41 | State 42 | State 43 | State 44 | State 45 | State 46 | State 47 | State 48 | State 49 | State 50 |
       | LAID1           | N          | AL      | AK      |       |       |       |       |       |       |       |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |       |       |        |
@@ -469,6 +469,7 @@ Feature: Pre Bureau Call Decision through the REST api
     Then I verify that the JSON response has fields:
       | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
 
+
   Scenario: ACF-US Pre-Bureau DA call - DECLINE - Gross Monthly Income below Min cut-off
     # Test-ID: 5015363
     # Type: Functional
@@ -509,14 +510,14 @@ Feature: Pre Bureau Call Decision through the REST api
             "DV-Applicant.APP[1].PHONE[1].PhoneType" : "C",
             "DV-Applicant.APP[1].GrantPermissionToContactCell" : "Y",
             "DV-Applicant.APP[1].EmailAddress" : "pb@asd",
-            "DV-Applicant.APP[1].GrossMthlyIncome" : 2500,
+            "DV-Applicant.APP[1].GrossMthlyIncome" : 100,
             "DV-Applicant.APP[1].EMPL[1].ContactName" : "Jacks Fish Cleaning",
             "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine1" : "101 S. Main",
             "DV-Applicant.APP[1].EMPL[1].EmployerAddressLine2" : "Suite 101",
             "DV-Applicant.APP[1].EMPL[1].EmployerAddressCity" : "Aurora",
             "DV-Applicant.APP[1].EMPL[1].EmployerAddressState" : "Al",
             "DV-Applicant.APP[1].EMPL[1].YearsWithEmployer" : 3,
-            "DV-Applicant.APP[1].AlimonyChildSupport" : 1200,
+            "DV-Applicant.APP[1].AlimonyChildSupport" : 120,
             "DV-Applicant.APP[1].OtherMthlyIncome" : 500,
             "DV-Applicant.APP[1].OtherIncomeSource" : "Stock dividend and interest",
             "DV-Product.PRODUCT[1].AmountRequested " : 10000,
