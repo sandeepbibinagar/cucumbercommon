@@ -14,12 +14,7 @@ Feature: User Journey - Update Credit Card TP via REST
 
     Then I set the base webservice url to ${bps.webservices.url}
     And I prepare JWT token with user stan.marsh@nabtest.example.com and password Password123 from service ${token.service.url}/v1/tokens/create
-    And I prepare REST request body:
-        """
-
-         {% include 'classpath:../UserJourney/data/CreateNewApplication.JSON' %}
-
-        """
+    And I prepare REST request body from file ${features.path}/UserJourney/data/CreateNewApplication.JSON
     And I add the following headers to the REST request:
       | Content-Type | application/json |
       | Accept       | application/json |
