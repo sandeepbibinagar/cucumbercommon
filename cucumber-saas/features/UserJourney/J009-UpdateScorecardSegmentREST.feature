@@ -17,7 +17,7 @@ Feature: User Journey - Update Scorecard TP via REST
     And I prepare REST request body:
         """
 
-         {% include 'classpath:../UserJourney/data/CreateNewApplication.JSON' %}
+        {% include 'classpath:../UserJourney/data/CreateNewApplication.JSON' %}
 
         """
     And I add the following headers to the REST request:
