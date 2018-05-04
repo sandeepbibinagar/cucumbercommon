@@ -11,7 +11,7 @@ Feature: User Journey - New Application via UI
     Given Initial setup
     And I start the browser
     And I go to login page
-    And I login on Admin Portal with username stan.marsh@nabtest.example.com and password Password123
+    And I login on Admin Portal with username ${tactical.parameters.api.user} and password ${tactical.parameters.api.password}
     And I go to WebEngine home page
     And I select menu System/User Administration on WebEngine home page
     And I select tab item Security Profiles/Administrator on Web Engine user administration panel
@@ -22,7 +22,7 @@ Feature: User Journey - New Application via UI
    #    Filling the new application form in the ACF Originations UI
     And I start the browser
     And I go to login page
-    And I login on Admin Portal with username stan.marsh@nabtest.example.com and password Password123
+    And I login on Admin Portal with username ${tactical.parameters.api.user} and password ${tactical.parameters.api.password}
     And I select solution - Acquire Customers Faster
     And I select menu Capture Data on page Home Page
     And I enter values for fields on page P - New Application Screen
