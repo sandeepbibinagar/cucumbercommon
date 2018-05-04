@@ -7,7 +7,7 @@ Feature: DP Upload from file
     #Import Dynamic Parameters
     Given I start the browser
     And I go to login page
-    And I login on Admin Portal with username stan.marsh@nabtest.example.com and password Password123
+    And I login on Admin Portal with username ${tactical.parameters.api.user} and password ${tactical.parameters.api.password}
     And I go to WebEngine home page
     And I select menu System/Dynamic Parameter Maintenance on WebEngine home page
     And I import dynamic parameters from files:
