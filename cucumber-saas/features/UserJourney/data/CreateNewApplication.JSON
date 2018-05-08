@@ -18,6 +18,7 @@
 		"Applicant-DV.APP.ADD[1].Address Line 1" : "1148 SMITH ST",
 		"Applicant-DV.APP.ADD[1].HouseNumber" : "12",
 		"Applicant-DV.APP.ADD[1].City" : "MAXWELL AFB",
+		"Applicant-DV.APP.ADD[1].Country" : "US",
 		"Applicant-DV.APP.ADD[1].State" : "AL",
 		"Applicant-DV.APP.ADD[1].Postcode" : "361131510",
 		"Applicant-DV.APP.ADD[1].YearsAtAddress" : "11",
@@ -31,5 +32,7 @@
 		"Application-DV.Product Details[1].Other Monthly Expenses" : "0",
 		"Applicant-DV.APP.EMP[1].EmployerName" : "EXPERIAN",
 		"Applicant-DV.APP.EMP[1].YearsWithEmployer" : "11",
-		"Application-DV.Product Details[1].Privacy Agreement Flag" : "N"
+		"Application-DV.Product Details[1].Privacy Agreement Flag" : "N",
+		"Application-DV.Product Details[1].ProductType": "02",
+		"Application-DV.Proof of Document Supplied" : "N"
 }
