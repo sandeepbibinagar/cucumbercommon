@@ -4,7 +4,7 @@ Feature: Pre Bureau Call Decision through the REST api
   I want to send a POST request with  information for one applicant and receive a valid response with pre-bureau decision for the application.
 
   Background:
-    Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameter_exported_data_PreBureau_v16.xml
+    Given I update tactical parameters from file ${features.path}/ACF/data/tactical_parameters_PreB.xml
     And I deploy tactical parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning version LATEST
     And I deploy tactical parameter Lending Area_TP - TP - Lending Area version LATEST
     And I deploy tactical parameter Unsecured Credit Card Product Definition_TP - TP - Unsecured Credit Card Product Definition version LATEST
@@ -69,8 +69,7 @@ Feature: Pre Bureau Call Decision through the REST api
       | Accept       | application/json |
     When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
-      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | APPROVE    |
-
+      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Results.Decision Category'] | APPROVE |
 
   Scenario: ACF-US Pre-Bureau DA call - DECLINE - Applicant's age lower than the minimum.
     # Test-ID: 5015360
@@ -131,7 +130,7 @@ Feature: Pre Bureau Call Decision through the REST api
       | Accept       | application/json |
     When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
-      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
+      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Results.Decision Category'] | DECLINE |
 
   Scenario: ACF-US Pre-Bureau DA call - DECLINE - All Applicants are outside lending territory
     # Test-ID: 5015359
@@ -143,7 +142,7 @@ Feature: Pre Bureau Call Decision through the REST api
       | 1                | Y                      | 21            | 3000                       | D                           | D                                    |
     And I update parameter Lending Area_TP - TP - Lending Area description: Test ,effective from: 01/01/2018
       | Lending Area ID | All States | State 1 | State 2 | State 3 | State 4 | State 5 | State 6 | State 7 | State 8 | State 9 | State 10 | State 11 | State 12 | State 13 | State 14 | State 15 | State 16 | State 17 | State 18 | State 19 | State 20 | State 21 | State 22 | State 23 | State 24 | State 25 | State 26 | State 27 | State 28 | State 29 | State 30 | State 31 | State 32 | State 33 | State 34 | State 35 | State 36 | State 37 | State 38 | State 39 | State 40 | State 41 | State 42 | State 43 | State 44 | State 45 | State 46 | State 47 | State 48 | State 49 | State 50 |
-      | LAID1           | N          | AL      | AK      |       |       |       |       |       |       |       |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |       |       |        |
+      | LAID1           | N          | AL      | AK      |         |         |         |         |         |         |         |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |
     And I deploy tactical parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning version LATEST
     And I deploy tactical parameter Lending Area_TP - TP - Lending Area version LATEST
     And I set the base webservice url to ${bps.webservices.url}
@@ -243,7 +242,7 @@ Feature: Pre Bureau Call Decision through the REST api
       | Accept       | application/json |
     When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
-      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
+      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Results.Decision Category'] | DECLINE |
 
   Scenario: ACF-US Pre-Bureau DA call - DECLINE - At least 1 Applicant is outside lending territory
     # Test-ID: 5015361
@@ -255,7 +254,7 @@ Feature: Pre Bureau Call Decision through the REST api
       | 2                | Y                      | 21            | 3000                       | D                           | D                                    |
     And I update parameter Lending Area_TP - TP - Lending Area description: Test ,effective from: 01/01/2018
       | Lending Area ID | All States | State 1 | State 2 | State 3 | State 4 | State 5 | State 6 | State 7 | State 8 | State 9 | State 10 | State 11 | State 12 | State 13 | State 14 | State 15 | State 16 | State 17 | State 18 | State 19 | State 20 | State 21 | State 22 | State 23 | State 24 | State 25 | State 26 | State 27 | State 28 | State 29 | State 30 | State 31 | State 32 | State 33 | State 34 | State 35 | State 36 | State 37 | State 38 | State 39 | State 40 | State 41 | State 42 | State 43 | State 44 | State 45 | State 46 | State 47 | State 48 | State 49 | State 50 |
-      | LAID1           | N          | AL      | AK      |       |       |       |       |       |       |       |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |       |       |        |
+      | LAID1           | N          | AL      | AK      |         |         |         |         |         |         |         |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |
     And I deploy tactical parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning version LATEST
     And I deploy tactical parameter Lending Area_TP - TP - Lending Area version LATEST
     And I set the base webservice url to ${bps.webservices.url}
@@ -355,7 +354,7 @@ Feature: Pre Bureau Call Decision through the REST api
       | Accept       | application/json |
     When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
-      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
+      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Results.Decision Category'] | DECLINE |
 
   Scenario: ACF-US Pre-Bureau DA call - DECLINE - Primary Applicant is outside lending territory
     # Test-ID: 5015362
@@ -367,7 +366,7 @@ Feature: Pre Bureau Call Decision through the REST api
       | 3                | Y                      | 21            | 3000                       | D                           | D                                    |
     And I update parameter Lending Area_TP - TP - Lending Area description: Test ,effective from: 01/01/2018
       | Lending Area ID | All States | State 1 | State 2 | State 3 | State 4 | State 5 | State 6 | State 7 | State 8 | State 9 | State 10 | State 11 | State 12 | State 13 | State 14 | State 15 | State 16 | State 17 | State 18 | State 19 | State 20 | State 21 | State 22 | State 23 | State 24 | State 25 | State 26 | State 27 | State 28 | State 29 | State 30 | State 31 | State 32 | State 33 | State 34 | State 35 | State 36 | State 37 | State 38 | State 39 | State 40 | State 41 | State 42 | State 43 | State 44 | State 45 | State 46 | State 47 | State 48 | State 49 | State 50 |
-      | LAID1           | N          | AL      | AK      |       |       |       |       |       |       |       |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |       |       |        |
+      | LAID1           | N          | AL      | AK      |         |         |         |         |         |         |         |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |          |
     And I deploy tactical parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning version LATEST
     And I deploy tactical parameter Lending Area_TP - TP - Lending Area version LATEST
     And I set the base webservice url to ${bps.webservices.url}
@@ -467,8 +466,7 @@ Feature: Pre Bureau Call Decision through the REST api
       | Accept       | application/json |
     When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
-      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE    |
-
+      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Results.Decision Category'] | DECLINE |
 
   Scenario: ACF-US Pre-Bureau DA call - DECLINE - Gross Monthly Income below Min cut-off
     # Test-ID: 5015363
@@ -529,4 +527,4 @@ Feature: Pre Bureau Call Decision through the REST api
       | Accept       | application/json |
     When I send a REST POST request to /v0/applications/NewApp and receive status code HTTP 200
     Then I verify that the JSON response has fields:
-      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Typical Result.Decision Category'] | DECLINE |
+      | $.data.['DV-Results.Result Calls.C1 Policy Rules-Decision Setter Results.Decision Category'] | DECLINE |
