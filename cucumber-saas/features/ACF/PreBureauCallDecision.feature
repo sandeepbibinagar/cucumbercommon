@@ -8,7 +8,7 @@ Feature: Pre Bureau Call Decision through the REST api
     And I deploy tactical parameter Pre-Bureau Decisioning_TP - TP - Pre-Bureau Decisioning version LATEST
     And I deploy tactical parameter Lending Area_TP - TP - Lending Area version LATEST
     And I deploy tactical parameter Unsecured Credit Card Product Definition_TP - TP - Unsecured Credit Card Product Definition version LATEST
-    And I prepare JWT token with user stan.marsh@nabtest.example.com and password Password123 from service ${token.service.url}/v1/tokens/create
+    And I prepare JWT token with user ${tactical.parameters.api.user} and password ${tactical.parameters.api.password} from service ${token.service.url}/v1/tokens/create
 
   Scenario: ACF-US Pre-Bureau DA call - APPROVE
     # Test-ID: 5015358
