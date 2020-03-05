@@ -13,6 +13,7 @@ import com.experian.automation.saas.screens.AdminPortal.PortalHomeScreen;
 import com.experian.automation.saas.screens.AdminPortal.PortalLoginScreen;
 import com.experian.automation.saas.screens.HomeScreen;
 import com.experian.automation.saas.screens.LoginScreen;
+import com.experian.automation.saas.screens.SearchScreen;
 import com.experian.automation.saas.screens.WebEngine.WebEngineHome;
 import com.experian.automation.steps.FileOperationsSteps;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -122,21 +123,49 @@ public class CommonSteps {
       portalScreen.loginButton.click();
       PortalHomeScreen ps = new PortalHomeScreen(webHarness);
 
+
     } else {
       LoginScreen screen = new LoginScreen(webHarness);
       screen.waitForElement(screen.loginBtn);
       screen.type(screen.usernameText, username);
       screen.type(screen.passwordText, password);
       screen.loginBtn.click();
-
-      HomeScreen homeScreen = new HomeScreen(webHarness);
-    }
+      HomeScreen homeScreen = new HomeScreen(webHarness); }
 
   }
 
   @And("^I logout from the solution$")
   public void solutionLogout() throws Throwable {
     HomeScreen home = new HomeScreen(webHarness);
-    home.selectMenu("System", "Logout");
+    home.selectMenu("dropdown open", "Log Off");
   }
+
+
+  @And("^I logout from the PCC solution$")
+  public void pccLogout() throws Throwable {
+    HomeScreen home = new HomeScreen(webHarness);
+    home.selectDropDownMenu(home.mainDropDownMenu, home.logOffMenu);
+  }
+
+  @And("^I want to see High Contrast solution$")
+  public void clickHighContrastSolution() throws Throwable {
+    HomeScreen home = new HomeScreen(webHarness);
+    home.validateHighContrastSolution();
+  }
+
+  @And("^I use the search function$")
+  public void goToSearchScreen() throws Throwable {
+    HomeScreen homeScreen = new HomeScreen(webHarness);
+    homeScreen.switchToFrame(homeScreen.userToolsFrame,false);
+    homeScreen.clickSearchIcon();
+    SearchScreen search = new SearchScreen(webHarness);
+    search.waitForElement(search.searchHeader);
+    //webHarness.driver.switchTo().defaultContent();
+   // search.switchToFrame(search.optionSliderFrame,false);
+    //search.switchToFrame(search.optionsScreenFrame,false);
+    System.out.println("Inside the frame");
+    search.validateFieldsOnSearch();
+    search.searchCreditCard();
+  }
+
 }
